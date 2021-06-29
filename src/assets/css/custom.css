@@ -1,0 +1,89 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: #00d0be;
+  color: #ffffff;
+}
+
+.scroll-arrow {
+  animation: MoveUpDown 1s linear infinite;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin: -8px;
+}
+
+@keyframes MoveUpDown {
+  0%,
+  100% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 10px;
+  }
+}
+
+@media screen and (min-width: 80em) {
+  .menu-flags {
+    padding-bottom: 0 !important;
+    background-color: #00d0be;
+  }
+
+  .menu-flags button svg {
+    border-radius: 50%;
+    font-size: 25px;
+  }
+
+  .menu-flags ul {
+    font-weight: 700;
+    font-size: 18px !important;
+    background-color: #011e28 !important;
+  }
+
+  .menu-flags ul li {
+    padding-left: 25px !important;
+  }
+
+  .menu-flags ul li svg {
+    border-radius: 50%;
+    font-size: 25px;
+  }
+
+  .menu-flags ul li:hover {
+    background-color: #00d0be !important;
+  }
+
+  .menu-flags-button {
+    height: 4.5rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    border: unset !important;
+    border-radius: 0 !important;
+    font-size: 18px !important;
+    padding: 5px 20px !important;
+  }
+
+  .hero-curved-section {
+    bottom: -1px;
+    width: 100%;
+    height: 3.5rem;
+    position: absolute;
+    border-radius: 0 100% 0 0;
+    background-color: white;
+  }
+
+  .section-two-div-curved::before {
+    content: "";
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(224, 250, 248, 0.2);
+    border-radius: 0 0 10% 10%;
+  }
+}
