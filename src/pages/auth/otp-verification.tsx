@@ -1,23 +1,9 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { useFormik } from 'formik'
-import {
-  Flex,
-  Box,
-  Link,
-  Grid,
-  Text,
-  Icon,
-  Heading,
-  Button,
-  GridItem,
-  useToast
-} from '@chakra-ui/react'
-import { CustomInputGroup, CustomOTPInput } from 'components/Forms'
-import { FiUser, FiLock, FiSmartphone, FiArrowRight } from 'react-icons/fi'
-import { FaFacebookSquare } from 'react-icons/fa'
-import { GoogleIcon } from 'components/SVG'
-import { NavLink } from 'react-router-dom'
+import { Flex, Box, Text, Heading, useToast } from '@chakra-ui/react'
+import { CustomOTPInput } from 'components/Forms'
+import { FiArrowRight } from 'react-icons/fi'
 import { CustomButton } from 'components/Auth'
 
 const OTP = (): JSX.Element => {
