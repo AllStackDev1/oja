@@ -9,11 +9,10 @@ import {
   Text,
   Icon,
   Heading,
-  Button,
   GridItem,
   useToast
 } from '@chakra-ui/react'
-import { CustomInputGroup } from 'components/Forms'
+import { CustomInputGroup, ButtonPasswordToggler } from 'components/Forms'
 import { FiUser, FiLock, FiSmartphone, FiArrowRight } from 'react-icons/fi'
 import { FaFacebookSquare } from 'react-icons/fa'
 import { GoogleIcon } from 'components/SVG'
@@ -21,6 +20,7 @@ import { NavLink } from 'react-router-dom'
 import { CustomButton } from 'components/Auth'
 
 const Signup = (): JSX.Element => {
+  const [show, setShow] = React.useState(false)
   const toast = useToast()
 
   const formik = useFormik({
@@ -103,20 +103,21 @@ const Signup = (): JSX.Element => {
               <GridItem>
                 <CustomInputGroup
                   h={12}
-                  id="password"
                   border={0}
                   rounded={0}
-                  type="password"
+                  id="password"
                   name="password"
                   label="Password"
-                  _focus={{ outline: 'none' }}
                   onBlur={formik.handleBlur}
-                  error={formik.errors.password}
-                  leftAddon={<Icon as={FiLock} />}
-                  onChange={formik.handleChange}
                   placeholder="Your password"
+                  _focus={{ outline: 'none' }}
+                  error={formik.errors.password}
+                  onChange={formik.handleChange}
+                  leftAddon={<Icon as={FiLock} />}
+                  type={show ? 'text' : 'password'}
                   touched={!!formik.touched.password}
                   defaultValue={formik.values.password}
+                  rightAddon={<ButtonPasswordToggler {...{ show, setShow }} />}
                 />
               </GridItem>
               <GridItem>
@@ -138,17 +139,19 @@ const Signup = (): JSX.Element => {
                   defaultValue={formik.values.phoneNumber}
                 />
               </GridItem>
-              <GridItem>
+              <GridItem pos="relative">
                 <CustomButton
                   px={8}
                   w="full"
                   d="flex"
                   color="white"
                   bgColor="ojaDark"
-                  _hover={{ bgColor: 'ojaDark' }}
                   title="Create your account"
+                  _hover={{ bgColor: 'ojaDark' }}
                   fontSize={{ base: 'sm', xl: 'md' }}
-                  rightIcon={<FiArrowRight fontSize={20} />}
+                  rightIcon={
+                    <FiArrowRight fontSize={20} className="auth-btn-arrow" />
+                  }
                 />
               </GridItem>
             </Grid>

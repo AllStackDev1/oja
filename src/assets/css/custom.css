@@ -44,6 +44,39 @@ body {
   }
 }
 
+.see-tran-arrow {
+  animation: IMoveRightLeft 1s linear infinite;
+  position: absolute;
+}
+
+@keyframes IMoveRightLeft {
+  0%,
+  100% {
+    left: 170px;
+  }
+  50% {
+    left: 160px;
+  }
+}
+
+.auth-btn-arrow {
+  animation: IMoveRightLeft 1s linear infinite;
+  position: absolute;
+  margin-top: -10px;
+  right: 20px;
+  top: 50%;
+}
+
+@keyframes IMoveRightLeft {
+  0%,
+  100% {
+    right: 25px;
+  }
+  50% {
+    right: 35px;
+  }
+}
+
 
 .intl-tel-input:focus {
   outline: none;

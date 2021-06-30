@@ -8,15 +8,15 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
-  FormErrorMessage
+  FormErrorMessage,
+  IconProps
 } from '@chakra-ui/react'
-
 interface ICustomInputGroup extends InputProps {
   error?: string
   label?: string
   touched: boolean
-  leftAddon?: any
-  rightAddon?: any
+  leftAddon?: IconProps | React.FC
+  rightAddon?: IconProps | React.FC
 }
 
 const CustomInputGroup: React.FC<ICustomInputGroup> = ({

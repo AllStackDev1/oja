@@ -194,6 +194,7 @@ const HeroForm = (): JSX.Element => {
           </Flex>
           <Box>
             <Flex
+              pos="relative"
               role="button"
               align="center"
               color="ojaYellow"
@@ -203,7 +204,10 @@ const HeroForm = (): JSX.Element => {
               <Text fontSize="xs" letterSpacing="0.2px">
                 See Transaction Breakdown
               </Text>
-              <Icon as={!isOpen ? FiChevronRight : FiChevronDown} />
+              <Icon
+                as={!isOpen ? FiChevronRight : FiChevronDown}
+                className={!isOpen ? 'see-tran-arrow' : ''}
+              />
             </Flex>
             <Collapse in={isOpen} animateOpacity>
               <Box p={4} bgColor="rgba(0, 208, 190, 0.05)">

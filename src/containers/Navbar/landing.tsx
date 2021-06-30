@@ -37,7 +37,7 @@ const LandingNav: React.FC<RouteComponentProps> = ({
     {
       id: 5,
       title: 'Create an Account',
-      btnLink: '/auth/signup'
+      btnLink: '/auth/sign'
     }
   ]
 
