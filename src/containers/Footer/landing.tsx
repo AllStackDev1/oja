@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import {
   Box,
   Icon,
@@ -20,7 +21,7 @@ import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa'
 
 import Logo from 'assets/images/logo.svg'
 
-const Landing = (): JSX.Element => {
+const Landing: React.FC<RouteComponentProps> = (props): JSX.Element => {
   const d = new Date()
 
   const toast = useToast()
@@ -60,7 +61,7 @@ const Landing = (): JSX.Element => {
 
   const links = [
     {
-      title: 'Company',
+      title: 'Company 1',
       items: [
         {
           title: 'About Us',
@@ -77,7 +78,7 @@ const Landing = (): JSX.Element => {
       ]
     },
     {
-      title: 'Company',
+      title: 'Company 2',
       items: [
         {
           title: 'About Us',

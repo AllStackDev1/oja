@@ -2,19 +2,27 @@ import React from 'react'
 import { useFormik } from 'formik'
 import ReactFlagsSelect from 'react-flags-select'
 import {
-  Flex,
   Box,
-  useToast,
-  Divider,
+  Icon,
+  Flex,
   Text,
   Button,
-  Icon
+  Divider,
+  useToast,
+  Collapse,
+  useDisclosure
 } from '@chakra-ui/react'
 import { CustomInput } from 'components/Forms'
-import { FiMinus, FiPlusCircle } from 'react-icons/fi'
+import {
+  FiChevronDown,
+  FiChevronRight,
+  FiMinus,
+  FiPlusCircle
+} from 'react-icons/fi'
 import { EqualIcon } from 'components/SVG'
 
 const HeroForm = (): JSX.Element => {
+  const { isOpen, onToggle } = useDisclosure()
   const toast = useToast()
 
   const formik = useFormik({
@@ -185,66 +193,77 @@ const HeroForm = (): JSX.Element => {
             </Flex>
           </Flex>
           <Box>
-            <Text fontSize="xs" letterSpacing="0.2px" color="ojaYellow">
-              See Transaction Breakdown
-            </Text>
-            <Box p={4} bgColor="rgba(0, 208, 190, 0.05)">
-              <Flex align="center">
-                <Icon
-                  as={FiMinus}
-                  rounded="full"
-                  bgColor="ojaDark"
-                  color="ojaSkyBlue"
-                />
-                <Flex ml={4} align="center">
-                  <Text fontSize="md" letterSpacing="-0.2px" fontWeight={600}>
-                    $2.5%
-                  </Text>
-                  <Text ml={2} fontSize="xs" letterSpacing="-0.2px">
-                    Transaction fee
-                    <Text ml={1} as="span" fontWeight={600}>
-                      (= $15)
+            <Flex
+              role="button"
+              align="center"
+              color="ojaYellow"
+              onClick={() => onToggle()}
+              aria-describedby="see-trasaction-breakdown"
+            >
+              <Text fontSize="xs" letterSpacing="0.2px">
+                See Transaction Breakdown
+              </Text>
+              <Icon as={!isOpen ? FiChevronRight : FiChevronDown} />
+            </Flex>
+            <Collapse in={isOpen} animateOpacity>
+              <Box p={4} bgColor="rgba(0, 208, 190, 0.05)">
+                <Flex align="center">
+                  <Icon
+                    as={FiMinus}
+                    rounded="full"
+                    bgColor="ojaDark"
+                    color="ojaSkyBlue"
+                  />
+                  <Flex ml={4} align="center">
+                    <Text fontSize="md" letterSpacing="-0.2px" fontWeight={600}>
+                      $2.5%
                     </Text>
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex align="center">
-                <Icon
-                  rounded="full"
-                  as={FiPlusCircle}
-                  bgColor="ojaDark"
-                  color="ojaSkyBlue"
-                />
-                <Flex ml={4} align="center">
-                  <Text fontSize="md" letterSpacing="-0.2px" fontWeight={600}>
-                    $0.5%
-                  </Text>
-                  <Text ml={2} fontSize="xs" letterSpacing="-0.2px">
-                    with a
-                    <Text mx={1} as="span" fontWeight={600}>
-                      $20 cap
+                    <Text ml={2} fontSize="xs" letterSpacing="-0.2px">
+                      Transaction fee
+                      <Text ml={1} as="span" fontWeight={600}>
+                        (= $15)
+                      </Text>
                     </Text>
-                    Bank Settlement fee per pair
-                  </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-              <Flex align="center">
-                <Icon
-                  rounded="full"
-                  as={EqualIcon}
-                  bgColor="ojaDark"
-                  color="ojaSkyBlue"
-                />
-                <Flex ml={4} align="center" letterSpacing="-0.2px">
-                  <Text fontSize="md" fontWeight={600}>
-                    ₦490
-                  </Text>
-                  <Text ml={2} fontSize="xs">
-                    Dollar to Naira conversion rate (2 hours)
-                  </Text>
+                <Flex align="center">
+                  <Icon
+                    rounded="full"
+                    as={FiPlusCircle}
+                    bgColor="ojaDark"
+                    color="ojaSkyBlue"
+                  />
+                  <Flex ml={4} align="center">
+                    <Text fontSize="md" letterSpacing="-0.2px" fontWeight={600}>
+                      $0.5%
+                    </Text>
+                    <Text ml={2} fontSize="xs" letterSpacing="-0.2px">
+                      with a
+                      <Text mx={1} as="span" fontWeight={600}>
+                        $20 cap
+                      </Text>
+                      Bank Settlement fee per pair
+                    </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Box>
+                <Flex align="center">
+                  <Icon
+                    rounded="full"
+                    as={EqualIcon}
+                    bgColor="ojaDark"
+                    color="ojaSkyBlue"
+                  />
+                  <Flex ml={4} align="center" letterSpacing="-0.2px">
+                    <Text fontSize="md" fontWeight={600}>
+                      ₦490
+                    </Text>
+                    <Text ml={2} fontSize="xs">
+                      Dollar to Naira conversion rate (2 hours)
+                    </Text>
+                  </Flex>
+                </Flex>
+              </Box>
+            </Collapse>
           </Box>
           <Box mt={{ xl: 5 }}>
             <Button

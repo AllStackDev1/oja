@@ -13,12 +13,9 @@ const Home = (): JSX.Element => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <meta
-          name="description"
-          content="This is the unique leaf page description"
-        />
+        <meta name="description" content="This is the landing page" />
         <title>Home</title>
-        <link rel="canonical" href="" />
+        <link rel="canonical" href="/home" />
       </Helmet>
       <HeroSection />
       <SectionOne />

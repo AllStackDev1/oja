@@ -14,25 +14,25 @@ import { MdLockOutline, MdSecurity } from 'react-icons/md'
 const SecurityFeaturesSection = (): JSX.Element => {
   const keys = [
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 1',
       icon: MdLockOutline,
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     },
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 2',
       icon: MdSecurity,
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     },
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 3',
       icon: MdLockOutline,
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     },
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 4',
       icon: MdSecurity,
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`

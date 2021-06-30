@@ -52,13 +52,20 @@ const Hero = (): JSX.Element => {
               _hover={{ hover: 'none' }}
               _focus={{ outline: 'none' }}
             >
-              <Button
-                bg="transparent"
+              <Flex
+                pos="relative"
+                align="center"
+                role="button"
                 color="ojaYellow"
-                rightIcon={<RiArrowRightSFill fontSize={25} />}
               >
-                See How
-              </Button>
+                <Text fontSize="2xl">See How</Text>
+                <Icon
+                  boxSize={30}
+                  letterSpacing="-0.2px"
+                  as={RiArrowRightSFill}
+                  className="see-how-arrow"
+                />
+              </Flex>
             </Link>
           </Flex>
         </Box>
@@ -76,7 +83,7 @@ const Hero = (): JSX.Element => {
           Scroll here
         </Text>
         <Box mt={5} pos="relative">
-          <Icon as={FiChevronsDown} className="scroll-arrow" />
+          <Icon as={FiChevronsDown} role="button" className="scroll-arrow" />
         </Box>
       </Flex>
       <Box className="hero-curved-section" />

@@ -5,12 +5,12 @@ import { Button } from '@chakra-ui/react'
 const CustomButton = ({ label, ...rest }) => {
   return (
     <Button
-      rounded='0'
+      rounded="0"
       aria-label={label}
-      boxShadow='lg'
+      boxShadow="lg"
       fontWeight={600}
       w={{ base: '100%', lg: '200px' }}
-      colorScheme='gcuButton'
+      colorScheme="gcuButton"
       mb={{ base: 4, lg: 0 }}
       h={{ base: '3.375rem' }}
       _focus={{ outline: 'none' }}

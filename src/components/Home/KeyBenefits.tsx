@@ -7,22 +7,22 @@ import { DiamondIcon } from 'components/SVG'
 const KeyBenefitsSction = (): JSX.Element => {
   const keys = [
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 1',
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     },
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 2',
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     },
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 3',
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     },
     {
-      title: 'Lorem Ipsum',
+      title: 'Lorem Ipsum 4',
       text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco
       laboris nisi ut aliquip ex ea commodo consequat. Duis aute`
     }
@@ -52,7 +52,7 @@ const KeyBenefitsSction = (): JSX.Element => {
             </Heading>
 
             {keys.map((k, i) => (
-              <Flex justify="space-between" my={{ xl: i ? 14 : 10 }}>
+              <Flex key={i} justify="space-between" my={{ xl: i ? 14 : 10 }}>
                 <Flex
                   h={16}
                   w={16}
