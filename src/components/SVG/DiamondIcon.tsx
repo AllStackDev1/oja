@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Diamond: React.FC = (props): JSX.Element => {
+const DiamondIcon: React.FC = (props): JSX.Element => {
   return (
     <svg
       width="36"
@@ -54,4 +54,4 @@ const Diamond: React.FC = (props): JSX.Element => {
   )
 }
 
-export default Diamond
+export default DiamondIcon

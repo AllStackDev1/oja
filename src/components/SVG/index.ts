@@ -1,3 +1,6 @@
-export { default as EqualIcon } from './Equal'
-export { default as DiamondIcon } from './Diamond'
+export { default as EqualIcon } from './EqualIcon'
+export { default as DiamondIcon } from './DiamondIcon'
 export { default as GoogleIcon } from './GoogleIcon'
+export { default as HomeIcon } from './HomeIcon'
+export { default as VentToIcon } from './VentToIcon'
+export { default as WalletIcon } from './WalletIcon'

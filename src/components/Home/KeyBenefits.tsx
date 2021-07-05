@@ -4,7 +4,7 @@ import { Box, Icon, Flex, Text, Container, Heading } from '@chakra-ui/react'
 import Illustration from 'assets/images/illustration-1.png'
 import { DiamondIcon } from 'components/SVG'
 
-const KeyBenefitsSction = (): JSX.Element => {
+const KeyBenefitsSection = (): JSX.Element => {
   const keys = [
     {
       title: 'Lorem Ipsum 1',
@@ -94,4 +94,4 @@ const KeyBenefitsSction = (): JSX.Element => {
   )
 }
 
-export default KeyBenefitsSction
+export default KeyBenefitsSection

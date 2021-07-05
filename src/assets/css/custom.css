@@ -60,14 +60,14 @@ body {
 }
 
 .auth-btn-arrow {
-  animation: IMoveRightLeft 1s linear infinite;
+  animation: AuthMoveRightLeft 1s linear infinite;
   position: absolute;
   margin-top: -10px;
   right: 20px;
   top: 50%;
 }
 
-@keyframes IMoveRightLeft {
+@keyframes AuthMoveRightLeft {
   0%,
   100% {
     right: 25px;
@@ -75,34 +75,6 @@ body {
   50% {
     right: 35px;
   }
-}
-
-
-.intl-tel-input:focus {
-  outline: none;
-}
-
-.intl-tel-input input {
-  width: 100%;
-  min-width: 0px;
-  position: relative;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  height: var(--chakra-sizes-12);
-  font-size: var(--chakra-fontSizes-xs);
-  border-radius: var(--chakra-radii-md);
-  border: 1px solid;
-  border-color: inherit;
-  background: inherit;
-  background-color: var(--chakra-colors-gray-50);
-}
-
-.intl-tel-input.allow-dropdown .flag-container {
-  width: unset !important;
 }
 
 .otp-input input {
@@ -120,12 +92,15 @@ body {
   border-width: 1px;
 }
 
-@media screen and (min-width: 62em) {
-  .intl-tel-input input {
-    font-size: var(--chakra-fontSizes-sm);
-    height: var(--chakra-sizes-16);
-  }
-  
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+ -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+@media screen and (min-width: 62em) {  
   .otp-input input {
     width: 5rem !important;
     padding: 0.75rem;
@@ -136,7 +111,7 @@ body {
 }
 
 @media screen and (min-width: 80em) {
-  .menu-flags {
+  #hero-form .menu-flags {
     padding-bottom: 0 !important;
     background-color: #00d0be;
   }
@@ -152,7 +127,8 @@ body {
     background-color: #011e28 !important;
   }
 
-  .menu-flags ul li {
+
+  #hero-form .menu-flags ul li {
     padding-left: 25px !important;
   }
 
@@ -166,13 +142,16 @@ body {
   }
 
   .menu-flags-button {
-    height: 4.5rem;
     font-weight: 700;
     color: #ffffff !important;
     border: unset !important;
     border-radius: 0 !important;
     font-size: 18px !important;
     padding: 5px 20px !important;
+  }
+
+  #hero-form .menu-flags-button {
+    height: 4.5rem;
   }
 
   .hero-curved-section {

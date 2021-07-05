@@ -81,6 +81,7 @@ export const theme = extendTheme({
     125: '38rem',
     126: '40rem',
     127: '42rem',
+    128: '45rem',
     heroHeight: '47.5rem'
   }
 })

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Equal: React.FC = (props): JSX.Element => {
+const EqualIcon: React.FC = (props): JSX.Element => {
   return (
     <svg
       stroke="currentColor"
@@ -22,4 +22,4 @@ const Equal: React.FC = (props): JSX.Element => {
   )
 }
 
-export default Equal
+export default EqualIcon

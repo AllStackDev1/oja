@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import {
   HeroSection,
   SectionOne,
-  KeyBenefitsSction,
+  KeyBenefitsSection,
   SecurityFeaturesSection,
   CTASection
 } from 'components/Home'
@@ -19,7 +19,7 @@ const Home = (): JSX.Element => {
       </Helmet>
       <HeroSection />
       <SectionOne />
-      <KeyBenefitsSction />
+      <KeyBenefitsSection />
       <SecurityFeaturesSection />
       <CTASection />
     </>

@@ -30,7 +30,7 @@ const Hero = (): JSX.Element => {
             lineHeight={{ lg: '140%' }}
             letterSpacing="-0.2px"
           >
-            Instant pairing and exhchaging on our secure network
+            Instant pairing and exchanging on our secure network
           </Text>
           <Flex mt={6} align="center">
             <Button

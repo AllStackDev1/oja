@@ -8,20 +8,26 @@ import {
   Grid,
   Text,
   Icon,
+  Checkbox,
   Heading,
   GridItem,
   useToast
 } from '@chakra-ui/react'
-import { CustomInputGroup, ButtonPasswordToggler } from 'components/Forms'
-import { FiUser, FiLock, FiArrowRight } from 'react-icons/fi'
+import { NavLink } from 'react-router-dom'
+import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
+import { FiUser, FiArrowRight } from 'react-icons/fi'
 import { FaFacebookSquare } from 'react-icons/fa'
 import { GoogleIcon } from 'components/SVG'
-import { NavLink } from 'react-router-dom'
 import { CustomButton } from 'components/Auth'
 
-const Login = (): JSX.Element => {
-  const [show, setShow] = React.useState(false)
+import useApi from 'context/Api'
+import useAuth from 'context/Auth'
 
+import { ILoginDto } from 'interface/user.interface'
+
+const Login = (): JSX.Element => {
+  const { rememberMe, setUser, setRememberMe } = useAuth()
+  const { auth } = useApi()
   const toast = useToast()
 
   const formik = useFormik({
@@ -30,12 +36,12 @@ const Login = (): JSX.Element => {
       password: ''
     },
     // validationSchema
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
+    onSubmit: async (values: ILoginDto, { setSubmitting, resetForm }) => {
       try {
         setSubmitting(true)
-        // const res = await contactUs(values)
+        const res = await auth(values)
         toast({
-          //   description: res.message,
+          description: res.message,
           status: 'success',
           duration: 5000,
           position: 'top-right'
@@ -77,13 +83,14 @@ const Login = (): JSX.Element => {
             </Text>
           </Box>
           <form onSubmit={formik.handleSubmit}>
-            <Grid gap={8}>
+            <Grid rowGap={2}>
               <GridItem>
                 <CustomInputGroup
                   h={12}
                   id="email"
                   border={0}
                   rounded={0}
+                  isRequired
                   type="email"
                   name="email"
                   label="Email address"
@@ -98,7 +105,7 @@ const Login = (): JSX.Element => {
                 />
               </GridItem>
               <GridItem>
-                <CustomInputGroup
+                <CustomPasswordInput
                   h={12}
                   border={0}
                   rounded={0}
@@ -110,14 +117,11 @@ const Login = (): JSX.Element => {
                   _focus={{ outline: 'none' }}
                   error={formik.errors.password}
                   onChange={formik.handleChange}
-                  leftAddon={<Icon as={FiLock} />}
-                  type={show ? 'text' : 'password'}
                   touched={!!formik.touched.password}
                   defaultValue={formik.values.password}
-                  rightAddon={<ButtonPasswordToggler {...{ show, setShow }} />}
                 />
               </GridItem>
-              <GridItem pos="relative">
+              <GridItem mt={3} pos="relative">
                 <CustomButton
                   px={8}
                   w="full"
@@ -132,37 +136,68 @@ const Login = (): JSX.Element => {
                   }
                 />
               </GridItem>
-            </Grid>
-            <Flex my={{ xl: 8 }} w="full" justify="center">
-              <Text>
-                Don’t have an account?{' '}
-                <Link as={NavLink} fontWeight="bold" to="/auth/sign">
-                  Singup
+              <GridItem
+                d="flex"
+                fontSize="xs"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Checkbox
+                  isChecked={rememberMe}
+                  size="md"
+                  onClick={() => setRememberMe(!rememberMe)}
+                >
+                  <Text fontSize="xs">Remember Me (60days)</Text>
+                </Checkbox>
+                <Link
+                  as={NavLink}
+                  fontWeight="bold"
+                  to="/auth/request-password"
+                >
+                  Forgot Password?
                 </Link>
-              </Text>
-            </Flex>
-            <Flex justify="space-between" align="center">
-              <CustomButton
-                mr={1}
-                shadow="lg"
-                fontSize="sm"
-                bgColor="white"
-                color="gray.700"
-                _hover={{ bgColor: 'none' }}
-                title="Signup with Facebook"
-                leftIcon={<FaFacebookSquare color="#385997" fontSize={30} />}
-              />
-              <CustomButton
-                ml={1}
-                shadow="lg"
-                fontSize="sm"
-                color="gray.700"
-                bgColor="white"
-                _hover={{ bgColor: 'none' }}
-                leftIcon={<Icon as={GoogleIcon} />}
-                title="Signup with Google"
-              />
-            </Flex>
+              </GridItem>
+              <GridItem
+                d="flex"
+                my={{ xl: 3 }}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text>
+                  Don’t have an account?{' '}
+                  <Link as={NavLink} fontWeight="bold" to="/auth/sign">
+                    Register
+                  </Link>
+                </Text>
+              </GridItem>
+              <GridItem
+                d="flex"
+                my={{ xl: 3 }}
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <CustomButton
+                  mr={1}
+                  shadow="lg"
+                  fontSize="sm"
+                  bgColor="white"
+                  color="gray.700"
+                  _hover={{ bgColor: 'none' }}
+                  title="Sign up with Facebook"
+                  leftIcon={<FaFacebookSquare color="#385997" fontSize={30} />}
+                />
+                <CustomButton
+                  ml={1}
+                  shadow="lg"
+                  fontSize="sm"
+                  bgColor="white"
+                  color="gray.700"
+                  title="Sign up with Google"
+                  _hover={{ bgColor: 'none' }}
+                  leftIcon={<Icon as={GoogleIcon} />}
+                />
+              </GridItem>
+            </Grid>
           </form>
         </Box>
       </Flex>

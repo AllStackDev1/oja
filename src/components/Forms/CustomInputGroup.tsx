@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  Fade,
+  Text,
   Input,
-  InputProps,
+  IconProps,
   FormLabel,
-  FormControl,
+  InputProps,
   InputGroup,
+  FormControl,
   InputLeftAddon,
-  InputRightAddon,
-  FormErrorMessage,
-  IconProps
+  InputRightAddon
 } from '@chakra-ui/react'
 interface ICustomInputGroup extends InputProps {
   error?: string
@@ -30,9 +31,10 @@ const CustomInputGroup: React.FC<ICustomInputGroup> = ({
   ...rest
 }) => {
   const addonProps = {
+    px: 0,
     h: rest.h,
-    rounded: 0,
     border: 0,
+    rounded: 0,
     bgColor: 'white'
   }
 
@@ -40,23 +42,32 @@ const CustomInputGroup: React.FC<ICustomInputGroup> = ({
     <FormControl
       id={id || rest.name}
       isRequired={isRequired}
-      isInvalid={!!error && touched}
+      color={!!error && touched ? 'red.500' : 'gray.500'}
     >
       {label && (
-        <FormLabel fontSize={'xs'} fontWeight="400">
+        <FormLabel mb={0} fontSize="sm" fontWeight="500">
           {label}
         </FormLabel>
       )}
-      <InputGroup borderBottom="1px" borderBottomColor="gray.400">
+      <InputGroup
+        borderBottom="1px"
+        borderBottomColor={!!error && touched ? 'red.500' : 'gray.500'}
+      >
         {leftAddon && <InputLeftAddon {...addonProps} children={leftAddon} />}
         <Input {...rest} />
         {rightAddon && (
           <InputRightAddon {...addonProps} children={rightAddon} />
         )}
       </InputGroup>
-      <FormErrorMessage fontSize={{ base: 'xs', lg: 'sm' }}>
-        {error}
-      </FormErrorMessage>
+      <Fade in={!!error && touched}>
+        <Text
+          pos="absolute"
+          fontSize="xs"
+          color={!!error && touched ? 'red.500' : ''}
+        >
+          {error}
+        </Text>
+      </Fade>
     </FormControl>
   )
 }

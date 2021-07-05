@@ -1,6 +1,6 @@
 import React from 'react'
 
-const GoogleIcon: React.FC = (props): JSX.Element => {
+const GoogleIcon: React.FC = (): JSX.Element => {
   return (
     <svg
       width="24"

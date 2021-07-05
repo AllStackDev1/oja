@@ -1,16 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDisclosure } from '@chakra-ui/react'
-
-interface IAppContext {
-  isOpen: boolean
-  onOpen(): void
-  onClose(): void
-  modalType: string
-  handleModal(): void
-  toggleMenu(): void
-  isMenuOpen: boolean
-}
+import { IAppContext } from 'interface/context.interface'
 
 const AppContext = createContext({})
 

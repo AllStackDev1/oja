@@ -61,7 +61,7 @@ const HeroForm = (): JSX.Element => {
     }
   })
 
-  type IformField = 'inValue' | 'outValue'
+  type IFormField = 'inValue' | 'outValue'
 
   const formFields = ['in', 'out']
 
@@ -78,7 +78,7 @@ const HeroForm = (): JSX.Element => {
   const countriesLabels = { US: 'USD', GB: 'GBP', NG: 'NGR', GH: 'GHS' }
 
   return (
-    <Box w="lg">
+    <Box w="lg" id="hero-form">
       <form style={{ marginTop: '2rem' }} onSubmit={handleSubmit}>
         {formFields.map((ff, i) => (
           <Box key={ff}>
@@ -98,9 +98,9 @@ const HeroForm = (): JSX.Element => {
                   fontSize={{ xl: '2xl' }}
                   placeholder="USD 1,000.00"
                   h={{ base: 12, xl: '4.5rem' }}
-                  error={errors[`${ff}Value` as IformField]}
-                  touched={!!touched[`${ff}Value` as IformField]}
-                  defaultValue={values[`${ff}Value` as IformField]}
+                  error={errors[`${ff}Value` as IFormField]}
+                  touched={!!touched[`${ff}Value` as IFormField]}
+                  defaultValue={values[`${ff}Value` as IFormField]}
                 />
               </Box>
               <Box w={{ xl: '28%' }}>
@@ -109,7 +109,7 @@ const HeroForm = (): JSX.Element => {
                   customLabels={countriesLabels}
                   countries={Object.keys(countriesLabels)}
                   selectButtonClassName="menu-flags-button"
-                  selected={values[`${ff}Country` as IformField]}
+                  selected={values[`${ff}Country` as IFormField]}
                   onSelect={code => setFieldValue(`${ff}Country`, code)}
                 />
               </Box>
