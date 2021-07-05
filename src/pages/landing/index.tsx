@@ -2,8 +2,8 @@ import React, { lazy } from 'react'
 import { Switch, Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Box } from '@chakra-ui/react'
 
-import { LandingNav } from 'containers/Navbar'
-import { LandingFooter } from 'containers/Footer'
+import { LandingNav } from 'containers/Layout/Navbar'
+import { LandingFooter } from 'containers/Layout/Footer'
 const Home = lazy(() => import('./home'))
 
 const Landing: React.FC<RouteComponentProps> = (props): JSX.Element => {

@@ -15,6 +15,7 @@ import { DiamondIcon } from 'components/SVG'
 const Section = (): JSX.Element => {
   return (
     <Container
+      id="scroll-to"
       d="flex"
       maxW="5xl"
       paddingInline={0}

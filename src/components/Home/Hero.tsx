@@ -3,6 +3,7 @@ import { Flex, Box, Link, Text, Icon, Heading, Button } from '@chakra-ui/react'
 import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
 import HeroForm from './HeroForm'
+import { NavLink } from 'react-router-dom'
 
 const Hero = (): JSX.Element => {
   return (
@@ -47,7 +48,8 @@ const Hero = (): JSX.Element => {
             </Button>
             <Box mx={5} />
             <Link
-              href="/"
+              to="/"
+              as={NavLink}
               rel="noreferrer"
               _hover={{ hover: 'none' }}
               _focus={{ outline: 'none' }}
@@ -83,7 +85,14 @@ const Hero = (): JSX.Element => {
           Scroll here
         </Text>
         <Box mt={5} pos="relative">
-          <Icon as={FiChevronsDown} role="button" className="scroll-arrow" />
+          <Link
+            href="#scroll-to"
+            rel="noreferrer"
+            _hover={{ hover: 'none' }}
+            _focus={{ outline: 'none' }}
+          >
+            <Icon as={FiChevronsDown} role="button" className="scroll-arrow" />
+          </Link>
         </Box>
       </Flex>
       <Box className="hero-curved-section" />

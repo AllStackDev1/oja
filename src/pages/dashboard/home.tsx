@@ -1,17 +1,13 @@
 import React from 'react'
-import Wrapper from 'containers/Wrapper'
-import {
-  Box,
-  Text,
-  Icon,
-  Flex,
-  Link,
-  Heading,
-  Grid,
-  GridItem
-} from '@chakra-ui/react'
+import Wrapper from 'containers/Layout/Wrapper'
+import { Box, Text, Icon, Flex, Grid, GridItem } from '@chakra-ui/react'
 import { IoMdInformationCircle } from 'react-icons/io'
-import Filter from 'components/Filter'
+import {
+  AmountSentCard,
+  RecentTransactions,
+  AmountReceivedCard,
+  ActiveTransactions
+} from 'components/Dashboard/Home'
 
 const Home = (): JSX.Element => {
   return (
@@ -20,10 +16,10 @@ const Home = (): JSX.Element => {
       href="/dashboard/home"
       content="This is the application login page"
     >
-      <Grid mx={{ xl: 10 }} columnGap={6} templateColumns="repeat(3, 1fr)">
+      <Grid mx={10} columnGap={8} templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={2}>
-          <Box borderTopRadius="lg" shadow="lg">
-            <Box p={{ xl: 6 }}>
+          <Box borderTopRadius="lg" boxShadow="main">
+            <Box p={6}>
               <Text fontWeight={600} fontSize="md">
                 Dollar to Naira
               </Text>
@@ -31,7 +27,7 @@ const Home = (): JSX.Element => {
                 100,000.00
               </Text>
             </Box>
-            <Flex p={{ xl: 6 }} color="white" bgColor="ojaDark">
+            <Flex p={6} color="white" bgColor="ojaDark">
               <Icon as={IoMdInformationCircle} boxSize={6} />
               <Text ml={3} fontSize="md" lineHeight="150%">
                 Cas should reflect Lorem ipsum dolor sit amet, consectetur
@@ -40,32 +36,14 @@ const Home = (): JSX.Element => {
               </Text>
             </Flex>
           </Box>
-          <Box mt={{ xl: 6 }} rounded="lg" shadow="lg">
-            <Flex p={{ xl: 6 }} justify="space-between">
-              <Box>
-                <Heading fontWeight={600} fontSize="xl">
-                  Recent Transactions
-                </Heading>
-                <Text mt={1} fontSize="sm" lineHeight={4} color="gray.600">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                </Text>
-              </Box>
-              <Filter />
-            </Flex>
-          </Box>
+          <RecentTransactions />
         </GridItem>
-        <GridItem colSpan={1} bgColor="blue">
-          <Grid mx={{ xl: 10 }}>
-            <GridItem rounded="lg" shadow="lg">
-              <Text>Dollar to Naira</Text>
-              <Text>100,000.00</Text>
-            </GridItem>
-            <GridItem rounded="lg" shadow="lg">
-              <Text>Amount Received (232139422 Stanbic IBTC)</Text>
-            </GridItem>
-            <GridItem rounded="lg" shadow="lg">
-              <Text>Amount Received (232139422 Stanbic IBTC)</Text>
-            </GridItem>
+        <GridItem colSpan={1}>
+          <Grid rowGap={8}>
+            <AmountSentCard />
+            <AmountReceivedCard />
+
+            <ActiveTransactions />
           </Grid>
         </GridItem>
       </Grid>

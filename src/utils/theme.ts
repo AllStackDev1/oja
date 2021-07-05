@@ -35,12 +35,17 @@ export const theme = extendTheme({
   },
   colors: {
     ojaSkyBlue: '#00D0BE',
+    ojaSkyBlueFade: 'rgba(0, 208, 190, 0.08)',
     ojaDark: '#011E28',
     ojaGreen: '#001C16',
     ojaYellow: '#FFFF00',
     ojaButton: {
       500: '#00D0BE',
       600: '#00D0BE'
+    },
+    ojaError: {
+      500: '#E53E3E',
+      600: '#E53E3E'
     }
   },
   space: {
@@ -72,6 +77,9 @@ export const theme = extendTheme({
     145: '76rem',
     150: '80rem',
     155: '90rem'
+  },
+  shadows: {
+    main: '0px 25px 50px rgba(0, 0, 0, 0.04)'
   },
   sizes: {
     110: '28rem',

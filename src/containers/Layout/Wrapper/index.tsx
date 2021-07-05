@@ -29,13 +29,7 @@ const Wrapper: React.FC<IWrapper> = ({
       <Flex as="main" bgColor="white" fontFamily="body" overflowX="hidden">
         <Sidebar />
 
-        <Box
-          w="full"
-          pos="relative"
-          py={{ xl: 8 }}
-          px={{ xl: 14 }}
-          overflowX="scroll"
-        >
+        <Box pr={4} py={8} pl={16} ml={24} pos="relative" overflowY="scroll">
           <Box pos="absolute">
             <Flex
               w={7}
@@ -48,7 +42,6 @@ const Wrapper: React.FC<IWrapper> = ({
               <Icon as={FiChevronLeft} color="ojaSkyBlue" />
             </Flex>
           </Box>
-
           {children}
         </Box>
       </Flex>
