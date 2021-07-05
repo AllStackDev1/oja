@@ -25,7 +25,7 @@ const ActiveTransactions = (): JSX.Element => {
       currencyFrom: 'Dollar',
       createdAt: '2 days ago',
       amountWithCurrency: '$2000',
-      userName: 'jerry_gmoney'
+      userName: '@jerry_gmoney'
     },
     {
       _id: 2,
@@ -35,7 +35,7 @@ const ActiveTransactions = (): JSX.Element => {
       currencyFrom: 'Naira',
       createdAt: '2 hours ago',
       amountWithCurrency: '£200',
-      userName: 'spaky_OJ'
+      userName: '@spaky_OJ'
     }
   ]
   return (
@@ -73,10 +73,11 @@ const ActiveTransactions = (): JSX.Element => {
               <Text fontSize="sm" letterSpacing="-0.4px" color="gray.400">
                 {r.amountWithCurrency}{' '}
                 <Icon
-                  as={r.isReceiving ? FaLongArrowAltUp : FaLongArrowAltDown}
-                  color={r.isReceiving ? 'green.300' : 'red.300'}
+                  boxSize={4}
+                  as={!r.isReceiving ? FaLongArrowAltUp : FaLongArrowAltDown}
+                  color={!r.isReceiving ? 'green.300' : 'red.300'}
                 />{' '}
-                {r.isReceiving ? 'received from' : 'sent to'} @{r.userName},
+                {r.isReceiving ? 'received from' : 'sent to'} {r.userName},
               </Text>
               <Heading mt={2} fontSize="x-small" lineHeight="12px">
                 Transaction Progress

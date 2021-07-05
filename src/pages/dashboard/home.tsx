@@ -14,7 +14,7 @@ const Home = (): JSX.Element => {
     <Wrapper
       title="Home | Dashboard"
       href="/dashboard/home"
-      content="This is the application login page"
+      content="This is the application dashboard home page"
     >
       <Grid mx={10} columnGap={8} templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={2}>

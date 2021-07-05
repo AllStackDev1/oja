@@ -20,7 +20,7 @@ const Sidebar = (): JSX.Element => {
       icon: HomeIcon
     },
     {
-      link: 'vent-to',
+      link: 'vending',
       icon: VentToIcon
     },
     {
@@ -54,19 +54,26 @@ const Sidebar = (): JSX.Element => {
         </Grid>
         <Flex pos="absolute" bottom={48} color="white">
           <Flex flexDir="column" align="center" pos="relative">
-            <Tooltip label="Need Help?" placement="right-end">
+            <Tooltip
+              hasArrow
+              label="Need Help?"
+              bgColor="ojaSkyBlue"
+              placement="right-end"
+            >
               <Box>
                 <Icon as={IoMdHelpCircle} boxSize={6} />
               </Box>
             </Tooltip>
-            <Box my={1} />
-            <Avatar
-              size="md"
-              borderWidth={2}
-              borderColor="white"
-              name="Kola Tioluwani"
-              src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-            />
+            <Box my={2} />
+            <Link as={NavLink} to="/dashboard/profile">
+              <Avatar
+                size="md"
+                borderWidth={2}
+                borderColor="white"
+                name="Kola Tioluwani"
+                src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+              />
+            </Link>
           </Flex>
         </Flex>
       </Flex>
