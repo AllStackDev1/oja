@@ -12,16 +12,14 @@ const Landing: React.FC<RouteComponentProps> = (props): JSX.Element => {
   } = props
 
   const indexPath = pathname.split('/')[1]
-  if (indexPath === 'auth' || indexPath === 'dasboard') {
+  if (indexPath === 'auth' || indexPath === 'dashboard') {
     return <Redirect to="/404" />
   }
   return (
     <Box fontFamily="body" overflowX="hidden">
       <LandingNav {...props} />
       <Switch>
-        <Redirect exact from="/" to="/home" />
-        <Route path="/home" component={Home} />
-        <Route path="/home-2" component={Home} />
+        <Route exact path="/" component={Home} />
         <Redirect from="*" to="/404" />
       </Switch>
       <LandingFooter {...props} />
