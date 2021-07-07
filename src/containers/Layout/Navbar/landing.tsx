@@ -16,12 +16,12 @@ const LandingNav: React.FC<RouteComponentProps> = ({
     {
       id: 1,
       title: 'Home',
-      link: '/home'
+      link: '/'
     },
     {
       id: 2,
       title: 'Privacy Policy',
-      link: 'privacy-policy'
+      link: '/privacy-policy'
     },
     {
       id: 3,
