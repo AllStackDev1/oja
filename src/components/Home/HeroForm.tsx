@@ -125,21 +125,21 @@ const HeroForm = (): JSX.Element => {
             )}
           </Box>
         ))}
-        <Box px={{ xl: 10 }}>
+        <Box pl={{ xl: 6 }} pr={{ xl: 10 }}>
           <Flex
             pt={{ xl: 10 }}
             pb={{ xl: 5 }}
             align="center"
             justify="space-between"
           >
-            <Box>
+            <Box w="50%" px={4} h={14} bgColor="#E7FAF8" color="ojaSkyBlue">
               <Text
-                fontSize="md"
-                fontWeight={700}
-                color="ojaSkyBlue"
+                fontSize="sm"
+                lineHeight="150%"
+                fontWeight={600}
                 letterSpacing="0.2px"
               >
-                Amount Pair
+                Your Send
               </Text>
               <Text
                 fontSize="lg"
@@ -147,50 +147,34 @@ const HeroForm = (): JSX.Element => {
                 letterSpacing="0.2px"
                 fontFamily="Avenir Next"
               >
-                20
+                USD 1,022
               </Text>
             </Box>
-            <Flex>
-              <Box
-                px={4}
-                h={14}
-                minW={{ xl: 32 }}
-                bgColor="#E7FAF8"
-                color="ojaSkyBlue"
+            <Box
+              w="50%"
+              px={4}
+              h={14}
+              ml="0.5"
+              bgColor="#E7FAF8"
+              color="gray.800"
+            >
+              <Text
+                fontSize="sm"
+                lineHeight="150%"
+                fontWeight={600}
+                letterSpacing="0.2px"
               >
-                <Text fontSize="md" fontWeight={600} letterSpacing="0.2px">
-                  Your Send
-                </Text>
-                <Text
-                  fontSize="lg"
-                  fontWeight={600}
-                  letterSpacing="0.2px"
-                  fontFamily="Avenir Next"
-                >
-                  USD 1,022
-                </Text>
-              </Box>
-              <Box
-                px={4}
-                h={14}
-                minW={{ xl: 32 }}
-                ml="0.5"
-                bgColor="#E7FAF8"
-                color="gray.800"
+                You Receive
+              </Text>
+              <Text
+                fontSize="lg"
+                fontWeight={600}
+                letterSpacing="0.2px"
+                fontFamily="Avenir Next"
               >
-                <Text fontSize="md" fontWeight={600} letterSpacing="0.2px">
-                  You Recieve
-                </Text>
-                <Text
-                  fontSize="lg"
-                  fontWeight={600}
-                  letterSpacing="0.2px"
-                  fontFamily="Avenir Next"
-                >
-                  NGN 1,200.00
-                </Text>
-              </Box>
-            </Flex>
+                NGN 1,200.00
+              </Text>
+            </Box>
           </Flex>
           <Box>
             <Flex
@@ -199,7 +183,7 @@ const HeroForm = (): JSX.Element => {
               align="center"
               color="ojaYellow"
               onClick={() => onToggle()}
-              aria-describedby="see-trasaction-breakdown"
+              aria-describedby="see-transaction-breakdown"
             >
               <Text fontSize="xs" letterSpacing="0.2px">
                 See Transaction Breakdown
