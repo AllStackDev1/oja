@@ -15,14 +15,14 @@ const CustomTextarea = ({ id, isRequired, error, touched, label, ...rest }) => {
       isInvalid={error && touched}
     >
       {label && (
-        <FormLabel fontSize={{ base: 'xs', lg: 'sm' }} fontWeight='400'>
+        <FormLabel fontSize={{ base: 'xs', lg: 'sm' }} fontWeight="400">
           {label}
         </FormLabel>
       )}
       <Textarea
         {...rest}
         fontSize={{ base: 'xs', lg: 'sm' }}
-        bgColor='gray.50'
+        bgColor="gray.50"
       />
       <FormErrorMessage fontSize={{ base: 'xs', lg: 'sm' }}>
         {error}

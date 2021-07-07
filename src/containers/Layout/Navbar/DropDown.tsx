@@ -28,8 +28,8 @@ const DropDown = ({ title, data, color, withLink, ...rest }) => {
         <>
           <PopoverTrigger>
             <Flex
-              align='center'
-              cursor='pointer'
+              align="center"
+              cursor="pointer"
               _focus={{ outline: 'none' }}
               style={
                 isOpen || router.pathname.match(new RegExp(withLink, 'g'))
@@ -52,18 +52,18 @@ const DropDown = ({ title, data, color, withLink, ...rest }) => {
           </PopoverTrigger>
           <Portal>
             <PopoverContent
-              bgColor='white'
-              shadow='2xl'
-              border='0'
-              borderTop='1px'
-              borderTopColor='gray.400'
+              bgColor="white"
+              shadow="2xl"
+              border="0"
+              borderTop="1px"
+              borderTopColor="gray.400"
               width={{ lg: 60 }}
               _focus={{ outline: 'none' }}
             >
               <PopoverArrow
-                borderLeft='1px'
-                borderTop='1px'
-                borderColor='gray.500'
+                borderLeft="1px"
+                borderTop="1px"
+                borderColor="gray.500"
               />
               <PopoverBody p={0}>
                 {data.map((item, i) => (
@@ -71,7 +71,7 @@ const DropDown = ({ title, data, color, withLink, ...rest }) => {
                     <Box
                       py={4}
                       px={4}
-                      cursor='pointer'
+                      cursor="pointer"
                       _hover={{
                         textDecor: 'none',
                         color: 'white',
@@ -80,13 +80,13 @@ const DropDown = ({ title, data, color, withLink, ...rest }) => {
                     >
                       {item.link && (
                         <NextLink href={item.link} passHref>
-                          <Link d='block' _hover={{ textDecor: 'none' }}>
+                          <Link d="block" _hover={{ textDecor: 'none' }}>
                             {item.title}
                           </Link>
                         </NextLink>
                       )}
                       {item.action && (
-                        <Text d='block' onClick={item.action}>
+                        <Text d="block" onClick={item.action}>
                           {item.title}
                         </Text>
                       )}

@@ -5,7 +5,7 @@ import { Input } from '@chakra-ui/react'
 const CustomUploader = ({ field, form, ...rest }) => {
   return (
     <Input
-      type='file'
+      type="file"
       zIndex={1}
       opacity={0}
       fontSize={0}

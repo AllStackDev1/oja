@@ -39,11 +39,15 @@ export const theme = extendTheme({
     ojaDark: '#011E28',
     ojaGreen: '#001C16',
     ojaYellow: '#FFFF00',
-    ojaButton: {
+    ojaColorSchemaSkyBlue: {
       500: '#00D0BE',
       600: '#00D0BE'
     },
-    ojaError: {
+    ojaColorSchemaDark: {
+      500: '#011E28',
+      600: '#011E28'
+    },
+    ojaColorSchemaError: {
       500: '#E53E3E',
       600: '#E53E3E'
     }

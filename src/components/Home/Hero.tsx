@@ -39,7 +39,7 @@ const Hero = (): JSX.Element => {
               rounded="sm"
               boxShadow="lg"
               h={{ lg: '3.375rem' }}
-              colorScheme="ojaButton"
+              colorScheme="ojaColorSchemaSkyBlue"
               fontWeight={700}
               fontSize={{ base: 'sm', xl: 'lg' }}
               _focus={{ outline: 'none' }}

@@ -277,7 +277,7 @@ const HeroForm = (): JSX.Element => {
               h={{ md: 14 }}
               fontWeight={600}
               textTransform="uppercase"
-              colorScheme="ojaButton"
+              colorScheme="ojaColorSchemaSkyBlue"
               _focus={{ outline: 'none' }}
               fontSize={{ base: 'sm', xl: 'lg' }}
             >

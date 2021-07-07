@@ -15,7 +15,11 @@ import { BiBell } from 'react-icons/bi'
 import { Link as ReactLink } from 'react-router-dom'
 import { FaLongArrowAltUp, FaLongArrowAltDown } from 'react-icons/fa'
 
-const ActiveTransactions = (): JSX.Element => {
+interface Props {
+  w?: string | number
+}
+
+const ActiveTransactions: React.FC<Props> = ({ w = 'full' }): JSX.Element => {
   const transactions = [
     {
       _id: 1,
@@ -39,7 +43,7 @@ const ActiveTransactions = (): JSX.Element => {
     }
   ]
   return (
-    <GridItem rounded="sm" boxShadow="main" border="2px solid #E7FAF8">
+    <GridItem w={w} rounded="sm" boxShadow="main" border="2px solid #E7FAF8">
       <Box pt={6} px={6} pb={3}>
         <Heading fontSize="xl" fontWeight={600}>
           Active Transactions
@@ -87,7 +91,11 @@ const ActiveTransactions = (): JSX.Element => {
                   <Progress
                     value={r.progress}
                     h={1}
-                    colorScheme={r.isReceiving ? 'ojaButton' : 'ojaError'}
+                    colorScheme={
+                      r.isReceiving
+                        ? 'ojaColorSchemaSkyBlue'
+                        : 'ojaColorSchemaError'
+                    }
                   />
                 </Box>
                 <Text
@@ -119,6 +127,8 @@ const ActiveTransactions = (): JSX.Element => {
   )
 }
 
-ActiveTransactions.propTypes = {}
+ActiveTransactions.propTypes = {
+  w: PropTypes.any
+}
 
 export default ActiveTransactions

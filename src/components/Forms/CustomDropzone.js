@@ -36,20 +36,20 @@ const CustomDropzone = ({
   return (
     <FormControl id={id} isRequired={isRequired} isInvalid={error && touched}>
       {label && (
-        <FormLabel fontSize={{ base: 'xs', lg: 'sm' }} fontWeight='400'>
+        <FormLabel fontSize={{ base: 'xs', lg: 'sm' }} fontWeight="400">
           {label}
         </FormLabel>
       )}
       <Flex
         h={{ base: 32, xl: 48 }}
         my={5}
-        w='full'
-        rounded='md'
-        border='2px dashed rgba(0, 0, 0, 0.4)'
+        w="full"
+        rounded="md"
+        border="2px dashed rgba(0, 0, 0, 0.4)"
         {...getRootProps({ className: 'dropzone' })}
       >
         <Input {...getInputProps()} />
-        <Flex w='full' direction='column' align='center' justify='center'>
+        <Flex w="full" direction="column" align="center" justify="center">
           {value ? (
             <Flex>
               <Icon as={FiFileText} boxSize={5} />
@@ -58,7 +58,7 @@ const CustomDropzone = ({
           ) : (
             <>
               <Icon as={IoMdCloudUpload} boxSize={{ base: 8, xl: 10 }} />
-              <Text fontSize='sm'>Select or Drag a file to upload</Text>
+              <Text fontSize="sm">Select or Drag a file to upload</Text>
             </>
           )}
         </Flex>
