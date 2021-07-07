@@ -52,7 +52,7 @@ const Sidebar = (): JSX.Element => {
             </GridItem>
           ))}
         </Grid>
-        <Flex pos="absolute" bottom={48} color="white">
+        <Flex pos="absolute" bottom={20} color="white">
           <Flex flexDir="column" align="center" pos="relative">
             <Tooltip
               hasArrow

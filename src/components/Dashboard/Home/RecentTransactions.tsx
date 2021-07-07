@@ -94,40 +94,47 @@ const RecentTransactions = (): JSX.Element => {
   ]
 
   return (
-    <Box mt={6} rounded="lg" boxShadow="main">
-      <Flex p={6} justify="space-between">
-        <Box>
-          <Heading fontWeight={600} fontSize="xl">
-            Recent Transactions
-          </Heading>
-          <Text mt={1} fontSize="sm" lineHeight={4} color="gray.600">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-          </Text>
-        </Box>
-        <Filter />
-      </Flex>
-      <Box>
+    <>
+      <Box mt={6}>
+        <Flex p={6} justify="space-between">
+          <Box>
+            <Heading fontWeight={600} fontSize="xl">
+              Recent Transactions
+            </Heading>
+            <Text mt={1} fontSize="sm" lineHeight={4} color="gray.600">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            </Text>
+          </Box>
+          <Filter />
+        </Flex>
         <CustomTable
           data={data}
           variant="simple"
           columns={columns}
           name="transactions"
         />
-        <Flex p={6} align="center" justify="space-between">
-          <Text fontSize="sm" lineHeight="17px" color="gray.500">
-            Showing {(activePage - 1) * limit + 1} to{' '}
-            {totalUser > activePage * limit ? activePage * limit : totalUser} of{' '}
-            {totalUser} entries
-          </Text>
-          <Flex w={40} align="center" justify="space-between">
-            <Button type="button" isDisabled>
-              Prev
-            </Button>
-            <Button type="button">Next</Button>
-          </Flex>
-        </Flex>
       </Box>
-    </Box>
+      <Flex
+        p={6}
+        w="full"
+        bottom={0}
+        pos="absolute"
+        align="center"
+        justify="space-between"
+      >
+        <Text fontSize="sm" lineHeight="17px" color="gray.500">
+          Showing {(activePage - 1) * limit + 1} to{' '}
+          {totalUser > activePage * limit ? activePage * limit : totalUser} of{' '}
+          {totalUser} entries
+        </Text>
+        <Flex w={40} align="center" justify="space-between">
+          <Button type="button" isDisabled>
+            Prev
+          </Button>
+          <Button type="button">Next</Button>
+        </Flex>
+      </Flex>
+    </>
   )
 }
 

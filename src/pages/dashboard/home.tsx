@@ -17,8 +17,8 @@ const Home = (): JSX.Element => {
       content="This is the application dashboard home page"
     >
       <Grid mx={10} columnGap={6} templateColumns="repeat(3, 1fr)">
-        <GridItem colSpan={2}>
-          <Box borderTopRadius="lg" boxShadow="main">
+        <GridItem colSpan={2} rounded="lg" boxShadow="main" pos="relative">
+          <Box>
             <Box p={6}>
               <Text fontWeight={600} fontSize="md">
                 Dollar to Naira
@@ -42,7 +42,6 @@ const Home = (): JSX.Element => {
           <Grid rowGap={8}>
             <AmountSentCard />
             <AmountReceivedCard />
-
             <ActiveTransactions />
           </Grid>
         </GridItem>
