@@ -16,7 +16,7 @@ const Home = (): JSX.Element => {
       href="/dashboard/home"
       content="This is the application dashboard home page"
     >
-      <Grid mx={10} columnGap={8} templateColumns="repeat(3, 1fr)">
+      <Grid mx={10} columnGap={6} templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={2}>
           <Box borderTopRadius="lg" boxShadow="main">
             <Box p={6}>
@@ -29,7 +29,7 @@ const Home = (): JSX.Element => {
             </Box>
             <Flex p={6} color="white" bgColor="ojaDark">
               <Icon as={IoMdInformationCircle} boxSize={6} />
-              <Text ml={3} fontSize="md" lineHeight="150%">
+              <Text ml={3} fontSize="sm" lineHeight="150%">
                 Cas should reflect Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit, sed do eiusmod tempor incid id unt ut labore et
                 dolore magna aliqua

@@ -28,8 +28,7 @@ const Wrapper: React.FC<IWrapper> = ({
       </Helmet>
       <Flex as="main" bgColor="white" fontFamily="body" overflowX="hidden">
         <Sidebar />
-
-        <Box pr={4} py={8} pl={16} ml={24} pos="relative" overflowY="scroll">
+        <Box py={8} pl={10} ml={20} pos="relative" overflowY="scroll">
           <Box pos="absolute">
             <Flex
               w={7}

@@ -30,7 +30,7 @@ const Sidebar = (): JSX.Element => {
   ]
 
   return (
-    <Box w={24} as="aside" pos="fixed" bgColor="ojaDark">
+    <Box w={20} as="aside" pos="fixed" bgColor="ojaDark">
       <Flex pos="relative" align="center" h="100vh" flexDir="column">
         <Grid mt={{ xl: 24 }} rowGap={6}>
           {menus.map(m => (
