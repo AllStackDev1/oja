@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { useFormik } from 'formik'
 import {
@@ -12,7 +13,7 @@ import {
   GridItem,
   useToast
 } from '@chakra-ui/react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, RouteComponentProps } from 'react-router-dom'
 import {
   FiUser,
   FiMail,
@@ -32,18 +33,16 @@ import { GoogleIcon } from 'components/SVG'
 import { CustomButton } from 'components/Auth'
 
 import useApi from 'context/Api'
-import useAuth from 'context/Auth'
 
-import { CreateUserDto } from 'interface/user.interface'
+import { RegisterUserPayloadDto } from 'interface/user.interface'
 import { RegistrationSchema } from 'utils/validator-schemas'
+import SmallSpinner from 'components/Loading/Small'
 
-const SignUp = (): JSX.Element => {
-  const [isUserNamePicked, setUserNamePicked] = useState<boolean | undefined>(
-    undefined
-  )
+const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
+  const [isUserNamePicked, setUserNamePicked] = useState<boolean>()
   const [selectedCountry, setSelectedCountry] = useState('NG')
-  const { user, setUser } = useAuth()
-  const { auth, getUsers } = useApi()
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const { register, getUsers } = useApi()
   const toast = useToast()
 
   const initialValues = {
@@ -54,7 +53,7 @@ const SignUp = (): JSX.Element => {
     firstName: '',
     phoneNumber: '',
     address: { country: '' }
-  } as CreateUserDto
+  } as RegisterUserPayloadDto
 
   const formik = useFormik({
     initialValues,
@@ -62,15 +61,23 @@ const SignUp = (): JSX.Element => {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         setSubmitting(true)
-        const res = await auth(values)
+        const res = await register(values)
         toast({
-          description: res.message,
+          title: res.message,
+          description: `An OTP has been sent to ${res.data?.phoneNumber}`,
           status: 'success',
           duration: 5000,
           position: 'top-right'
         })
-        setUser(res.data)
         resetForm({})
+        history.push(
+          `/auth/${btoa(
+            JSON.stringify({
+              phoneNumber: res.data?.phoneNumber || '',
+              pinId: res.otpResponse?.pinId || ''
+            })
+          )}`
+        )
       } catch (error) {
         toast({
           title: 'Error occurred',
@@ -89,11 +96,11 @@ const SignUp = (): JSX.Element => {
   })
 
   const {
-    // dirty,
+    dirty,
     values,
     errors,
     touched,
-    // isValid,
+    isValid,
     handleBlur,
     handleChange,
     handleSubmit,
@@ -120,7 +127,7 @@ const SignUp = (): JSX.Element => {
           name="description"
           content="Create an account. For user to use our application they have to create and account"
         />
-        <title>Create an Account</title>
+        <title>Oja's | Create Account</title>
         <link rel="canonical" href="/auth/login" />
       </Helmet>
       <Flex w="full" h="100vh" bgColor="white">
@@ -128,7 +135,7 @@ const SignUp = (): JSX.Element => {
           <Box>
             <Box mb={10}>
               <Heading textAlign="center" fontWeight={600} fontSize="3xl">
-                Create an account
+                Create Account
               </Heading>
               <Text textAlign="center" fontSize="md" color="gray.700">
                 Let's make your savings come true
@@ -193,17 +200,18 @@ const SignUp = (): JSX.Element => {
                     type="userName"
                     name="userName"
                     onBlur={async e => {
+                      setUserNamePicked(false)
                       handleBlur(e)
                       try {
+                        setLoading(true)
                         const res = await getUsers({
                           userName: e.target.value
                         })
-                        if (res.length) {
-                          setUserNamePicked(true)
-                        }
+                        if (res.length) setUserNamePicked(true)
                       } catch (err) {
-                        // throw error
                         console.log(err)
+                      } finally {
+                        setLoading(false)
                       }
                     }}
                     onChange={e => {
@@ -211,9 +219,9 @@ const SignUp = (): JSX.Element => {
                       handleChange(e)
                     }}
                     error={
-                      errors.userName || isUserNamePicked
+                      isUserNamePicked
                         ? 'Username already picked'
-                        : ''
+                        : errors.userName
                     }
                     label="Username"
                     touched={!!touched.userName || !!isUserNamePicked}
@@ -224,6 +232,9 @@ const SignUp = (): JSX.Element => {
                         as={UserNameIcon()}
                         color={isUserNamePicked ? 'red.500' : ''}
                       />
+                    }
+                    rightAddon={
+                      isLoading ? <SmallSpinner thickness="2px" /> : undefined
                     }
                     placeholder="JohnDoe1"
                   />
@@ -298,6 +309,7 @@ const SignUp = (): JSX.Element => {
                     name="phoneNumber"
                     label="Phone Number"
                     onBlur={handleBlur}
+                    countryId="address.country"
                     error={errors.phoneNumber}
                     _focus={{ outline: 'none' }}
                     setFieldValue={setFieldValue}
@@ -313,6 +325,7 @@ const SignUp = (): JSX.Element => {
                     px={8}
                     w="full"
                     d="flex"
+                    type="submit"
                     color="white"
                     bgColor="ojaDark"
                     title="Create your account"
@@ -321,11 +334,10 @@ const SignUp = (): JSX.Element => {
                     rightIcon={
                       <FiArrowRight fontSize={20} className="auth-btn-arrow" />
                     }
-                    isDisabled={isSubmitting}
+                    isDisabled={
+                      isSubmitting || !(dirty && isValid) || isUserNamePicked
+                    }
                     isLoading={isSubmitting}
-                    onClick={() => {
-                      setUserNamePicked(true)
-                    }}
                   />
                 </GridItem>
               </Grid>
@@ -367,4 +379,8 @@ const SignUp = (): JSX.Element => {
   )
 }
 
-export default SignUp
+Register.propTypes = {
+  history: PropTypes.any.isRequired
+}
+
+export default Register

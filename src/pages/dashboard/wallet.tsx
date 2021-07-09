@@ -5,7 +5,7 @@ import { Box, Text, Icon, Flex, Grid, GridItem } from '@chakra-ui/react'
 const Wallet = (): JSX.Element => {
   return (
     <Wrapper
-      title="Wallet | Dashboard"
+      title="Oja's | Dashboard | Wallet"
       href="/dashboard/wallet"
       content="This is the application dashboard wallet page"
     >

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { useFormik } from 'formik'
 import {
@@ -13,7 +14,7 @@ import {
   GridItem,
   useToast
 } from '@chakra-ui/react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, RouteComponentProps } from 'react-router-dom'
 import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
 import { FiUser, FiArrowRight } from 'react-icons/fi'
 import { FaFacebookSquare } from 'react-icons/fa'
@@ -23,11 +24,12 @@ import { CustomButton } from 'components/Auth'
 import useApi from 'context/Api'
 import useAuth from 'context/Auth'
 
-import { ILoginDto } from 'interface/user.interface'
+import { LoginDto } from 'interface/user.interface'
+import { LoginSchema } from 'utils/validator-schemas'
 
-const Login = (): JSX.Element => {
-  const { rememberMe, setUser, setRememberMe } = useAuth()
-  const { auth } = useApi()
+const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
+  const { rememberMe, setRememberMe } = useAuth()
+  const { login } = useApi()
   const toast = useToast()
 
   const formik = useFormik({
@@ -35,21 +37,28 @@ const Login = (): JSX.Element => {
       email: '',
       password: ''
     },
-    // validationSchema
-    onSubmit: async (values: ILoginDto, { setSubmitting, resetForm }) => {
+    validationSchema: LoginSchema,
+    onSubmit: async (values: LoginDto, { setSubmitting, resetForm }) => {
       try {
         setSubmitting(true)
-        const res = await auth(values)
+        const res = await login(values)
         toast({
           description: res.message,
           status: 'success',
           duration: 5000,
           position: 'top-right'
         })
-        resetForm({})
+        history.push(
+          `/auth/${btoa(
+            JSON.stringify({
+              phoneNumber: res.data?.phoneNumber || '',
+              pinId: res.otpResponse?.pin_id || ''
+            })
+          )}`
+        )
       } catch (error) {
         toast({
-          title: 'Error occured',
+          title: 'Error occurred',
           description:
             error?.message ||
             error?.data?.message ||
@@ -69,7 +78,7 @@ const Login = (): JSX.Element => {
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content="This is the application login page" />
-        <title>Login</title>
+        <title>Oja's | Login</title>
         <link rel="canonical" href="/auth/login" />
       </Helmet>
       <Flex w="full" h="100vh" bgColor="white">
@@ -203,6 +212,10 @@ const Login = (): JSX.Element => {
       </Flex>
     </>
   )
+}
+
+Login.propTypes = {
+  history: PropTypes.any.isRequired
 }
 
 export default Login

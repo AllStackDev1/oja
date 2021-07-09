@@ -1,5 +1,5 @@
-// import * as _ from 'lodash'
-
+import _ from 'lodash'
+import moment from 'moment'
 import { IPhoneInputData } from 'interface/helpers.interface'
 
 export const getFormattedDate = (date: string): string => {
@@ -47,3 +47,16 @@ export const phoneInputData = (): IPhoneInputData => {
 
   return { countries, customLabels, data }
 }
+
+export const upperFirst = (str: string): string => _.upperFirst(str)
+
+export const getSentence = (str: string): string => {
+  const x = str.replace(/([A-Z])/g, ' $1')
+  console.log(x)
+  return x.replace(/^./, function (str) {
+    return str.toLowerCase()
+  })
+}
+
+export const sec2min = (secs: number): string =>
+  moment.utc(secs * 1000).format('mm:ss')

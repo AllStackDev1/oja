@@ -25,17 +25,12 @@ const CustomOTPInput: React.FC<ICustomOTPInput> = ({
         hasErrored={!!error}
         separator={<Text as="span"> </Text>}
         className="otp-input"
-        errorStyle={{ borderColor: '#00D0BE' }}
+        errorStyle={{ borderColor: 'var(--chakra-colors-red-500)' }}
         containerStyle={{ justifyContent: 'space-around' }}
         {...rest}
       />
-      {error && (
-        <Text
-          align="left"
-          mt={1}
-          color="red.500"
-          fontSize={{ base: 'xs', lg: 'sm' }}
-        >
+      {!!error && (
+        <Text mt={3} fontSize="xs" color="red.500">
           {error}
         </Text>
       )}

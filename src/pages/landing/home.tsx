@@ -14,7 +14,7 @@ const Home = (): JSX.Element => {
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content="This is the landing page" />
-        <title>Home</title>
+        <title>Oja's | Home</title>
         <link rel="canonical" href="/home" />
       </Helmet>
       <HeroSection />

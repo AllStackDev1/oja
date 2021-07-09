@@ -12,7 +12,7 @@ import {
 const Home = (): JSX.Element => {
   return (
     <Wrapper
-      title="Home | Dashboard"
+      title="Oja's | Dashboard | Home"
       href="/dashboard/home"
       content="This is the application dashboard home page"
     >

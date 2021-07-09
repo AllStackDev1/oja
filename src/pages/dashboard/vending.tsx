@@ -14,7 +14,7 @@ const VentTo = (): JSX.Element => {
   const [viewSummary, setViewSummary] = React.useState(false)
   return (
     <Wrapper
-      title="Vending | Dashboard"
+      title="Oja's | Dashboard | Vending"
       href="/dashboard/vending"
       content="This is the application dashboard vent to page"
     >

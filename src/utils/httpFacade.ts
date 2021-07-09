@@ -3,7 +3,7 @@ import { IDelete, IGet, IPatch, IPost, IPut } from 'interface/http.interface'
 import QueryString from 'query-string'
 
 class HttpFacade {
-  public http
+  private http
   constructor() {
     this.http = axios.create({
       headers: { 'Content-Type': 'application/json' }

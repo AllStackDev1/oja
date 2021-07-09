@@ -11,14 +11,16 @@ interface CustomPhoneInput extends InputProps {
   error?: string
   label?: string
   touched: boolean
+  countryId?: string
   selectedCountry: string
   setFieldValue(e: string, i: string): void
   setSelectedCountry(e: string): void
 }
 
 const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
-  selectedCountry,
+  countryId,
   setFieldValue,
+  selectedCountry,
   setSelectedCountry,
   ...rest
 }) => {
@@ -27,6 +29,7 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
   return (
     <CustomInputGroup
       onChange={e => {
+        countryId && setFieldValue(countryId, data[selectedCountry].name)
         setFieldValue(
           e.target.id,
           [

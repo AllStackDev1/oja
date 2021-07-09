@@ -3,7 +3,7 @@ import { Spinner, SpinnerProps } from '@chakra-ui/react'
 
 const SmallSpinner: React.FC<SpinnerProps> = props => (
   <Spinner
-    thickness="4px"
+    thickness={props.thickness || '4px'}
     speed="0.65s"
     size="sm"
     emptyColor="gray.200"

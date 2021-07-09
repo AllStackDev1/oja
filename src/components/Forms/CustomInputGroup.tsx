@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  Box,
   Fade,
   Text,
   Input,
@@ -60,13 +61,25 @@ const CustomInputGroup: React.FC<ICustomInputGroup> = ({
         )}
       </InputGroup>
       <Fade in={!!error && touched}>
-        <Text
-          pos="absolute"
-          fontSize="xs"
-          color={!!error && touched ? 'red.500' : ''}
-        >
-          {error}
-        </Text>
+        {!!error && touched && (
+          <Box
+            borderBottomRadius="md"
+            zIndex={10}
+            bgColor="white"
+            pos="absolute"
+            w="full"
+            shadow="md"
+            p={3}
+          >
+            <Text
+              fontSize="xs"
+              color="red.500"
+              dangerouslySetInnerHTML={{
+                __html: error
+              }}
+            />
+          </Box>
+        )}
       </Fade>
     </FormControl>
   )

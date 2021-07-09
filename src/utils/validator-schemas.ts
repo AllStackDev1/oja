@@ -2,15 +2,24 @@ import * as yup from 'yup'
 import validator from 'validator'
 
 export const RegistrationSchema = yup.object().shape({
-  firstName: yup.string().required('This field is required*'),
-  lastName: yup.string().required('This field is required*'),
-  userName: yup.string().required('This field is required*'),
+  firstName: yup
+    .string()
+    .min(2, 'First name requires a minimum of 2 characters')
+    .required('First name is required*'),
+  lastName: yup
+    .string()
+    .min(2, 'Last name requires a minimum of 2 characters')
+    .required('Last name is required*'),
+  userName: yup
+    .string()
+    .min(4, 'Username requires a minimum of 4 characters')
+    .required('Username is required*'),
   email: yup
     .string()
     .email('Provide a valid email address*')
-    .required('This field is required*'),
+    .required('Email is required*'),
   address: yup.object({
-    country: yup.string().required('This field is required*')
+    country: yup.string().required('Country is required*')
   }),
   phoneNumber: yup
     .string()
@@ -22,7 +31,7 @@ export const RegistrationSchema = yup.object().shape({
           ? validator.isMobilePhone(value, 'any', { strictMode: true })
           : true
     )
-    .required('This field is required*'),
+    .required('Phone number is required*'),
   password: yup
     .string()
     .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, {
@@ -35,38 +44,60 @@ export const RegistrationSchema = yup.object().shape({
         A character <br/> 
     `
     })
-    .required('This field is required*'),
+    .required('Password is required*'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords do not match*')
-    .required('This field is required*')
+    .required('Confirm your password*')
 })
 
 export const LoginSchema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid email')
-    .required('This field is required*'),
-  password: yup.string().required('This field is required*')
+    .email('Provide a valid email address*')
+    .required('Email is required*'),
+  password: yup.string().required('Password is required*')
 })
 
 export const ForgotPassSchema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid email!')
-    .required('This field is required*')
+    .email('Provide a valid email address*')
+    .required('Email is required*')
 })
 
 export const ResetPasswordSchema = yup.object().shape({
   password: yup
     .string()
     .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, {
-      message:
-        'Minimum 8 characters, at least an uppercase, lowercase, number and special character*'
+      message: `
+        Provide a minimum 8 characters with; <br/> 
+        An uppercase <br/> 
+        A lowercase <br/> 
+        A number <br/> 
+        A special <br/> 
+        A character <br/> 
+    `
     })
-    .required('This field is required*'),
+    .required('Password is required*'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords do not match!')
-    .required('This field is required*')
+    .required('Confirm your password*')
+})
+
+export const OtpVerifySchema = yup.object().shape({
+  code: yup.string().required('This field is required*'),
+  pinId: yup.string().required('This field is required*')
+  // to: yup
+  //   .string()
+  //   .test(
+  //     'valid',
+  //     'Provide a valid phone number, exclude country code*',
+  //     value =>
+  //       value
+  //         ? validator.isMobilePhone(value, 'any', { strictMode: true })
+  //         : true
+  //   )
+  //   .required('This field is required*')
 })

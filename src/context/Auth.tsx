@@ -6,9 +6,11 @@ import { UserDto } from 'interface/user.interface'
 const AuthContext = createContext({})
 
 export const AuthContextProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<Record<string, string> | undefined>()
-  const [session, setSession] = useState<boolean>(true)
-  const [rememberMe, setRememberMe] = useState<boolean>(false)
+  const [user, setUser] = useState<UserDto | undefined>()
+  const [session, setSession] = useState(true)
+  const [rememberMe, setRememberMe] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const store = ({ authToken, user }: IStore) => {
     if (authToken) {
@@ -60,8 +62,12 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         session,
         setSession,
         rememberMe,
+        errorMessage,
         setRememberMe,
-        isAuthenticated
+        successMessage,
+        setErrorMessage,
+        isAuthenticated,
+        setSuccessMessage
       }}
     >
       {children}

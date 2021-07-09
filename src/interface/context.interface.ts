@@ -1,4 +1,13 @@
-import { CreateUserDto, ILoginDto, UserDto } from './user.interface'
+import {
+  RegisterUserPayloadDto,
+  RegisterUserResponseDto,
+  LoginDto,
+  UserDto,
+  VerifyOtpPayloadDto,
+  VerifyOtpStatus,
+  ResendOtpPayloadDto,
+  ResendOtpResponse
+} from './user.interface'
 
 export interface IAppContext {
   isOpen: boolean
@@ -11,10 +20,10 @@ export interface IAppContext {
 }
 
 export interface IApiContext {
-  register(e: CreateUserDto): Promise<Record<string, Record<string, string>>>
-  auth(e: ILoginDto): Promise<Record<string, Record<string, string>>>
-  verifyOTP(e: string): Promise<void>
-  resendCode(e: string): Promise<void>
+  register(e: RegisterUserPayloadDto): Promise<RegisterUserResponseDto>
+  verifyOTP(e: VerifyOtpPayloadDto): Promise<VerifyOtpStatus>
+  login(e: LoginDto): Promise<Record<string, Record<string, string>>>
+  resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
   getUser(e: string): Promise<void>
   getUsers(
     e: Record<string, string>
@@ -37,9 +46,17 @@ export interface IAuthContext {
   rememberMe: boolean
   store(e: IStore): void
   isAuthenticated(): void
-  setRememberMe: React.Dispatch<React.SetStateAction<boolean>>
+  setRememberMe(e: boolean): React.Dispatch<React.SetStateAction<boolean>>
   setUser(
-    e?: Record<string, string>
-  ): React.Dispatch<React.SetStateAction<Record<string, string> | undefined>>
-  setSession(): React.Dispatch<React.SetStateAction<boolean>>
+    e?: UserDto
+  ): React.Dispatch<React.SetStateAction<UserDto | undefined>>
+  setSession(e: boolean): React.Dispatch<React.SetStateAction<boolean>>
+  errorMessage?: string
+  successMessage?: string
+  setErrorMessage(
+    e: string | null
+  ): React.Dispatch<React.SetStateAction<boolean>>
+  setSuccessMessage(
+    e: string | null
+  ): React.Dispatch<React.SetStateAction<boolean>>
 }
