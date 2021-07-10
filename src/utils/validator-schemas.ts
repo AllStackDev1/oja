@@ -88,7 +88,8 @@ export const ResetPasswordSchema = yup.object().shape({
 
 export const OtpVerifySchema = yup.object().shape({
   code: yup.string().required('This field is required*'),
-  pinId: yup.string().required('This field is required*')
+  pinId: yup.string().required('This field is required*'),
+  expiresIn: yup.string()
   // to: yup
   //   .string()
   //   .test(

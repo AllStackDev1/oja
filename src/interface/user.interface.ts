@@ -55,5 +55,6 @@ export interface LoginDto {
 export interface UserDto extends RegisterUserPayloadDto {
   avatar: string
   dateOfBirth: Date
+  isEmailVerified: boolean
   status: string
 }

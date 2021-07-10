@@ -8,15 +8,14 @@ import Landing from 'pages/landing'
 import Dashboard from 'pages/dashboard'
 import NotFound from 'pages/404'
 
-// import PrivateRoute from './private'
-// {/* <PrivateRoute path='/dashboard' component={Dashboard} /> */}
+import PrivateRoute from './private'
 
 const Router = (): JSX.Element => {
   return (
     <React.Suspense fallback={<Splash />}>
       <Switch>
         <Route path="/auth" component={Auth} />
-        <Route path="/dashboard" component={Dashboard} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
         <Route path="/404" component={NotFound} />
         <Route path="/" component={Landing} />
       </Switch>

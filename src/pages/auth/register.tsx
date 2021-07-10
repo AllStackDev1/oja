@@ -320,7 +320,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                   />
                 </GridItem>
                 {/* form btn */}
-                <GridItem colSpan={2} pos="relative">
+                <GridItem colSpan={2}>
                   <CustomButton
                     px={8}
                     w="full"
@@ -328,6 +328,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                     type="submit"
                     color="white"
                     bgColor="ojaDark"
+                    isLoading={isSubmitting}
                     title="Create your account"
                     _hover={{ bgColor: 'ojaDark' }}
                     fontSize={{ base: 'sm', xl: 'md' }}
@@ -337,7 +338,6 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                     isDisabled={
                       isSubmitting || !(dirty && isValid) || isUserNamePicked
                     }
-                    isLoading={isSubmitting}
                   />
                 </GridItem>
               </Grid>

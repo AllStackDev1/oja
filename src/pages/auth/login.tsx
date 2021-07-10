@@ -43,22 +43,24 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
         setSubmitting(true)
         const res = await login(values)
         toast({
-          description: res.message,
+          title: 'Login successful',
+          description: `An OTP has been sent to ${res.message?.to}`,
           status: 'success',
           duration: 5000,
           position: 'top-right'
         })
+        resetForm({})
         history.push(
           `/auth/${btoa(
             JSON.stringify({
-              phoneNumber: res.data?.phoneNumber || '',
-              pinId: res.otpResponse?.pin_id || ''
+              phoneNumber: res.message?.to || '',
+              pinId: res.message?.pinId || ''
             })
           )}`
         )
       } catch (error) {
         toast({
-          title: 'Error occurred',
+          title: `${error?.statusText} ${error?.status}`,
           description:
             error?.message ||
             error?.data?.message ||
@@ -72,6 +74,18 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       }
     }
   })
+
+  const {
+    dirty,
+    values,
+    errors,
+    touched,
+    isValid,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isSubmitting
+  } = formik
 
   return (
     <>
@@ -91,7 +105,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
               Lets make your savings come true
             </Text>
           </Box>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <Grid rowGap={2}>
               <GridItem>
                 <CustomInputGroup
@@ -104,13 +118,13 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                   name="email"
                   label="Email address"
                   _focus={{ outline: 'none' }}
-                  onBlur={formik.handleBlur}
-                  error={formik.errors.email}
+                  onBlur={handleBlur}
+                  error={errors.email}
                   leftAddon={<Icon as={FiUser} />}
-                  onChange={formik.handleChange}
+                  onChange={handleChange}
                   placeholder="example@gmail.com"
-                  touched={!!formik.touched.email}
-                  defaultValue={formik.values.email}
+                  touched={!!touched.email}
+                  defaultValue={values.email}
                 />
               </GridItem>
               <GridItem>
@@ -121,28 +135,31 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                   id="password"
                   name="password"
                   label="Password"
-                  onBlur={formik.handleBlur}
+                  onBlur={handleBlur}
                   placeholder="Your password"
                   _focus={{ outline: 'none' }}
-                  error={formik.errors.password}
-                  onChange={formik.handleChange}
-                  touched={!!formik.touched.password}
-                  defaultValue={formik.values.password}
+                  error={errors.password}
+                  onChange={handleChange}
+                  touched={!!touched.password}
+                  defaultValue={values.password}
                 />
               </GridItem>
-              <GridItem mt={3} pos="relative">
+              <GridItem mt={3}>
                 <CustomButton
                   px={8}
                   w="full"
                   d="flex"
+                  type="submit"
                   color="white"
                   bgColor="ojaDark"
+                  isLoading={isSubmitting}
                   _hover={{ bgColor: 'ojaDark' }}
                   title="Login into your account"
                   fontSize={{ base: 'sm', xl: 'md' }}
                   rightIcon={
                     <FiArrowRight fontSize={20} className="auth-btn-arrow" />
                   }
+                  isDisabled={isSubmitting || !(dirty && isValid)}
                 />
               </GridItem>
               <GridItem
@@ -152,9 +169,15 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                 justifyContent="space-between"
               >
                 <Checkbox
-                  isChecked={rememberMe}
                   size="md"
-                  onClick={() => setRememberMe(!rememberMe)}
+                  isChecked={rememberMe}
+                  onChange={e => {
+                    setRememberMe(e.target.checked)
+                    sessionStorage.setItem(
+                      'remember-me',
+                      String(e.target.checked)
+                    )
+                  }}
                 >
                   <Text fontSize="xs">Remember Me (60days)</Text>
                 </Checkbox>

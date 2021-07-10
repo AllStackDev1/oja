@@ -1,31 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Route, useHistory } from 'react-router-dom'
+import { Route, RouteComponentProps, useHistory } from 'react-router-dom'
 
-import useAuth from 'context/auth'
+import useAuth from 'context/Auth'
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+interface IProps {
+  readonly path?: string
+  component: React.ComponentType<RouteComponentProps>
+}
+
+const PrivateRoute: React.FC<IProps> = ({
+  component: Component,
+  ...rest
+}): JSX.Element => {
   const { isAuthenticated, session } = useAuth()
+  const { user, authToken } = isAuthenticated()
   const history = useHistory()
 
   React.useEffect(() => {
     if (!session) {
-      return history.push('/logout')
+      history.push('/auth/logout')
     }
   }, [session, history])
 
-  const getPage = props => {
-    if (isAuthenticated()) {
-      return <Component {...props} />
-    }
-    return history.replace('/')
-  }
-
-  return <Route {...rest} render={getPage} />
+  return (
+    <Route
+      {...rest}
+      render={(props: RouteComponentProps) => {
+        if (user && authToken) {
+          return <Component {...props} />
+        } else {
+          props.history.replace('/auth/login')
+          return null
+        }
+      }}
+    />
+  )
 }
 
 PrivateRoute.propTypes = {
-  component: PropTypes.any
+  component: PropTypes.any.isRequired
 }
 
 export default PrivateRoute

@@ -8,41 +8,46 @@ import {
   AlertDescription
 } from '@chakra-ui/react'
 
+type Status = 'info' | 'warning' | 'success' | 'error' | undefined
+
 interface IProps {
+  type?: Status
   desc?: string
+  isAutoClearable?: boolean
   errorMessage?: string
   successMessage?: string
 }
 
 const CustomAlert: React.FC<IProps> = ({
   desc,
+  type = 'info',
   errorMessage,
-  successMessage
+  successMessage,
+  isAutoClearable = false
 }) => {
   const [isVisible, setVisible] = React.useState(true)
 
   React.useEffect(() => {
-    const id = setTimeout(() => setVisible(false), 15000)
-    return () => {
-      clearTimeout(id)
+    if (isAutoClearable) {
+      const id = setTimeout(() => setVisible(false), 45000)
+      return () => {
+        clearTimeout(id)
+      }
     }
-  }, [])
+  }, [isAutoClearable])
 
   return (
-    <Alert
-      mt={4}
-      d={isVisible ? 'flex' : 'none'}
-      status={errorMessage ? 'error' : 'success'}
-    >
+    <Alert mt={4} d={isVisible ? 'flex' : 'none'} status={type}>
       <AlertIcon />
-      <AlertTitle color={errorMessage ? 'red.600' : 'green.600'} mr={2}>
-        {successMessage || errorMessage}
-      </AlertTitle>
-      {desc && (
-        <AlertDescription>
-          Your Chakra experience may be degraded.
-        </AlertDescription>
+      {(successMessage || errorMessage) && (
+        <AlertTitle
+          color={type ? '' : errorMessage ? 'red.600' : 'green.600'}
+          mr={5}
+        >
+          {successMessage || errorMessage}
+        </AlertTitle>
       )}
+      {desc && <AlertDescription mr={5}>{desc}</AlertDescription>}
       <CloseButton
         position="absolute"
         right="8px"

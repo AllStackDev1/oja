@@ -8,48 +8,42 @@ const AuthContext = createContext({})
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<UserDto | undefined>()
   const [session, setSession] = useState(true)
-  const [rememberMe, setRememberMe] = useState(false)
+  const [rememberMe, setRememberMe] = useState<boolean>(
+    !!sessionStorage.getItem('remember-me')
+  )
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
   const store = ({ authToken, user }: IStore) => {
     if (authToken) {
       if (rememberMe) {
-        window.localStorage.setItem('_ojaut_', authToken)
+        localStorage.setItem('_ojaut_', authToken)
       } else {
-        window.sessionStorage.setItem('_ojaut_', authToken)
+        sessionStorage.setItem('_ojaut_', authToken)
       }
     }
     if (user) {
-      if (rememberMe) {
-        window.localStorage.setItem('_ojauu_', JSON.stringify(user))
-      } else {
-        window.sessionStorage.setItem('_ojauu_', JSON.stringify(user))
-      }
+      sessionStorage.setItem('_ojauu_', JSON.stringify(user))
     }
   }
 
-  const isAuthenticated = () => {
-    const _ojaut_ =
-      window.sessionStorage.getItem('_ojaut_') ||
-      window.localStorage.getItem('_ojaut_')
-    const _ojauu_ =
-      window.sessionStorage.getItem('_ojauu_') ||
-      window.localStorage.getItem('_ojauu_')
-    if (_ojaut_ && _ojauu_) {
-      return { token: _ojaut_, user: JSON.parse(_ojauu_) as UserDto }
+  const isAuthenticated = (): IStore => {
+    const _token =
+      sessionStorage.getItem('_ojaut_') || localStorage.getItem('_ojaut_')
+    const _user = sessionStorage.getItem('_ojauu_')
+    if (_token && _user) {
+      return { authToken: _token, user: JSON.parse(_user) as UserDto }
     } else {
-      return { token: null, user: null }
+      return {}
     }
   }
 
   const logout = () => {
     setSession(false)
     setUser(undefined)
-    window.localStorage.removeItem('_ojauu_')
-    window.localStorage.removeItem('_ojaut_')
-    window.sessionStorage.removeItem('_ojauu_')
-    window.sessionStorage.removeItem('_ojaut_')
+    localStorage.clear()
+    sessionStorage.clear()
+    sessionStorage.clear()
   }
 
   return (

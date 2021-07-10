@@ -24,6 +24,7 @@ export interface IApiContext {
   verifyOTP(e: VerifyOtpPayloadDto): Promise<VerifyOtpStatus>
   login(e: LoginDto): Promise<Record<string, Record<string, string>>>
   resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
+  verifyEmail(e: string): Promise<any>
   getUser(e: string): Promise<void>
   getUsers(
     e: Record<string, string>
@@ -45,7 +46,7 @@ export interface IAuthContext {
   session: boolean
   rememberMe: boolean
   store(e: IStore): void
-  isAuthenticated(): void
+  isAuthenticated(): IStore
   setRememberMe(e: boolean): React.Dispatch<React.SetStateAction<boolean>>
   setUser(
     e?: UserDto

@@ -37,6 +37,10 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     })
   }
 
+  const verifyEmail = async (token: string) => {
+    return await http.patch({ url: `${URL}/verify-email/${token}` })
+  }
+
   const login = async (payload: any) => {
     return await http.post({
       url: `${URL}/login`,
@@ -91,6 +95,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         resendOTP,
         updateUser,
         deleteUser,
+        verifyEmail,
         deleteUsers,
         updateProfile
       }}

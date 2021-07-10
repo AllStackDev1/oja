@@ -30,12 +30,13 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
   },
   history
 }): JSX.Element => {
-  const [counter, setCounter] = React.useState(5)
+  const [counter, setCounter] = React.useState(300)
   const [loading, setLoading] = React.useState(false)
   const [data, setData] = React.useState<IData>()
 
   const {
     store,
+    rememberMe,
     successMessage,
     errorMessage,
     setErrorMessage,
@@ -61,7 +62,8 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
     enableReinitialize: true,
     initialValues: {
       code: '',
-      pinId: data?.pinId
+      pinId: data?.pinId,
+      expiresIn: rememberMe ? '60d' : '7d'
       // to: data.phoneNumber
     },
     validationSchema: OtpVerifySchema,
@@ -70,6 +72,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
         setSubmitting(true)
         const res = await verifyOTP(values)
         toast({
+          title: 'Access granted (200)',
           description: res.message,
           status: 'success',
           duration: 5000,
@@ -197,6 +200,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
             </Box>
             {(successMessage || errorMessage) && (
               <CustomAlert
+                type={successMessage ? 'success' : 'error'}
                 successMessage={successMessage}
                 errorMessage={errorMessage}
               />

@@ -5,8 +5,8 @@ import { Button, ButtonProps } from '@chakra-ui/react'
 const CustomButton: React.FC<ButtonProps> = ({ title, ...props }) => {
   return (
     <Button
+      h={54}
       rounded="sm"
-      h={{ xl: '54' }}
       fontWeight={600}
       letterSpacing="0.36px"
       _focus={{ outline: 'none' }}
