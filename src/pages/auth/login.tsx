@@ -197,7 +197,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
               >
                 <Text>
                   Don’t have an account?{' '}
-                  <Link as={NavLink} fontWeight="bold" to="/auth/sign">
+                  <Link as={NavLink} fontWeight="bold" to="/auth/register">
                     Register
                   </Link>
                 </Text>
