@@ -105,6 +105,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
 
   const handleResendCode = async () => {
     try {
+      setCounter(300)
       setLoading(true)
       const res = await resendOTP({ phoneNumber: data?.phoneNumber || '' })
       setErrorMessage(null)
@@ -168,7 +169,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
                 color="white"
                 bgColor="ojaDark"
                 _hover={{ bgColor: 'ojaDark' }}
-                title="Create your account"
+                title="Authenticate..."
                 fontSize={{ base: 'sm', xl: 'md' }}
                 rightIcon={
                   <FiArrowRight fontSize={20} className="auth-btn-arrow" />
