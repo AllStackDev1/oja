@@ -10,7 +10,7 @@ export const RegistrationSchema = yup.object().shape({
     .string()
     .min(2, 'Last name requires a minimum of 2 characters')
     .required('Last name is required*'),
-  userName: yup
+  username: yup
     .string()
     .min(4, 'Username requires a minimum of 4 characters')
     .required('Username is required*'),

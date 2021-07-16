@@ -1,59 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
+// import { useToast } from '@chakra-ui/react'
 
 import http from 'utils/httpFacade'
 import { BASE_URL } from 'utils/configs'
 import {
+  IApiContext,
   UpdateUserDto,
   VerifyOtpPayloadDto,
-  RegisterUserPayloadDto,
-  ResendOtpPayloadDto
-} from 'interface/user.interface'
-import { IApiContext } from 'interface/context.interface'
+  ResendOtpPayloadDto,
+  RegisterUserPayloadDto
+} from 'interface'
 
 const ApiContext = createContext({})
 
 export const ApiContextProvider: React.FC = ({ children }) => {
-  const URL = BASE_URL + '/auth'
+  // const token = useToast()
+
+  // #region AUTH
   const register = async (payload: RegisterUserPayloadDto) => {
     return await http.post({
-      url: `${URL}/register`,
+      url: `${BASE_URL}/auth/register`,
       body: JSON.stringify(payload)
     })
   }
 
   const verifyOTP = async (payload: VerifyOtpPayloadDto) => {
     return await http.post({
-      url: `${URL}/verify-otp`,
+      url: `${BASE_URL}/auth/verify-otp`,
       body: JSON.stringify(payload)
     })
   }
 
   const resendOTP = async (payload: ResendOtpPayloadDto) => {
     return await http.post({
-      url: `${URL}/resend-otp`,
+      url: `${BASE_URL}/auth/resend-otp`,
       body: JSON.stringify(payload)
     })
   }
 
   const verifyEmail = async (token: string) => {
-    return await http.patch({ url: `${URL}/verify-email/${token}` })
+    return await http.patch({ url: `${BASE_URL}/auth/verify-email/${token}` })
   }
 
   const login = async (payload: any) => {
     return await http.post({
-      url: `${URL}/login`,
+      url: `${BASE_URL}/auth/login`,
       body: JSON.stringify(payload)
     })
+  }
+  // #endregion
+
+  // #region USER
+  const getUser = async (id: string) => {
+    return await http.get({ url: `${BASE_URL}/users/${id}` })
   }
 
   const getUsers = async (query: Record<string, any>) => {
     return await http.get({ url: `${BASE_URL}/users`, query })
   }
 
-  const getUser = async (id: string) => {
-    return await http.get({ url: `${BASE_URL}/users/${id}` })
+  const getUsersCount = async (query: Record<string, any>) => {
+    return await http.get({ url: `${BASE_URL}/users/count`, query })
   }
 
   const updateProfile = async (payload: UpdateUserDto) => {
@@ -84,6 +93,12 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
   // #endregion
 
+  // #region COUNTRY
+  const getCountries = async (query: Record<string, any>) => {
+    return await http.get({ url: `${BASE_URL}/countries`, query })
+  }
+  // #endregion
+
   return (
     <ApiContext.Provider
       value={{
@@ -97,6 +112,8 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         deleteUser,
         verifyEmail,
         deleteUsers,
+        getCountries,
+        getUsersCount,
         updateProfile
       }}
     >

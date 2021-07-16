@@ -1,3 +1,4 @@
+// import { ResponsePayload } from './helpers.interface'
 import {
   RegisterUserPayloadDto,
   RegisterUserResponseDto,
@@ -24,10 +25,16 @@ export interface IApiContext {
   verifyOTP(e: VerifyOtpPayloadDto): Promise<VerifyOtpStatus>
   login(e: LoginDto): Promise<Record<string, Record<string, string>>>
   resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
-  verifyEmail(e: string): Promise<any>
+  verifyEmail(e: string): Promise<unknown>
   getUser(e: string): Promise<void>
   getUsers(
-    e: Record<string, string>
+    e?: Record<string, string>
+  ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
+  getUsersCount(
+    e?: Record<string, string>
+  ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
+  getCountries(
+    e?: Record<string, string | boolean>
   ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
   updateUser(id: string, p: Record<string, string>): Promise<void>
   deleteUser(id: string): Promise<void>

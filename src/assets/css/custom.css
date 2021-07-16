@@ -121,14 +121,18 @@ input:-webkit-autofill:active {
   }
 
   .menu-flags ul {
+    padding-top: 0;
+    padding-bottom: 0;
+    width: inherit;
     font-weight: 700;
     font-size: 18px !important;
     background-color: #011e28 !important;
   }
 
-
-  #hero-form .menu-flags ul li {
-    padding-left: 25px !important;
+  .menu-flags ul li {
+    display: flex;
+    justify-content:space-around;
+    padding: 10px 0px !important;
   }
 
   .menu-flags ul li svg {

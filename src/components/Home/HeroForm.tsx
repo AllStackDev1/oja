@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFormik } from 'formik'
+import PropTypes from 'prop-types'
 import ReactFlagsSelect from 'react-flags-select'
 import {
   Box,
@@ -8,109 +8,111 @@ import {
   Text,
   Button,
   Divider,
-  useToast,
   Collapse,
   useDisclosure
 } from '@chakra-ui/react'
-import { CustomInput } from 'components/Forms'
 import {
-  FiChevronDown,
-  FiChevronRight,
   FiMinus,
-  FiPlusCircle
+  FiPlusCircle,
+  FiChevronDown,
+  FiChevronRight
 } from 'react-icons/fi'
+
 import { EqualIcon } from 'components/SVG'
+import { CustomInput } from 'components/Forms'
+import { IPhoneInputData } from 'interface'
+import { formatMoney } from 'utils/helpers'
 
-const HeroForm = (): JSX.Element => {
+const HeroForm: React.FC<IPhoneInputData> = ({
+  data,
+  countries,
+  customLabels
+}): JSX.Element => {
+  const [_in, setIn] = React.useState({ amount: 1000, code: 'US' })
+  const [_out, setOut] = React.useState({ amount: 0, code: 'NG' })
+  const [_rate, setRate] = React.useState(1)
   const { isOpen, onToggle } = useDisclosure()
-  const toast = useToast()
 
-  const formik = useFormik({
-    initialValues: {
-      inValue: '',
-      outValue: '',
-      inCountry: 'US',
-      outCountry: 'NG'
-    },
-    // validationSchema
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        setSubmitting(true)
-        // const res = await contactUs(values)
-        toast({
-          //   description: res.message,
-          status: 'success',
-          duration: 5000,
-          position: 'top-right'
-        })
-        resetForm({})
-      } catch (error) {
-        toast({
-          title: 'Error occured',
-          description:
-            error?.message ||
-            error?.data?.message ||
-            'Unexpected network error.',
-          status: 'error',
-          duration: 5000,
-          position: 'top-right'
-        })
-      } finally {
-        setSubmitting(false)
+  React.useEffect(() => {
+    const arr = Object.values(data || {})
+    const rates = arr?.find(d => d.code === _in.code)?.rates
+    if (rates) {
+      const rate = rates.find(r => r.name === _out.code)?.rate
+      if (rate) {
+        setRate(parseFloat(rate.$numberDecimal))
+        setOut(p => ({
+          ...p,
+          amount: _in.amount * parseFloat(rate.$numberDecimal)
+        }))
       }
     }
-  })
+  }, [data, _in.code, _out.code])
 
-  type IFormField = 'inValue' | 'outValue'
+  const formFields = [
+    {
+      id: 'in',
+      selected: _in.code,
+      placeholder: 'Enter an amount...',
+      onSelect: (code: string) => setIn(p => ({ ...p, code })),
+      countries: countries?.filter(c => c !== _out.code),
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIn(p => ({ ...p, amount: Number(e.target.value) || 1 }))
+        setOut(p => ({ ...p, amount: _rate * (Number(e.target.value) || 1) }))
+      }
+    },
+    {
+      id: 'out',
+      readOnly: true,
+      placeholder: '',
+      onChange: () => null,
+      countries: countries?.filter(c => c !== _in.code),
+      selected: _out.code,
+      onSelect: (code: string) => setOut(p => ({ ...p, code }))
+    }
+  ]
 
-  const formFields = ['in', 'out']
+  const getCurrency = (id: string) => {
+    const arr = Object.values(data || {})
+    return arr?.find(d => d.code === id)?.currency
+  }
 
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    setFieldValue,
-    handleSubmit
-  } = formik
-
-  const countriesLabels = { US: 'USD', GB: 'GBP', NG: 'NGR', GH: 'GHS' }
+  const _inCurrency = getCurrency(_in.code)
+  const _outCurrency = getCurrency(_out.code)
 
   return (
     <Box w="lg" id="hero-form">
-      <form style={{ marginTop: '2rem' }} onSubmit={handleSubmit}>
+      <Box mt={4}>
         {formFields.map((ff, i) => (
-          <Box key={ff}>
+          <Box key={i}>
             <Flex align="center" justify="space-between">
               <Box w={{ xl: '70%' }}>
                 <CustomInput
+                  min={1}
+                  id={ff.id}
                   rounded={0}
                   color="#000"
+                  name={ff.id}
                   type="number"
                   bgColor="white"
                   pl={{ xl: 10 }}
                   lineHeight="150%"
-                  id={`${ff}Value`}
-                  name={`${ff}Value`}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={ff.onChange}
                   fontSize={{ xl: '2xl' }}
-                  placeholder="USD 1,000.00"
+                  isReadOnly={ff.readOnly}
+                  placeholder={ff.placeholder}
                   h={{ base: 12, xl: '4.5rem' }}
-                  error={errors[`${ff}Value` as IFormField]}
-                  touched={!!touched[`${ff}Value` as IFormField]}
-                  defaultValue={values[`${ff}Value` as IFormField]}
+                  value={i === 0 ? _in.amount : _out.amount}
+                  cursor={ff.readOnly ? 'pointer' : 'inherit'}
                 />
               </Box>
               <Box w={{ xl: '28%' }}>
                 <ReactFlagsSelect
                   className="menu-flags"
-                  customLabels={countriesLabels}
-                  countries={Object.keys(countriesLabels)}
+                  selected={ff.selected}
+                  onSelect={ff.onSelect}
+                  countries={ff.countries}
+                  customLabels={customLabels}
                   selectButtonClassName="menu-flags-button"
-                  selected={values[`${ff}Country` as IFormField]}
-                  onSelect={code => setFieldValue(`${ff}Country`, code)}
                 />
               </Box>
             </Flex>
@@ -139,7 +141,7 @@ const HeroForm = (): JSX.Element => {
                 fontWeight={600}
                 letterSpacing="0.2px"
               >
-                Your Send
+                You Send
               </Text>
               <Text
                 fontSize="lg"
@@ -147,7 +149,7 @@ const HeroForm = (): JSX.Element => {
                 letterSpacing="0.2px"
                 fontFamily="Avenir Next"
               >
-                USD 1,022
+                {_inCurrency?.code} {formatMoney(_in.amount)}
               </Text>
             </Box>
             <Box
@@ -172,7 +174,7 @@ const HeroForm = (): JSX.Element => {
                 letterSpacing="0.2px"
                 fontFamily="Avenir Next"
               >
-                NGN 1,200.00
+                {getCurrency(_out.code)?.code} {formatMoney(_out.amount)}
               </Text>
             </Box>
           </Flex>
@@ -204,12 +206,13 @@ const HeroForm = (): JSX.Element => {
                   />
                   <Flex ml={4} align="center">
                     <Text fontSize="md" letterSpacing="-0.2px" fontWeight={600}>
-                      $2.5%
+                      {_inCurrency?.symbol}2.5%
                     </Text>
                     <Text ml={2} fontSize="xs" letterSpacing="-0.2px">
                       Transaction fee
                       <Text ml={1} as="span" fontWeight={600}>
-                        (= $15)
+                        (= {_inCurrency?.symbol}
+                        {0.025 * _in.amount})
                       </Text>
                     </Text>
                   </Flex>
@@ -223,12 +226,13 @@ const HeroForm = (): JSX.Element => {
                   />
                   <Flex ml={4} align="center">
                     <Text fontSize="md" letterSpacing="-0.2px" fontWeight={600}>
-                      $0.5%
+                      {_inCurrency?.symbol}0.5%
                     </Text>
                     <Text ml={2} fontSize="xs" letterSpacing="-0.2px">
                       with a
                       <Text mx={1} as="span" fontWeight={600}>
-                        $20 cap
+                        {_inCurrency?.symbol}
+                        {0.005 * _in.amount} cap
                       </Text>
                       Bank Settlement fee per pair
                     </Text>
@@ -243,10 +247,12 @@ const HeroForm = (): JSX.Element => {
                   />
                   <Flex ml={4} align="center" letterSpacing="-0.2px">
                     <Text fontSize="md" fontWeight={600}>
-                      ₦490
+                      {_outCurrency?.symbol}
+                      {_rate}
                     </Text>
                     <Text ml={2} fontSize="xs">
-                      Dollar to Naira conversion rate (2 hours)
+                      {_inCurrency?.name} to {_outCurrency?.name} conversion
+                      rate (2 hours)
                     </Text>
                   </Flex>
                 </Flex>
@@ -269,11 +275,14 @@ const HeroForm = (): JSX.Element => {
             </Button>
           </Box>
         </Box>
-      </form>
+      </Box>
     </Box>
   )
 }
 
-HeroForm.propTypes = {}
+HeroForm.propTypes = {
+  countries: PropTypes.any.isRequired,
+  customLabels: PropTypes.any.isRequired
+}
 
 export default HeroForm

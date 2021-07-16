@@ -1,7 +1,6 @@
 import React, { useState, createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { IAuthContext, IStore } from 'interface/context.interface'
-import { UserDto } from 'interface/user.interface'
+import { IAuthContext, IStore, UserDto } from 'interface'
 
 const AuthContext = createContext({})
 
@@ -73,6 +72,6 @@ AuthContextProvider.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-const useApi = (): IAuthContext => useContext(AuthContext) as IAuthContext
+const useAuth = (): IAuthContext => useContext(AuthContext) as IAuthContext
 
-export default useApi
+export default useAuth

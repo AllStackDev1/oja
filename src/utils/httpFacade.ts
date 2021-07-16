@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IDelete, IGet, IPatch, IPost, IPut } from 'interface/http.interface'
+import { IDelete, IGet, IPatch, IPost, IPut } from 'interface'
 import QueryString from 'query-string'
 
 class HttpFacade {

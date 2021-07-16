@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import {
   Box,
   Text,
@@ -96,7 +94,5 @@ const TransactionSummary = (): JSX.Element => {
     </GridItem>
   )
 }
-
-TransactionSummary.propTypes = {}
 
 export default TransactionSummary

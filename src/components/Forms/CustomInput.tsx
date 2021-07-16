@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 
 interface ICustomInput extends InputProps {
-  touched: boolean
+  touched?: boolean
   error?: string
   label?: string
 }
@@ -44,7 +44,7 @@ const CustomInput: React.FC<ICustomInput> = ({
 CustomInput.propTypes = {
   label: PropTypes.string,
   error: PropTypes.string,
-  touched: PropTypes.bool.isRequired,
+  touched: PropTypes.bool,
   isRequired: PropTypes.bool,
   id: PropTypes.string.isRequired
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Box, Icon, Text, Flex, Button, Heading } from '@chakra-ui/react'
 import Filter from 'components/Filter'
 import CustomTable from 'components/CustomTable'
@@ -137,7 +136,5 @@ const RecentTransactions = (): JSX.Element => {
     </>
   )
 }
-
-RecentTransactions.propTypes = {}
 
 export default RecentTransactions

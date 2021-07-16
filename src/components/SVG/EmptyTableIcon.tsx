@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EmptyTableIcon: React.FC = (props): JSX.Element => {
+const EmptyTableIcon: React.FC = (): JSX.Element => {
   return (
     <svg
       width="138"

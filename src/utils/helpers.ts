@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment'
-import { IPhoneInputData } from 'interface/helpers.interface'
+import { IAny, ICountry, ICurrency, IPhoneInputData } from 'interface'
 
 export const getFormattedDate = (date: string): string => {
   return new Date(date).toLocaleDateString('en-GB', {
@@ -10,39 +10,34 @@ export const getFormattedDate = (date: string): string => {
   })
 }
 
-export const phoneInputData = (): IPhoneInputData => {
-  const data: Record<string, Record<string, string>> = {
-    NG: {
-      dialCode: '+234',
-      currency: 'NGR',
-      name: 'Nigeria',
-      placeholder: '80 3100 0030'
-    },
-    US: {
-      dialCode: '+1',
-      currency: 'USD',
-      name: 'United States',
-      placeholder: '(201) 555-0123'
-    },
-    GB: {
-      dialCode: '+44',
-      placeholder: '7400 123456',
-      name: 'Great Britain',
-      currency: 'GBP'
-    },
-    GH: {
-      dialCode: '+233',
-      name: 'Ghana',
-      currency: 'GHS',
-      placeholder: '23 7280 716'
-    }
+export const convertArrayToObject = (
+  array: any[] = [],
+  key: string
+): Record<string, ICountry> => {
+  return array.reduce(
+    (obj, item) => ({
+      ...obj,
+      [item[key]]: item
+    }),
+    {}
+  )
+}
+
+export const phoneInputData = (
+  data: Record<string, ICountry>,
+  key: keyof ICountry
+): IPhoneInputData => {
+  if (!data) {
+    return { countries: [], customLabels: {}, data: {} }
   }
 
   const countries = Object.keys(data)
 
   const customLabels: Record<string, string> = Object.assign(
     {},
-    ...countries.map(c => JSON.parse(JSON.stringify({ [c]: data[c].currency })))
+    ...countries.map(c =>
+      JSON.parse(JSON.stringify({ [c]: data[c][key]?.code || data[c][key] }))
+    )
   )
 
   return { countries, customLabels, data }
@@ -60,3 +55,30 @@ export const getSentence = (str: string): string => {
 
 export const sec2min = (secs: number): string =>
   moment.utc(secs * 1000).format('mm:ss')
+
+export const formatMoney = (
+  amount: number | string,
+  decimalCount = 2,
+  decimal = '.',
+  thousands = ','
+): string => {
+  decimalCount = Math.abs(decimalCount)
+  decimalCount = isNaN(decimalCount) ? 2 : decimalCount
+  const negativeSign = amount < 0 ? '-' : ''
+  const i = parseInt(
+    (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
+  ).toString()
+  const j = i.length > 3 ? i.length % 3 : 0
+
+  return (
+    negativeSign +
+    (j ? i.substr(0, j) + thousands : '') +
+    i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) +
+    (decimalCount
+      ? decimal +
+        Math.abs(Number(amount) - Number(i))
+          .toFixed(decimalCount)
+          .slice(2)
+      : '')
+  )
+}

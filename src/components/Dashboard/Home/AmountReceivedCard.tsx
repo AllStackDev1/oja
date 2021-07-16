@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Box, Text, Icon, Flex, Heading, GridItem } from '@chakra-ui/react'
 
 import { FaEllipsisH } from 'react-icons/fa'
@@ -46,7 +45,5 @@ const AmountReceivedCard = (): JSX.Element => {
     </GridItem>
   )
 }
-
-AmountReceivedCard.propTypes = {}
 
 export default AmountReceivedCard

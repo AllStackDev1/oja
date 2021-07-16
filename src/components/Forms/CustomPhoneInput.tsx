@@ -6,6 +6,7 @@ import { Box, Icon, Input, InputProps } from '@chakra-ui/react'
 import { phoneInputData } from 'utils/helpers'
 import { CustomInputGroup } from '.'
 import { FiSmartphone } from 'react-icons/fi'
+import { ICountry } from 'interface'
 
 interface CustomPhoneInput extends InputProps {
   error?: string
@@ -13,27 +14,44 @@ interface CustomPhoneInput extends InputProps {
   touched: boolean
   countryId?: string
   selectedCountry: string
-  setFieldValue(e: string, i: string): void
   setSelectedCountry(e: string): void
+  setFieldValue(e: string, i: string): void
+  setFieldTouched(e: string, i: boolean): void
+  handleCheck(e: string, v: string): void
+  countriesData: Record<string, ICountry>
 }
 
 const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
   countryId,
+  handleCheck,
   setFieldValue,
+  countriesData,
+  setFieldTouched,
   selectedCountry,
   setSelectedCountry,
   ...rest
 }) => {
-  const { countries, customLabels, data } = phoneInputData()
+  const { countries, customLabels, data } = phoneInputData(
+    countriesData,
+    'code'
+  )
 
   return (
     <CustomInputGroup
+      onBlur={e => {
+        setFieldTouched(e.target.id, true)
+        const val = [
+          data[selectedCountry].code,
+          e.target.value.replace(/^0+/, '').replace(/\s/g, '')
+        ].join('')
+        handleCheck(e.target.name, val)
+      }}
       onChange={e => {
-        countryId && setFieldValue(countryId, data[selectedCountry].name)
+        countryId && setFieldValue(countryId, data[selectedCountry]?.name)
         setFieldValue(
           e.target.id,
           [
-            data[selectedCountry].dialCode,
+            data[selectedCountry]?.code,
             e.target.value.replace(/^0+/, '').replace(/\s/g, '')
           ].join('')
         )
@@ -55,7 +73,7 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
             cursor="default"
             _focus={{ outline: 'none' }}
             _hover={{ outline: 'none' }}
-            value={data[selectedCountry].dialCode}
+            value={data[selectedCountry]?.phone?.code}
           />
         </>
       }
@@ -72,7 +90,7 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
           />
         </Box>
       }
-      placeholder={data[selectedCountry].placeholder}
+      placeholder={data[selectedCountry]?.phone?.placeholder}
       {...rest}
     />
   )

@@ -21,7 +21,7 @@ import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa'
 
 import Logo from 'assets/images/logo.svg'
 
-const Landing: React.FC<RouteComponentProps> = (props): JSX.Element => {
+const Landing: React.FC<RouteComponentProps> = (): JSX.Element => {
   const d = new Date()
 
   const toast = useToast()
@@ -81,11 +81,11 @@ const Landing: React.FC<RouteComponentProps> = (props): JSX.Element => {
       title: 'Company 2',
       items: [
         {
-          title: 'About Us',
+          title: 'About Us 2',
           link: '/'
         },
         {
-          title: 'Career',
+          title: 'Career 2',
           link: '/'
         },
         {
@@ -237,7 +237,7 @@ const Landing: React.FC<RouteComponentProps> = (props): JSX.Element => {
               <GridItem key={l.title}>
                 <Text>{l.title}</Text>
                 {l.items.map(i => (
-                  <Box mt={2}>
+                  <Box mt={2} key={i.title}>
                     <Link
                       d="block"
                       href={i.link}

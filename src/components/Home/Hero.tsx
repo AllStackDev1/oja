@@ -1,11 +1,21 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Flex, Box, Link, Text, Icon, Heading, Button } from '@chakra-ui/react'
+import { NavLink } from 'react-router-dom'
 import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
-import HeroForm from './HeroForm'
-import { NavLink } from 'react-router-dom'
 
-const Hero = (): JSX.Element => {
+import { phoneInputData } from 'utils/helpers'
+import HeroForm from './HeroForm'
+import { ICountry } from 'interface'
+
+interface Props {
+  countriesData: Record<string, ICountry>
+}
+
+const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
+  const data = phoneInputData(countriesData, 'currency')
+
   return (
     <Box bg="ojaDark" color="white" pos="relative">
       <Flex
@@ -71,7 +81,7 @@ const Hero = (): JSX.Element => {
             </Link>
           </Flex>
         </Box>
-        <HeroForm />
+        <HeroForm {...data} />
       </Flex>
       <Flex
         flexDir="column"
@@ -98,6 +108,10 @@ const Hero = (): JSX.Element => {
       <Box className="hero-curved-section" />
     </Box>
   )
+}
+
+Hero.propTypes = {
+  countriesData: PropTypes.any.isRequired
 }
 
 export default Hero

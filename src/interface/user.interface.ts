@@ -8,7 +8,7 @@ export interface IAddress {
 export interface RegisterUserPayloadDto {
   email: string
   lastName: string
-  userName: string
+  username: string
   password: string
   address: IAddress
   firstName: string

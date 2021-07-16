@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import { BsCheckCircle } from 'react-icons/bs'
 import { Link as ReactLink, RouteComponentProps } from 'react-router-dom'
@@ -36,7 +36,7 @@ const VerifyEmail: React.FC<RouteComponentProps<RouteParams>> = ({
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content="This is the application login page" />
-        <title>Oja's | Email Verification</title>
+        <title>Oj'a. | Email Verification</title>
         <link rel="canonical" href="/auth/login" />
       </Helmet>
       {isLoading && <Overlay text="Verifying email" />}

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useFormik } from 'formik'
 import {
   Flex,
@@ -15,17 +15,16 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { NavLink, RouteComponentProps } from 'react-router-dom'
-import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
 import { FiUser, FiArrowRight } from 'react-icons/fi'
+
+import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
 import { FaFacebookSquare } from 'react-icons/fa'
 import { GoogleIcon } from 'components/SVG'
 import { CustomButton } from 'components/Auth'
-
-import useApi from 'context/Api'
-import useAuth from 'context/Auth'
-
-import { LoginDto } from 'interface/user.interface'
 import { LoginSchema } from 'utils/validator-schemas'
+import { LoginDto } from 'interface'
+import useAuth from 'context/Auth'
+import useApi from 'context/Api'
 
 const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
   const { rememberMe, setRememberMe } = useAuth()
@@ -92,7 +91,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content="This is the application login page" />
-        <title>Oja's | Login</title>
+        <title>Oj'a. | Login</title>
         <link rel="canonical" href="/auth/login" />
       </Helmet>
       <Flex w="full" h="100vh" bgColor="white">

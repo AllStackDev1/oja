@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Box, Text, Flex, Heading, GridItem } from '@chakra-ui/react'
 import { ProgressCycle } from 'components/SVG'
 
@@ -32,7 +31,5 @@ const AmountSentCard = (): JSX.Element => {
     </GridItem>
   )
 }
-
-AmountSentCard.propTypes = {}
 
 export default AmountSentCard

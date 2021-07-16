@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { useFormik } from 'formik'
 import { RouteComponentProps } from 'react-router-dom'
 import { Flex, Box, Text, Heading, useToast, Button } from '@chakra-ui/react'
@@ -136,7 +136,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content="This is the application login page" />
-        <title>Oja's | OTP Verification</title>
+        <title>Oj'a. | OTP Verification</title>
         <link rel="canonical" href="/auth/login" />
       </Helmet>
       <Flex w="full" h="100vh" bgColor="white">
