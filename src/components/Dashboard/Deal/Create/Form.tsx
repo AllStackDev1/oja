@@ -100,6 +100,7 @@ const HeroForm: React.FC<IPhoneInputData> = ({
         swiftCode: '',
         accountName: '',
         accountNumber: '',
+        countryCode: _in.code,
         currencySymbol: _inCurrency?.symbol,
         amount: Math.round(_in.amount * 100 + Number.EPSILON) / 100
       },
@@ -108,12 +109,13 @@ const HeroForm: React.FC<IPhoneInputData> = ({
         swiftCode: '',
         accountName: '',
         accountNumber: '',
+        countryCode: _out?.code,
         currencySymbol: _outCurrency?.symbol,
         amount: Math.round(_out.amount * 100 + Number.EPSILON) / 100
       }
     })
     sessionStorage.setItem('new-deal', data)
-    let link = '/dashboard/vending'
+    let link = '/dashboard/create-deal'
     if (!isAuthenticated().authToken) {
       link = '/auth/login'
     }

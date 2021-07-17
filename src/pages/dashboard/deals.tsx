@@ -27,7 +27,7 @@ const Deals = (): JSX.Element => {
 
   return (
     <Wrapper
-      title="Oj'a. | Dashboard | Deals"
+      title="Oj'a. | Deals"
       href="/dashboard/deals"
       content="This is the application dashboard deals page"
     >

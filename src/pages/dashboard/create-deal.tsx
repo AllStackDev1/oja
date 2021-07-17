@@ -14,23 +14,50 @@ import {
 } from 'components/Dashboard/Deal/Create'
 import { IDeal } from 'interface'
 import useApi from 'context/Api'
+import { useHistory } from 'react-router-dom'
+
+const accountDetails = {
+  amount: 0,
+  bankName: '',
+  swiftCode: '',
+  accountName: '',
+  accountNumber: '',
+  currencySymbol: ''
+}
 
 const CreateDeal = (): JSX.Element => {
-  const [viewSummary, setViewSummary] = React.useState(false)
   const [isTermsAccepted, setTermsAccept] = React.useState(false)
+  const [viewSummary, setViewSummary] = React.useState(false)
+  const [_data, setData] = React.useState({
+    rate: 0,
+    transactionFee: 0,
+    settlementFee: 0,
+    debit: accountDetails,
+    credit: accountDetails
+  })
+  const [countriesCode, setCountriesCode] = React.useState(['', ''])
   const { createDeal } = useApi()
+  const { push } = useHistory()
 
-  const initialValues = JSON.parse(
-    sessionStorage.getItem('new-deal') || ''
-  ) as IDeal
+  React.useEffect(() => {
+    if (!sessionStorage.getItem('new-deal')) {
+      push('/dashboard/deals')
+    } else {
+      const d = JSON.parse(sessionStorage.getItem('new-deal') || '{}')
+      setCountriesCode([d.credit.countryCode, d.debit.countryCode])
+      delete d.debit.countryCode
+      delete d.credit.countryCode
+      setData(p => ({ ...p, ...d }))
+    }
+  }, [])
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues,
+    initialValues: _data,
     validationSchema: DealValidationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       setSubmitting(true)
-      const res = await createDeal(values)
+      const res = await createDeal(values as IDeal)
       if (res.success) {
         sessionStorage.removeItem('new-deal')
         resetForm({})
@@ -80,17 +107,17 @@ const CreateDeal = (): JSX.Element => {
 
   return (
     <Wrapper
-      title="Oj'a. | Dashboard | Vending"
-      href="/dashboard/vending"
-      content="This is the application dashboard vent to page"
+      title="Oj'a. | Create Deal"
+      href="/dashboard/create-deal"
+      content="This page"
     >
       <Grid
         mt={14}
-        ml={{ base: 28, '4xl': 32 }}
         mr={10}
-        columnGap={{ base: 24, '4xl': 44 }}
-        templateColumns="repeat(3, 1fr)"
+        ml={{ base: 28, '4xl': 32 }}
         templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(3, 1fr)"
+        columnGap={{ base: 24, '4xl': 44 }}
       >
         <GridItem colSpan={2} rowSpan={2}>
           <form onSubmit={handleSubmit}>
@@ -104,6 +131,7 @@ const CreateDeal = (): JSX.Element => {
                     touched={touched.credit}
                     handleBlur={handleBlur}
                     handleChange={handleChange}
+                    countryCode={countriesCode[0]}
                   />
                   <DebitFrom
                     formData={formData}
@@ -112,11 +140,12 @@ const CreateDeal = (): JSX.Element => {
                     touched={touched.debit}
                     handleBlur={handleBlur}
                     handleChange={handleChange}
+                    countryCode={countriesCode[1]}
                   />
                 </>
               ) : (
                 <TransactionSummary
-                  values={values}
+                  values={values as IDeal}
                   setTermsAccept={setTermsAccept}
                   isTermsAccepted={isTermsAccepted}
                 />

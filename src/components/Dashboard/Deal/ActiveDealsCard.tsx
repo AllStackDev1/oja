@@ -26,7 +26,7 @@ const ActiveDeals: React.FC<Props> = ({ w = 'full', r }): JSX.Element => {
           Active Deals
         </Heading>
         <Text mt={1} fontSize="sm" lineHeight={4} color="gray.600">
-          Below shows your latest active deals transaction
+          Below shows your active deals latest transaction
         </Text>
       </Box>
       <Divider borderColor="gray.300" />

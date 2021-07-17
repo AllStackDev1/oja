@@ -7,7 +7,7 @@ export interface IAccountDetails {
   accountName: string
   accountNumber: string
   currencySymbol: string
-  amount: { $numberDecimal: string }
+  amount: number
 }
 
 export enum TransactionTypeEnum {
@@ -23,17 +23,18 @@ export enum DealStatusEnum {
 
 export interface ITransaction {
   user: IUser
+  amount: number
   type: TransactionTypeEnum
-  amount: { $numberDecimal: string }
+  createAt: string
 }
 
 export interface IDeal extends IDocument {
   user: IUser
   debit: IAccountDetails
   credit: IAccountDetails
-  rate: { $numberDecimal: string }
-  transactionFee: { $numberDecimal: string }
-  settlementFee: { $numberDecimal: string }
+  rate: number
+  transactionFee: number
+  settlementFee: number
   transactions: ITransaction
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, Text, Heading, Grid, GridItem } from '@chakra-ui/react'
+import ReactFlagsSelect from 'react-flags-select'
 import { FormikErrors, FormikTouched } from 'formik'
+import { Box, Flex, Text, Heading, Grid, GridItem } from '@chakra-ui/react'
 
 import { IAccountDetails } from 'interface'
 import { CustomInputGroup } from 'components/Forms'
@@ -13,10 +14,11 @@ interface IFormData {
 }
 
 interface IProps {
+  countryCode: string
+  formData: IFormData[]
   values: IAccountDetails
   errors?: FormikErrors<IAccountDetails>
   touched?: FormikTouched<IAccountDetails>
-  formData: IFormData[]
   handleBlur(e: React.FocusEvent<HTMLInputElement>): void
   handleChange(e: React.ChangeEvent<HTMLInputElement>): void
 }
@@ -35,7 +37,16 @@ const DebitTo = (props: IProps): JSX.Element => {
           ut lab.
         </Text>
       </Box>
-      <Box p={6} rounded="sm" boxShadow="main">
+      <Box p={6} rounded="sm" boxShadow="main" pos="relative">
+        <Flex zIndex={10} right={6} pos="absolute">
+          <ReactFlagsSelect
+            disabled
+            onSelect={() => null}
+            className="display-flags"
+            selected={props.countryCode}
+            selectButtonClassName="menu-flags-button"
+          />
+        </Flex>
         <Grid rowGap={8}>
           {props.formData.map(d => (
             <GridItem key={d.name}>

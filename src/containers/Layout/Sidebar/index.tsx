@@ -64,7 +64,7 @@ const Sidebar = (): JSX.Element => {
       <Flex pos="relative" align="center" h="100vh" flexDir="column">
         <Grid mt={{ xl: 24 }} rowGap={6}>
           {menus.map(m => (
-            <GridItem key={m.link}>
+            <GridItem role="button" key={m.link}>
               <Link
                 h={10}
                 w={10}
@@ -72,6 +72,7 @@ const Sidebar = (): JSX.Element => {
                 to={m.link}
                 as={NavLink}
                 rounded="md"
+                color="white"
                 alignItems="center"
                 justifyContent="center"
                 _activeLink={{ bgColor: 'rgba(255, 255, 255, 0.2)' }}
