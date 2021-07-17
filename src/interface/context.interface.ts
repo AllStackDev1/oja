@@ -1,9 +1,11 @@
-// import { ResponsePayload } from './helpers.interface'
+import { ICountry } from './country.interface'
+import { IDeal, IActiveDealsLatestTransaction } from './deal.interface'
+import { ResponsePayload } from './helpers.interface'
 import {
   RegisterUserPayloadDto,
   RegisterUserResponseDto,
   LoginDto,
-  UserDto,
+  IUser,
   VerifyOtpPayloadDto,
   VerifyOtpStatus,
   ResendOtpPayloadDto,
@@ -23,41 +25,51 @@ export interface IAppContext {
 export interface IApiContext {
   register(e: RegisterUserPayloadDto): Promise<RegisterUserResponseDto>
   verifyOTP(e: VerifyOtpPayloadDto): Promise<VerifyOtpStatus>
-  login(e: LoginDto): Promise<Record<string, Record<string, string>>>
+  // login(e: LoginDto): Promise<ResponsePayload<Record<string, string>, string>>
+  login(e: LoginDto): Promise<ResponsePayload<Record<string, any>, string>>
   resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
   verifyEmail(e: string): Promise<unknown>
-  getUser(e: string): Promise<void>
+  getUser(e: string): Promise<ResponsePayload<string, string>>
   getUsers(
     e?: Record<string, string>
   ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
   getUsersCount(
     e?: Record<string, string>
   ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
+  updateUser(
+    id: string,
+    p: Record<string, string>
+  ): Promise<ResponsePayload<string, string>>
+  deleteUser(id: string): Promise<ResponsePayload<string, string>>
+  deleteUsers(ids: [string]): Promise<ResponsePayload<string, string>>
+  updateProfile(
+    id: string,
+    p: Record<string, string>
+  ): Promise<ResponsePayload<string, string>>
   getCountries(
     e?: Record<string, string | boolean>
-  ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
-  updateUser(id: string, p: Record<string, string>): Promise<void>
-  deleteUser(id: string): Promise<void>
-  deleteUsers(ids: [string]): Promise<void>
-  updateProfile(id: string, p: Record<string, string>): Promise<void>
+  ): Promise<ResponsePayload<ICountry[], string>>
+  createDeal(p: IDeal): Promise<ResponsePayload<string, string>>
+  getDeal(e: string): Promise<ResponsePayload<string, string>>
+  getDeals(
+    e?: Record<string, string>
+  ): Promise<ResponsePayload<IActiveDealsLatestTransaction[], string>>
 }
 
 export interface IStore {
   authToken?: string
-  user?: UserDto
+  user?: IUser
 }
 
 export interface IAuthContext {
-  user: UserDto
+  user: IUser
   logout(): void
   session: boolean
   rememberMe: boolean
   store(e: IStore): void
   isAuthenticated(): IStore
   setRememberMe(e: boolean): React.Dispatch<React.SetStateAction<boolean>>
-  setUser(
-    e?: UserDto
-  ): React.Dispatch<React.SetStateAction<UserDto | undefined>>
+  setUser(e?: IUser): React.Dispatch<React.SetStateAction<IUser | undefined>>
   setSession(e: boolean): React.Dispatch<React.SetStateAction<boolean>>
   errorMessage?: string
   successMessage?: string

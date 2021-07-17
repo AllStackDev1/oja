@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -11,12 +12,12 @@ import {
   Thead,
   Tbody
 } from '@chakra-ui/react'
-import { useTable } from 'react-table'
+import { Column, useTable } from 'react-table'
 import { EmptyTableIcon } from 'components/SVG'
 
 interface ICustomTable {
-  columns: any[]
-  data: any[]
+  columns: Column[]
+  data: {}[]
   name: string
   variant?: string
 }

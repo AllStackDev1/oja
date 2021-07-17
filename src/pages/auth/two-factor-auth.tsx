@@ -80,7 +80,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
         })
         resetForm({})
         store({ user: res.user, authToken: res.authToken })
-        history.push('/dashboard/home')
+        history.push('/dashboard/deals')
       } catch (error) {
         toast({
           title: 'Error occurred',

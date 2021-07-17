@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon, IconButton, InputProps, IconProps } from '@chakra-ui/react'
+import { Icon, IconButton, InputProps } from '@chakra-ui/react'
 import { FiEyeOff, FiEye, FiLock } from 'react-icons/fi'
 import { CustomInputGroup } from './'
 

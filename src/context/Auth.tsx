@@ -1,11 +1,11 @@
 import React, { useState, createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { IAuthContext, IStore, UserDto } from 'interface'
+import { IAuthContext, IStore, IUser } from 'interface'
 
 const AuthContext = createContext({})
 
 export const AuthContextProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<UserDto | undefined>()
+  const [user, setUser] = useState<IUser | undefined>()
   const [session, setSession] = useState(true)
   const [rememberMe, setRememberMe] = useState<boolean>(
     !!sessionStorage.getItem('remember-me')
@@ -31,7 +31,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
       sessionStorage.getItem('_ojaut_') || localStorage.getItem('_ojaut_')
     const _user = sessionStorage.getItem('_ojauu_')
     if (_token && _user) {
-      return { authToken: _token, user: JSON.parse(_user) as UserDto }
+      return { authToken: _token, user: JSON.parse(_user) as IUser }
     } else {
       return {}
     }

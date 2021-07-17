@@ -102,3 +102,20 @@ export const OtpVerifySchema = yup.object().shape({
   //   )
   //   .required('This field is required*')
 })
+
+const AccountDetailsSchema = yup.object().shape({
+  swiftCode: yup.string(),
+  amount: yup.number().required(),
+  currency: yup.string().required(),
+  bankName: yup.string().required('This field is required*'),
+  accountName: yup.string().required('This field is required*'),
+  accountNumber: yup.string().required('This field is required*')
+})
+
+export const DealValidationSchema = yup.object().shape({
+  debit: AccountDetailsSchema,
+  credit: AccountDetailsSchema,
+  rate: yup.number().required(),
+  transactionFee: yup.number().required(),
+  settlementFee: yup.number().required()
+})

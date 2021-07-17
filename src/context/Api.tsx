@@ -1,22 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
-// import { useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 
 import http from 'utils/httpFacade'
 import { BASE_URL } from 'utils/configs'
 import {
+  IDeal,
   IApiContext,
-  UpdateUserDto,
+  UpdateIUser,
+  ResponsePayload,
   VerifyOtpPayloadDto,
   ResendOtpPayloadDto,
-  RegisterUserPayloadDto
+  RegisterUserPayloadDto,
+  LoginDto
 } from 'interface'
 
 const ApiContext = createContext({})
 
 export const ApiContextProvider: React.FC = ({ children }) => {
-  // const token = useToast()
+  const toast = useToast()
 
   // #region AUTH
   const register = async (payload: RegisterUserPayloadDto) => {
@@ -44,11 +47,37 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     return await http.patch({ url: `${BASE_URL}/auth/verify-email/${token}` })
   }
 
-  const login = async (payload: any) => {
-    return await http.post({
-      url: `${BASE_URL}/auth/login`,
-      body: JSON.stringify(payload)
-    })
+  const login = async (
+    payload: LoginDto
+  ): Promise<ResponsePayload<string, string>> => {
+    const result: ResponsePayload<string, string> = {
+      success: true
+    }
+    try {
+      const response = await http.post({
+        url: `${BASE_URL}/auth/login`,
+        body: JSON.stringify(payload)
+      })
+      result.data = response.data
+      toast({
+        duration: 5000,
+        status: 'success',
+        position: 'top-right',
+        title: 'Login successful',
+        description: `An OTP has been sent to ${response.data?.to}`
+      })
+    } catch (err) {
+      toast({
+        title: 'Error occurred',
+        description:
+          err?.message || err?.data?.message || 'Unexpected network error.',
+        status: 'error',
+        duration: 5000,
+        position: 'top-right'
+      })
+      result.success = false
+    }
+    return result
   }
   // #endregion
 
@@ -65,14 +94,14 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     return await http.get({ url: `${BASE_URL}/users/count`, query })
   }
 
-  const updateProfile = async (payload: UpdateUserDto) => {
+  const updateProfile = async (payload: UpdateIUser) => {
     return await http.patch({
       url: `${BASE_URL}/admin/update-profile`,
       body: JSON.stringify(payload)
     })
   }
 
-  const updateUser = async (id: string, payload: UpdateUserDto) => {
+  const updateUser = async (id: string, payload: UpdateIUser) => {
     return await http.patch({
       url: `${BASE_URL}/users/${id}`,
       body: JSON.stringify(payload)
@@ -99,22 +128,74 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
   // #endregion
 
+  // #region DEAL
+  const createDeal = async (payload: IDeal) => {
+    const result: ResponsePayload<Record<string, string>, string> = {
+      success: true
+    }
+    try {
+      const response = await http.post({
+        url: `${BASE_URL}/deals`,
+        body: JSON.stringify(payload)
+      })
+      result.data = response.data
+      toast({
+        duration: 5000,
+        status: 'success',
+        position: 'top-right',
+        title: response.message,
+        description: "Your part is done, sit back and let's do the work now"
+      })
+    } catch (err) {
+      toast({
+        title: 'Error occurred',
+        description:
+          err?.message || err?.data?.message || 'Unexpected network error.',
+        status: 'error',
+        duration: 5000,
+        position: 'top-right'
+      })
+      result.success = false
+    }
+    return result
+  }
+
+  const getDeal = async (id: string) => {
+    return await http.get({ url: `${BASE_URL}/deals/${id}` })
+  }
+
+  const getDeals = async (payload: any) => {
+    return await http.get({ url: `${BASE_URL}/deals/`, query: payload })
+  }
+
+  const getActiveDealsWithTheirLatestTransaction = async () => {
+    return await http.get({
+      url: `${BASE_URL}/deals/active-with-their-latest-transaction`
+    })
+  }
+
+  // #endregion
+
   return (
     <ApiContext.Provider
       value={{
         login,
+        getDeal,
         getUser,
         getUsers,
+        getDeals,
         register,
         verifyOTP,
         resendOTP,
         updateUser,
         deleteUser,
+        createDeal,
         verifyEmail,
         deleteUsers,
         getCountries,
         getUsersCount,
-        updateProfile
+        updateProfile,
+        getActiveDealsWithTheirLatestTransaction
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import React from 'react'
 import Wrapper from 'containers/Layout/Wrapper'
-import { Box, Text, Icon, Flex, Grid, GridItem } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
 const Wallet = (): JSX.Element => {
   return (

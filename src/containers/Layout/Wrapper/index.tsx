@@ -31,9 +31,24 @@ const Wrapper: React.FC<IWrapper> = ({
         <title>{title}</title>
         <link rel="canonical" href={href} />
       </Helmet>
-      <Flex as="main" bgColor="white" fontFamily="body" overflowX="hidden">
+      <Flex
+        as="main"
+        h="100vh"
+        bgColor="white"
+        fontFamily="body"
+        overflowX="hidden"
+      >
         <Sidebar />
-        <Box py={8} pl={10} ml={20} pos="relative" overflowY="scroll">
+        <Box
+          py={8}
+          px={10}
+          w="95%"
+          ml="5%"
+          h="full"
+          pos="relative"
+          overflowY="scroll"
+          overflowX="hidden"
+        >
           {!user?.isEmailVerified && (
             <Box w={110} pos="absolute" zIndex={10} top={0} right={4}>
               <CustomAlert

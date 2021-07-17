@@ -44,7 +44,7 @@ body {
   }
 }
 
-.see-tran-arrow {
+.see-deal-arrow {
   animation: IMoveRightLeft 1s linear infinite;
   position: absolute;
 }
@@ -52,10 +52,10 @@ body {
 @keyframes IMoveRightLeft {
   0%,
   100% {
-    left: 170px;
+    left: 120px;
   }
   50% {
-    left: 160px;
+    left: 124px;
   }
 }
 
@@ -74,6 +74,24 @@ body {
   }
   50% {
     right: 35px;
+  }
+}
+
+.auth-left-btn-arrow {
+  animation: AuthLeftMoveRightLeft 1s linear infinite;
+  position: absolute;
+  margin-top: -10px;
+  left: 20px;
+  top: 50%;
+}
+
+@keyframes AuthLeftMoveRightLeft {
+  0%,
+  100% {
+    left: 25px;
+  }
+  50% {
+    left: 35px;
   }
 }
 
@@ -96,6 +114,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
@@ -110,7 +129,7 @@ input:-webkit-autofill:active {
 }
 
 @media screen and (min-width: 80em) {
-  #hero-form .menu-flags {
+  #create-deal-form .menu-flags {
     padding-bottom: 0 !important;
     background-color: #00d0be;
   }
@@ -153,7 +172,7 @@ input:-webkit-autofill:active {
     padding: 5px 20px !important;
   }
 
-  #hero-form .menu-flags-button {
+  #create-deal-form .menu-flags-button {
     height: 4.5rem;
   }
 

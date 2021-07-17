@@ -11,8 +11,7 @@ import {
   Icon,
   Checkbox,
   Heading,
-  GridItem,
-  useToast
+  GridItem
 } from '@chakra-ui/react'
 import { NavLink, RouteComponentProps } from 'react-router-dom'
 import { FiUser, FiArrowRight } from 'react-icons/fi'
@@ -29,47 +28,27 @@ import useApi from 'context/Api'
 const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
   const { rememberMe, setRememberMe } = useAuth()
   const { login } = useApi()
-  const toast = useToast()
+  const { store } = useAuth()
 
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
+    initialValues: { email: '', password: '' },
     validationSchema: LoginSchema,
     onSubmit: async (values: LoginDto, { setSubmitting, resetForm }) => {
-      try {
-        setSubmitting(true)
-        const res = await login(values)
-        toast({
-          title: 'Login successful',
-          description: `An OTP has been sent to ${res.message?.to}`,
-          status: 'success',
-          duration: 5000,
-          position: 'top-right'
-        })
+      setSubmitting(true)
+      const res = await login(values)
+      setSubmitting(false)
+      if (res.success) {
         resetForm({})
-        history.push(
-          `/auth/${btoa(
-            JSON.stringify({
-              phoneNumber: res.message?.to || '',
-              pinId: res.message?.pinId || ''
-            })
-          )}`
-        )
-      } catch (error) {
-        toast({
-          title: `${error?.statusText} ${error?.status}`,
-          description:
-            error?.message ||
-            error?.data?.message ||
-            'Unexpected network error.',
-          status: 'error',
-          duration: 5000,
-          position: 'top-right'
-        })
-      } finally {
-        setSubmitting(false)
+        // history.push(
+        //   `/auth/${btoa(
+        //     JSON.stringify({
+        //       phoneNumber: res.data?.to || '',
+        //       pinId: res.data?.pinId || ''
+        //     })
+        //   )}`
+        // )
+        store({ user: res.data?.user, authToken: res?.data?.authToken })
+        history.push('/dashboard/deals')
       }
     }
   })

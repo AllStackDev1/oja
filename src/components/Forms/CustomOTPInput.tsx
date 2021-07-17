@@ -4,8 +4,8 @@ import OtpInput from 'react-otp-input'
 import { Box, Text } from '@chakra-ui/react'
 
 interface ICustomOTPInput {
-  mt?: any
-  value?: any
+  mt?: string | number
+  value?: string
   isDisabled: boolean
   error?: string
   onChange(e: string): void

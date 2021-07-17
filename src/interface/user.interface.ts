@@ -19,7 +19,7 @@ export interface RegisterUserPayloadDto {
 export interface RegisterUserResponseDto {
   success: boolean
   message: string
-  data?: UserDto
+  data?: IUser
   otpResponse?: Record<string, string>
 }
 
@@ -32,7 +32,7 @@ export interface VerifyOtpPayloadDto {
 export interface VerifyOtpStatus {
   success: boolean
   message: string
-  user?: UserDto
+  user?: IUser
   authToken?: string
 }
 
@@ -45,14 +45,14 @@ export interface ResendOtpResponse {
   message: Record<string, Record<string, string>>
 }
 
-export type UpdateUserDto = UserDto
+export type UpdateIUser = IUser
 
 export interface LoginDto {
   email: string
   password: string
 }
 
-export interface UserDto extends RegisterUserPayloadDto {
+export interface IUser extends RegisterUserPayloadDto {
   avatar: string
   dateOfBirth: Date
   isEmailVerified: boolean

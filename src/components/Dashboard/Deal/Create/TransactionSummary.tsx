@@ -10,19 +10,43 @@ import {
   FormLabel,
   FormControl
 } from '@chakra-ui/react'
+import { useQuery } from 'react-query'
 
-const TransactionSummary = (): JSX.Element => {
-  const data = [
+import { formatMoney } from 'utils/helpers'
+import { ICountry, IDeal, ResponsePayload } from 'interface'
+import useApi from 'context/Api'
+
+interface IProps {
+  values: IDeal
+  isTermsAccepted: boolean
+  setTermsAccept(e: boolean): void
+}
+
+const TransactionSummary = (props: IProps): JSX.Element => {
+  const { getCountries } = useApi()
+
+  const { debit, credit, transactionFee } = props.values
+
+  const { data } = useQuery<ResponsePayload<ICountry[], string>>(
+    'countries',
+    () => getCountries({ status: true })
+  )
+
+  const getCurrencyName = (s: string) => {
+    return data?.data?.find(d => d?.currency?.symbol === s)?.currency?.name
+  }
+
+  const info = [
     {
-      id: '$1,000.00',
+      id: `${debit.currencySymbol}${formatMoney(Number(debit.amount))}`,
       title: 'Sending'
     },
     {
-      id: '₦1,000,000.00',
-      title: 'Recieving'
+      id: `${credit.currencySymbol}${formatMoney(Number(credit.amount))}`,
+      title: 'Receiving'
     },
     {
-      id: '$20',
+      id: `${debit.currencySymbol}${formatMoney(Number(transactionFee))}`,
       title: 'Transaction fee'
     }
   ]
@@ -40,7 +64,8 @@ const TransactionSummary = (): JSX.Element => {
       </Box>
       <Box p={6} rounded="sm" boxShadow="main">
         <Heading fontWeight={500} fontSize="lg">
-          Dollar To Naira
+          {getCurrencyName(debit.currencySymbol)} To{' '}
+          {getCurrencyName(credit.currencySymbol)}
         </Heading>
         <Flex
           mt={10}
@@ -49,7 +74,7 @@ const TransactionSummary = (): JSX.Element => {
           fontWeight={600}
           justify="space-between"
         >
-          {data.map(d => (
+          {info.map(d => (
             <Box key={d.id}>
               <Text color="gray.400">{d.title}</Text>
               <Text>{d.id}</Text>
@@ -63,22 +88,27 @@ const TransactionSummary = (): JSX.Element => {
             <Text color="gray.400" fontFamily="Futura">
               Debit Account
             </Text>
-            <Text>Prince Isaac</Text>
-            <Text>Stanbic IBTC</Text>
-            <Text>23843001203</Text>
+            <Text>{debit.accountName}</Text>
+            <Text>{debit.bankName}</Text>
+            <Text>{debit.swiftCode}</Text>
           </Box>
           <Box>
             <Text color="gray.400" fontFamily="Futura" fontWeight="500">
               Credit Account
             </Text>
-            <Text>Prince Isaac</Text>
-            <Text>Bank Of America</Text>
-            <Text>2384300122303</Text>
+            <Text>{credit.accountName}</Text>
+            <Text>{credit.bankName}</Text>
+            <Text>{credit.swiftCode}</Text>
           </Box>
         </Flex>
 
         <FormControl display="flex" alignItems="center">
-          <Switch id="accept-tc" size="sm" colorScheme="ojaColorSchemaDark" />
+          <Switch
+            size="sm"
+            id="accept-tc"
+            colorScheme="ojaColorSchemaDark"
+            onChange={() => props.setTermsAccept(!props.isTermsAccepted)}
+          />
           <FormLabel
             mb="0"
             ml={3}

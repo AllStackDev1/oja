@@ -3,18 +3,18 @@ import Wrapper from 'containers/Layout/Wrapper'
 import { Box, Text, Icon, Flex, Grid, GridItem } from '@chakra-ui/react'
 import { IoMdInformationCircle } from 'react-icons/io'
 import {
+  ActiveDealsCard,
   AmountSentCard,
   RecentTransactions,
-  AmountReceivedCard,
-  ActiveTransactions
-} from 'components/Dashboard/Home'
+  AmountReceivedCard
+} from 'components/Dashboard/Deal'
 
-const Home = (): JSX.Element => {
+const DealTransactionsDetail = (): JSX.Element => {
   return (
     <Wrapper
-      title="Oj'a. | Dashboard | Home"
-      href="/dashboard/home"
-      content="This is the application dashboard home page"
+      title="Oj'a. | Deal Details"
+      href="/dashboard/deal"
+      content="This is the deal details page"
     >
       <Grid mx={10} columnGap={6} templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={2} rounded="lg" boxShadow="main" pos="relative">
@@ -42,7 +42,7 @@ const Home = (): JSX.Element => {
           <Grid rowGap={8}>
             <AmountSentCard />
             <AmountReceivedCard />
-            <ActiveTransactions />
+            <ActiveDealsCard />
           </Grid>
         </GridItem>
       </Grid>
@@ -50,4 +50,4 @@ const Home = (): JSX.Element => {
   )
 }
 
-export default Home
+export default DealTransactionsDetail

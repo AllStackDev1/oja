@@ -11,7 +11,7 @@ class HttpFacade {
 
     this.http.interceptors.request.use(
       function (config) {
-        const token = window.sessionStorage.getItem('_gcut')
+        const token = window.sessionStorage.getItem('_ojaut_')
         if (token) config.headers.Authorization = 'Bearer ' + token
         return config
       },

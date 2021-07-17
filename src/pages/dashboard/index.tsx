@@ -1,9 +1,10 @@
 import React, { lazy } from 'react'
 import { Switch, Redirect, Route, RouteComponentProps } from 'react-router-dom'
 
-const Home = lazy(() => import('./home'))
-const Vending = lazy(() => import('./vending'))
+const Deal = lazy(() => import('./deal'))
+const Deals = lazy(() => import('./deals'))
 const Wallet = lazy(() => import('./wallet'))
+const CreateDeal = lazy(() => import('./create-deal'))
 
 const Dashboard: React.FC<RouteComponentProps> = (props): JSX.Element => {
   const {
@@ -11,10 +12,11 @@ const Dashboard: React.FC<RouteComponentProps> = (props): JSX.Element => {
   } = props
   return (
     <Switch>
-      <Redirect exact from={`${url}`} to={`${url}/home`} />
-      <Route exact path={`${url}/home`} component={Home} />
-      <Route exact path={`${url}/vending`} component={Vending} />
+      <Redirect exact from={`${url}`} to={`${url}/deals`} />
+      <Route exact path={`${url}/deal`} component={Deal} />
+      <Route exact path={`${url}/deals`} component={Deals} />
       <Route exact path={`${url}/wallet`} component={Wallet} />
+      <Route exact path={`${url}/create-deal`} component={CreateDeal} />
       <Redirect from="*" to="/404" />
     </Switch>
   )

@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router-dom'
 import ReactFlagsSelect from 'react-flags-select'
 import {
   Box,
   Icon,
   Flex,
   Text,
-  Button,
   Divider,
   Collapse,
   useDisclosure
@@ -15,13 +15,18 @@ import {
   FiMinus,
   FiPlusCircle,
   FiChevronDown,
-  FiChevronRight
+  FiChevronRight,
+  FiArrowRight
 } from 'react-icons/fi'
 
 import { EqualIcon } from 'components/SVG'
 import { CustomInput } from 'components/Forms'
 import { IPhoneInputData } from 'interface'
 import { formatMoney } from 'utils/helpers'
+
+import useAuth from 'context/Auth'
+import { CustomButton } from 'components/Auth'
+import { BiRefresh } from 'react-icons/bi'
 
 const HeroForm: React.FC<IPhoneInputData> = ({
   data,
@@ -31,7 +36,10 @@ const HeroForm: React.FC<IPhoneInputData> = ({
   const [_in, setIn] = React.useState({ amount: 1000, code: 'US' })
   const [_out, setOut] = React.useState({ amount: 0, code: 'NG' })
   const [_rate, setRate] = React.useState(1)
+  const [isLoading, setLoading] = React.useState(false)
   const { isOpen, onToggle } = useDisclosure()
+  const { isAuthenticated } = useAuth()
+  const history = useHistory()
 
   React.useEffect(() => {
     const arr = Object.values(data || {})
@@ -79,8 +87,44 @@ const HeroForm: React.FC<IPhoneInputData> = ({
   const _inCurrency = getCurrency(_in.code)
   const _outCurrency = getCurrency(_out.code)
 
+  const handleComplete = () => {
+    setLoading(true)
+    const data = JSON.stringify({
+      rate: _rate,
+      transactionFee:
+        Math.round(0.025 * _in.amount * 100 + Number.EPSILON) / 100,
+      settlementFee:
+        Math.round(0.005 * _in.amount * 100 + Number.EPSILON) / 100,
+      debit: {
+        bankName: '',
+        swiftCode: '',
+        accountName: '',
+        accountNumber: '',
+        currencySymbol: _inCurrency?.symbol,
+        amount: Math.round(_in.amount * 100 + Number.EPSILON) / 100
+      },
+      credit: {
+        bankName: '',
+        swiftCode: '',
+        accountName: '',
+        accountNumber: '',
+        currencySymbol: _outCurrency?.symbol,
+        amount: Math.round(_out.amount * 100 + Number.EPSILON) / 100
+      }
+    })
+    sessionStorage.setItem('new-deal', data)
+    let link = '/dashboard/vending'
+    if (!isAuthenticated().authToken) {
+      link = '/auth/login'
+    }
+    setTimeout(() => {
+      setLoading(false)
+      history.push(link)
+    }, 200)
+  }
+
   return (
-    <Box w="lg" id="hero-form">
+    <Box w="lg" id="create-deal-form">
       <Box mt={4}>
         {formFields.map((ff, i) => (
           <Box key={i}>
@@ -185,14 +229,14 @@ const HeroForm: React.FC<IPhoneInputData> = ({
               align="center"
               color="ojaYellow"
               onClick={() => onToggle()}
-              aria-describedby="see-transaction-breakdown"
+              aria-describedby="see-deal-breakdown"
             >
               <Text fontSize="xs" letterSpacing="0.2px">
-                See Transaction Breakdown
+                See Deal Breakdown
               </Text>
               <Icon
                 as={!isOpen ? FiChevronRight : FiChevronDown}
-                className={!isOpen ? 'see-tran-arrow' : ''}
+                className={!isOpen ? 'see-deal-arrow' : ''}
               />
             </Flex>
             <Collapse in={isOpen} animateOpacity>
@@ -252,7 +296,7 @@ const HeroForm: React.FC<IPhoneInputData> = ({
                     </Text>
                     <Text ml={2} fontSize="xs">
                       {_inCurrency?.name} to {_outCurrency?.name} conversion
-                      rate (2 hours)
+                      rate (<Icon as={BiRefresh} /> 2 hours)
                     </Text>
                   </Flex>
                 </Flex>
@@ -260,19 +304,24 @@ const HeroForm: React.FC<IPhoneInputData> = ({
             </Collapse>
           </Box>
           <Box mt={{ xl: 5 }}>
-            <Button
-              px={10}
-              rounded="none"
+            <CustomButton
+              px={8}
+              w="70%"
+              h={{ lg: 14 }}
+              type="button"
               boxShadow="lg"
-              h={{ md: 14 }}
+              rounded="none"
               fontWeight={600}
-              textTransform="uppercase"
-              colorScheme="ojaColorSchemaSkyBlue"
+              isLoading={isLoading}
+              onClick={handleComplete}
               _focus={{ outline: 'none' }}
-              fontSize={{ base: 'sm', xl: 'lg' }}
-            >
-              Complete Transaction
-            </Button>
+              title="COMPLETE TRANSACTION"
+              colorScheme="ojaColorSchemaSkyBlue"
+              fontSize={{ base: 'sm', xl: 'md' }}
+              rightIcon={
+                <FiArrowRight fontSize={20} className="auth-btn-arrow" />
+              }
+            />
           </Box>
         </Box>
       </Box>

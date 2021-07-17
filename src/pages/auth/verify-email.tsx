@@ -63,7 +63,7 @@ const VerifyEmail: React.FC<RouteComponentProps<RouteParams>> = ({
                       help you in securing your account even better.
                     </Text>
 
-                    <Link p={2} as={ReactLink} to="/dashboard/home">
+                    <Link p={2} as={ReactLink} to="/dashboard/deals">
                       Go to Dashboard
                     </Link>
                   </Box>

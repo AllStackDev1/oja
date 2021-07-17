@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash'
 import moment from 'moment'
-import { IAny, ICountry, ICurrency, IPhoneInputData } from 'interface'
+import { ICountry, IPhoneInputData } from 'interface'
 
 export const getFormattedDate = (date: string): string => {
   return new Date(date).toLocaleDateString('en-GB', {

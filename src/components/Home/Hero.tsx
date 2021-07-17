@@ -6,7 +6,7 @@ import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
 
 import { phoneInputData } from 'utils/helpers'
-import HeroForm from './HeroForm'
+import { CreateDealForm } from 'components/Dashboard/Deal/Create'
 import { ICountry } from 'interface'
 
 interface Props {
@@ -81,7 +81,7 @@ const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
             </Link>
           </Flex>
         </Box>
-        <HeroForm {...data} />
+        <CreateDealForm {...data} />
       </Flex>
       <Flex
         flexDir="column"

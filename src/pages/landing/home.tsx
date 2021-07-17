@@ -11,16 +11,15 @@ import {
   CTASection
 } from 'components/Home'
 import Splash from 'components/Loading/Splash'
-import { ICountry, ResponsePayload } from 'interface'
 import { convertArrayToObject } from 'utils/helpers'
 import useApi from 'context/Api'
 
 const Home = (): JSX.Element => {
   const { getCountries } = useApi()
 
-  const { data, isLoading, error } = useQuery<
-    ResponsePayload<ICountry[], string>
-  >('countries', () => getCountries({ status: true }))
+  const { data, isLoading, error } = useQuery('countries', () =>
+    getCountries({ status: true })
+  )
 
   return (
     <>

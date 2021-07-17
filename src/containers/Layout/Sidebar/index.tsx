@@ -30,11 +30,11 @@ const Sidebar = (): JSX.Element => {
 
   const menus = [
     {
-      link: 'home',
+      link: 'deals',
       icon: HomeIcon
     },
     {
-      link: 'vending',
+      link: 'create-deal',
       icon: VentToIcon
     },
     {
@@ -48,7 +48,8 @@ const Sidebar = (): JSX.Element => {
       id: 1,
       title: 'Profile',
       icon: FaUserCog,
-      link: '/dashboard/profile'
+      link: '#'
+      // link: '/auth/profile'
     },
     {
       id: 2,
@@ -59,7 +60,7 @@ const Sidebar = (): JSX.Element => {
   ]
 
   return (
-    <Box w={20} as="aside" pos="fixed" bgColor="ojaDark" zIndex={100}>
+    <Box w="5%" as="aside" pos="fixed" bgColor="ojaDark" zIndex={100}>
       <Flex pos="relative" align="center" h="100vh" flexDir="column">
         <Grid mt={{ xl: 24 }} rowGap={6}>
           {menus.map(m => (

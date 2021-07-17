@@ -1,4 +1,6 @@
 export * from './context.interface'
 export * from './helpers.interface'
+export * from './country.interface'
 export * from './http.interface'
 export * from './user.interface'
+export * from './deal.interface'
