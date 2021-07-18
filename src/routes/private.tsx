@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 import { Route, RouteComponentProps, useHistory } from 'react-router-dom'
 
 import useAuth from 'context/Auth'
@@ -14,7 +15,6 @@ const PrivateRoute: React.FC<IProps> = ({
   ...rest
 }): JSX.Element => {
   const { isAuthenticated, session } = useAuth()
-  const { user, authToken } = isAuthenticated()
   const history = useHistory()
 
   React.useEffect(() => {
@@ -27,7 +27,7 @@ const PrivateRoute: React.FC<IProps> = ({
     <Route
       {...rest}
       render={(props: RouteComponentProps) => {
-        if (user && authToken) {
+        if (!isEmpty(isAuthenticated())) {
           return <Component {...props} />
         } else {
           props.history.replace('/auth/login')

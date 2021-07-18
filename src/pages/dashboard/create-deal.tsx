@@ -113,7 +113,7 @@ const CreateDeal = (): JSX.Element => {
     {
       name: 'swiftCode',
       label: 'Swift code',
-      placeholder: 'J73UIE',
+      placeholder: 'ACCCGHACCBS',
       isRequired: false
     }
   ]

@@ -1,4 +1,5 @@
 import React, { lazy } from 'react'
+import isEmpty from 'lodash/isEmpty'
 import { Switch, Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Box } from '@chakra-ui/react'
 
@@ -8,10 +9,22 @@ const Register = lazy(() => import('./register'))
 const VerifyEmail = lazy(() => import('./verify-email'))
 const TwoFactorAuth = lazy(() => import('./two-factor-auth'))
 
+import useAuth from 'context/Auth'
+
 const Auth: React.FC<RouteComponentProps> = (props): JSX.Element => {
   const {
-    match: { url }
+    match: { url },
+    history: { push }
   } = props
+
+  const { isAuthenticated } = useAuth()
+
+  React.useEffect(() => {
+    if (!isEmpty(isAuthenticated())) {
+      push('/dashboard/deals')
+    }
+  }, [])
+
   return (
     <Box fontFamily="body" overflowX="hidden">
       <Switch>

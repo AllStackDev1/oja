@@ -55,7 +55,7 @@ const Wrapper: React.FC<IWrapper> = ({
               w={110}
               bottom={5}
               type="info"
-              pos="absolute"
+              pos="fixed"
               successMessage="Please confirm you email, check your inbox or junk a verification link was sent from OJA's team"
             />
           )}
