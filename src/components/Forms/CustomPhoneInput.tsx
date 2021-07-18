@@ -41,7 +41,7 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
       onBlur={e => {
         setFieldTouched(e.target.id, true)
         const val = [
-          data[selectedCountry].code,
+          data[selectedCountry]?.phone?.code,
           e.target.value.replace(/^0+/, '').replace(/\s/g, '')
         ].join('')
         handleCheck(e.target.name, val)
@@ -51,7 +51,7 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
         setFieldValue(
           e.target.id,
           [
-            data[selectedCountry]?.code,
+            data[selectedCountry]?.phone?.code,
             e.target.value.replace(/^0+/, '').replace(/\s/g, '')
           ].join('')
         )
