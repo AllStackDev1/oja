@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 
 import useApi from 'context/Api'
-import Small from 'components/Loading/Small'
+import { Small } from 'components/Loading'
 import CreateDealForm from './Form'
 import { convertArrayToObject, phoneInputData } from 'utils/helpers'
 import { ICountry } from 'interface'

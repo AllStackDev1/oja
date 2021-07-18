@@ -1,6 +1,6 @@
 import React from 'react'
 
-const VentToIcon: React.FC = (): JSX.Element => {
+const VendToIcon: React.FC = (): JSX.Element => {
   return (
     <svg
       width="20"
@@ -19,4 +19,4 @@ const VentToIcon: React.FC = (): JSX.Element => {
   )
 }
 
-export default VentToIcon
+export default VendToIcon

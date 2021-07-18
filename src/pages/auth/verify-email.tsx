@@ -7,7 +7,7 @@ import { Link as ReactLink, RouteComponentProps } from 'react-router-dom'
 import { Link, Flex, Box, Icon, Fade, Text, Heading } from '@chakra-ui/react'
 
 import useApi from 'context/Api'
-import Overlay from 'components/Loading/Overlay'
+import { Overlay } from 'components/Loading'
 
 interface RouteParams {
   token: string

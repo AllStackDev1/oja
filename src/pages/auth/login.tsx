@@ -39,16 +39,19 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       setSubmitting(false)
       if (res.success) {
         resetForm({})
-        // history.push(
-        //   `/auth/${btoa(
-        //     JSON.stringify({
-        //       phoneNumber: res.data?.to || '',
-        //       pinId: res.data?.pinId || ''
-        //     })
-        //   )}`
-        // )
-        store({ user: res.data?.user, authToken: res?.data?.authToken })
-        history.push('/dashboard/deals')
+        if (res.data?.user) {
+          store({ user: res.data?.user, authToken: res?.data?.authToken })
+          history.push('/dashboard/deals')
+        } else {
+          history.push(
+            `/auth/${btoa(
+              JSON.stringify({
+                phoneNumber: res.data?.to || '',
+                pinId: res.data?.pinId || ''
+              })
+            )}`
+          )
+        }
       }
     }
   })

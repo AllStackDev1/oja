@@ -17,7 +17,7 @@ import {
   PopoverContent
 } from '@chakra-ui/react'
 
-import { HomeIcon, VentToIcon, WalletIcon } from 'components/SVG'
+import { HomeIcon, VendToIcon, WalletIcon } from 'components/SVG'
 import { IoMdHelpCircle } from 'react-icons/io'
 import { FaUserCog, FaSignOutAlt } from 'react-icons/fa'
 import useAuth from 'context/Auth'
@@ -35,7 +35,7 @@ const Sidebar = (): JSX.Element => {
     },
     {
       link: 'create-deal',
-      icon: VentToIcon
+      icon: VendToIcon
     },
     {
       link: 'wallet',

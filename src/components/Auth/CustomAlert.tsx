@@ -1,16 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Fade from 'react-reveal/Fade'
 import {
+  Box,
   Alert,
   AlertIcon,
   AlertTitle,
   CloseButton,
-  AlertDescription
+  AlertDescription,
+  LayoutProps,
+  PositionProps
 } from '@chakra-ui/react'
 
 type Status = 'info' | 'warning' | 'success' | 'error' | undefined
 
-interface IProps {
+interface IProps extends LayoutProps, PositionProps {
   type?: Status
   desc?: string
   isAutoClearable?: boolean
@@ -20,10 +24,11 @@ interface IProps {
 
 const CustomAlert: React.FC<IProps> = ({
   desc,
-  type = 'info',
   errorMessage,
+  type = 'info',
   successMessage,
-  isAutoClearable = false
+  isAutoClearable = false,
+  ...rest
 }) => {
   const [isVisible, setVisible] = React.useState(true)
 
@@ -37,24 +42,35 @@ const CustomAlert: React.FC<IProps> = ({
   }, [isAutoClearable])
 
   return (
-    <Alert mt={4} d={isVisible ? 'flex' : 'none'} status={type}>
-      <AlertIcon />
-      {(successMessage || errorMessage) && (
-        <AlertTitle
-          color={type ? '' : errorMessage ? 'red.600' : 'green.600'}
-          mr={5}
+    <Box {...rest} zIndex={10}>
+      <Fade bottom when={isVisible} appear>
+        <Alert
+          mt={4}
+          zIndex={10}
+          rounded="md"
+          status={type}
+          boxShadow="md"
+          d={isVisible ? 'flex' : 'none'}
         >
-          {successMessage || errorMessage}
-        </AlertTitle>
-      )}
-      {desc && <AlertDescription mr={5}>{desc}</AlertDescription>}
-      <CloseButton
-        position="absolute"
-        right="8px"
-        top="8px"
-        onClick={() => setVisible(false)}
-      />
-    </Alert>
+          <AlertIcon />
+          {(successMessage || errorMessage) && (
+            <AlertTitle
+              color={type ? '' : errorMessage ? 'red.600' : 'green.600'}
+              mr={5}
+            >
+              {successMessage || errorMessage}
+            </AlertTitle>
+          )}
+          {desc && <AlertDescription mr={5}>{desc}</AlertDescription>}
+          <CloseButton
+            position="absolute"
+            right="8px"
+            top="8px"
+            onClick={() => setVisible(false)}
+          />
+        </Alert>
+      </Fade>
+    </Box>
   )
 }
 

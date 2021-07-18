@@ -4,6 +4,7 @@ import { Flex, Box, Link, Text, Icon, Heading, Button } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom'
 import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
+import Fade from 'react-reveal/Fade'
 
 import { phoneInputData } from 'utils/helpers'
 import { CreateDealForm } from 'components/Dashboard/Deal/Create'
@@ -26,62 +27,65 @@ const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
         pr={{ md: '3.125rem', lg: 20 }}
         justify={{ base: 'space-around', xl: 'space-between' }}
       >
-        <Box w="md">
-          <Heading
-            mb={{ lg: 6 }}
-            fontWeight={600}
-            lineHeight="98%"
-            letterSpacing="-3px"
-            fontSize={{ base: 'lg', xl: 64 }}
-          >
-            Social Currency Market
-          </Heading>
-          <Text
-            fontSize={{ base: 'sm', xl: 'xl' }}
-            lineHeight={{ lg: '140%' }}
-            letterSpacing="-0.2px"
-          >
-            Instant pairing and exchanging on our secure network
-          </Text>
-          <Flex mt={6} align="center">
-            <Button
-              px={10}
-              rounded="sm"
-              boxShadow="lg"
-              h={{ lg: '3.375rem' }}
-              colorScheme="ojaColorSchemaSkyBlue"
-              fontWeight={700}
-              fontSize={{ base: 'sm', xl: 'lg' }}
-              _focus={{ outline: 'none' }}
+        <Fade left>
+          <Box w="md">
+            <Heading
+              mb={{ lg: 6 }}
+              fontWeight={600}
+              lineHeight="98%"
+              letterSpacing="-3px"
+              fontSize={{ base: 'lg', xl: 64 }}
             >
-              Create a Vend
-            </Button>
-            <Box mx={5} />
-            <Link
-              to="/"
-              as={NavLink}
-              rel="noreferrer"
-              _hover={{ hover: 'none' }}
-              _focus={{ outline: 'none' }}
+              Social Currency Market
+            </Heading>
+            <Text
+              fontSize={{ base: 'sm', xl: 'xl' }}
+              lineHeight={{ lg: '140%' }}
+              letterSpacing="-0.2px"
             >
-              <Flex
-                pos="relative"
-                align="center"
-                role="button"
-                color="ojaYellow"
+              Instant pairing and exchanging on our secure network
+            </Text>
+            <Flex mt={6} align="center">
+              <Button
+                px={10}
+                rounded="sm"
+                boxShadow="lg"
+                h={{ lg: '3.375rem' }}
+                colorScheme="ojaColorSchemaSkyBlue"
+                fontWeight={700}
+                fontSize={{ base: 'sm', xl: 'lg' }}
+                _focus={{ outline: 'none' }}
               >
-                <Text fontSize="2xl">See How</Text>
-                <Icon
-                  boxSize={30}
-                  letterSpacing="-0.2px"
-                  as={RiArrowRightSFill}
-                  className="see-how-arrow"
-                />
-              </Flex>
-            </Link>
-          </Flex>
-        </Box>
-        <CreateDealForm {...data} />
+                Create a Deal
+              </Button>
+              <Box mx={5} />
+              <Link
+                to="/"
+                as={NavLink}
+                rel="noreferrer"
+                _hover={{ hover: 'none' }}
+                _focus={{ outline: 'none' }}
+              >
+                <Flex
+                  pos="relative"
+                  align="center"
+                  role="button"
+                  color="ojaYellow"
+                >
+                  <Text fontSize="2xl">See How</Text>
+                  <Icon
+                    boxSize={25}
+                    as={RiArrowRightSFill}
+                    className="see-how-arrow"
+                  />
+                </Flex>
+              </Link>
+            </Flex>
+          </Box>
+        </Fade>
+        <Fade right>
+          <CreateDealForm {...data} />
+        </Fade>
       </Flex>
       <Flex
         flexDir="column"

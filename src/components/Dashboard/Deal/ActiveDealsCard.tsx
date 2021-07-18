@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Text, Fade, Divider, Heading, GridItem } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 
-import Small from 'components/Loading/Small'
+import { Small } from 'components/Loading'
 import ActiveDeal from './ActiveDeal'
 
 import useApi from 'context/Api'

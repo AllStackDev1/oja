@@ -1,7 +1,8 @@
 import React from 'react'
+import { useFormik } from 'formik'
+import { useQueryClient } from 'react-query'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import { Grid, GridItem } from '@chakra-ui/react'
-import { useFormik } from 'formik'
 
 import { ActiveDealsCard } from 'components/Dashboard/Deal'
 import { DealValidationSchema } from 'utils/validator-schemas'
@@ -36,6 +37,8 @@ const CreateDeal = (): JSX.Element => {
     credit: accountDetails
   })
   const [countriesCode, setCountriesCode] = React.useState(['', ''])
+
+  const queryClient = useQueryClient()
   const { createDeal } = useApi()
   const { push } = useHistory()
 
@@ -44,12 +47,21 @@ const CreateDeal = (): JSX.Element => {
       push('/dashboard/deals')
     } else {
       const d = JSON.parse(sessionStorage.getItem('new-deal') || '{}')
+      sessionStorage.removeItem('new-deal')
       setCountriesCode([d.credit.countryCode, d.debit.countryCode])
       delete d.debit.countryCode
       delete d.credit.countryCode
       setData(p => ({ ...p, ...d }))
     }
+    window.addEventListener('beforeunload', beforeUnloadListener)
+    return () =>
+      window.removeEventListener('beforeunload', beforeUnloadListener)
   }, [])
+
+  const beforeUnloadListener = (event: Event) => {
+    event.preventDefault()
+    return (event.returnValue = true)
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -59,8 +71,9 @@ const CreateDeal = (): JSX.Element => {
       setSubmitting(true)
       const res = await createDeal(values as IDeal)
       if (res.success) {
-        sessionStorage.removeItem('new-deal')
         resetForm({})
+        push('/dashboard/deals')
+        queryClient.invalidateQueries()
       }
       setSubmitting(false)
     }

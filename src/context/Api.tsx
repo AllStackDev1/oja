@@ -59,12 +59,17 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         body: JSON.stringify(payload)
       })
       result.data = response.data
+
       toast({
         duration: 5000,
         status: 'success',
         position: 'top-right',
-        title: 'Login successful',
-        description: `An OTP has been sent to ${response.data?.to}`
+        title: response.data?.to
+          ? 'Login successful'
+          : `Welcome back ${response.data?.user?.firstName}`,
+        description: response.data?.to
+          ? `An OTP has been sent to ${response.data?.to}`
+          : ''
       })
     } catch (err) {
       toast({

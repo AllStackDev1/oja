@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Splash from 'components/Loading/Splash'
+import { Splash } from 'components/Loading'
 
 import Auth from 'pages/auth'
 import Landing from 'pages/landing'

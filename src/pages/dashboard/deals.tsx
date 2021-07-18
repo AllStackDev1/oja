@@ -1,5 +1,7 @@
 import React from 'react'
 import { useQuery } from 'react-query'
+import { useHistory } from 'react-router-dom'
+import { FiArrowRight } from 'react-icons/fi'
 import {
   Box,
   Grid,
@@ -9,10 +11,9 @@ import {
   Heading,
   useDisclosure
 } from '@chakra-ui/react'
-import { FiArrowRight } from 'react-icons/fi'
 
 import Wrapper from 'containers/Layout/Wrapper'
-import Small from 'components/Loading/Small'
+import { Small } from 'components/Loading'
 import { ActiveDeal } from 'components/Dashboard/Deal'
 import { CustomButton } from 'components/Auth'
 
@@ -21,15 +22,22 @@ import { CreateDealModal } from 'components/Dashboard/Deal/Create'
 
 const Deals = (): JSX.Element => {
   const { onOpen, onClose, isOpen } = useDisclosure()
+  const { push } = useHistory()
   const { getDeals } = useApi()
 
   const { data, isLoading, error } = useQuery('deals', () => getDeals())
+
+  React.useEffect(() => {
+    if (sessionStorage.getItem('new-deal')) {
+      push('/dashboard/create-deal')
+    }
+  }, [])
 
   return (
     <Wrapper
       title="Oj'a. | Deals"
       href="/dashboard/deals"
-      content="This is the application dashboard deals page"
+      content="This page shows all deals"
     >
       <Box px={{ xl: 10 }} mt={{ xl: 10 }} w="full">
         <Flex w="full" mb={{ xl: 5 }} align="center" justify="space-between">

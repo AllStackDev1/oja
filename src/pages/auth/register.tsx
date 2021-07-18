@@ -34,9 +34,8 @@ import {
 } from 'components/Forms'
 import { RegisterUserPayloadDto, ResponsePayload, ICountry } from 'interface'
 import { RegistrationSchema } from 'utils/validator-schemas'
-import SmallSpinner from 'components/Loading/Small'
+import { Small, Splash } from 'components/Loading'
 import { convertArrayToObject } from 'utils/helpers'
-import Splash from 'components/Loading/Splash'
 import { CustomButton } from 'components/Auth'
 import { GoogleIcon } from 'components/SVG'
 import useApi from 'context/Api'
@@ -269,9 +268,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                             />
                           }
                           rightAddon={
-                            isLoading ? (
-                              <SmallSpinner thickness="2px" />
-                            ) : undefined
+                            isLoading ? <Small thickness="2px" /> : undefined
                           }
                           placeholder="JohnDoe1"
                         />

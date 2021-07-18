@@ -14,7 +14,7 @@ const DealTransactionsDetail = (): JSX.Element => {
     <Wrapper
       title="Oj'a. | Deal Details"
       href="/dashboard/deal"
-      content="This is the deal details page"
+      content="This page shows details of a deal"
     >
       <Grid mx={10} columnGap={6} templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={2} rounded="lg" boxShadow="main" pos="relative">

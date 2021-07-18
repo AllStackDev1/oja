@@ -30,15 +30,15 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
   },
   history
 }): JSX.Element => {
-  const [counter, setCounter] = React.useState(300)
+  const [counter, setCounter] = React.useState(120)
   const [loading, setLoading] = React.useState(false)
   const [data, setData] = React.useState<IData>()
 
   const {
     store,
     rememberMe,
-    successMessage,
     errorMessage,
+    successMessage,
     setErrorMessage,
     setSuccessMessage
   } = useAuth()

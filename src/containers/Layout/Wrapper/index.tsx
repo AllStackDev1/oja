@@ -4,10 +4,9 @@ import { Helmet } from 'react-helmet-async'
 import { Box, Icon, Flex } from '@chakra-ui/react'
 import { FiChevronLeft } from 'react-icons/fi'
 
-import CustomAlert from 'components/Auth/CustomAlert'
-
 import Sidebar from '../Sidebar'
 import useAuth from 'context/Auth'
+import CustomAlert from 'components/Auth/CustomAlert'
 
 interface IWrapper {
   href: string
@@ -23,6 +22,7 @@ const Wrapper: React.FC<IWrapper> = ({
 }): JSX.Element => {
   const { isAuthenticated } = useAuth()
   const { user } = isAuthenticated()
+
   return (
     <>
       <Helmet>
@@ -50,14 +50,15 @@ const Wrapper: React.FC<IWrapper> = ({
           overflowX="hidden"
         >
           {!user?.isEmailVerified && (
-            <Box w={110} pos="absolute" zIndex={10} top={0} right={4}>
-              <CustomAlert
-                type="info"
-                successMessage="Please confirm you email, check your inbox or junk a verification link was sent from OJA's team"
-              />
-            </Box>
+            <CustomAlert
+              right={4}
+              w={110}
+              bottom={5}
+              type="info"
+              pos="absolute"
+              successMessage="Please confirm you email, check your inbox or junk a verification link was sent from OJA's team"
+            />
           )}
-
           <Box pos="absolute">
             <Flex
               w={7}

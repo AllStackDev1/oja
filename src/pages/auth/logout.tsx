@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import useAuth from 'context/Auth'
 
-import Splash from 'components/Loading/Splash'
+import { Splash } from 'components/Loading'
 
 const Logout: React.FC = () => {
   const { logout, setSession } = useAuth()

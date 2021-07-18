@@ -12,7 +12,7 @@ import {
 import { Link as ReactLink } from 'react-router-dom'
 import { FaLongArrowAltUp, FaLongArrowAltDown, FaEye } from 'react-icons/fa'
 import { IActiveDealsLatestTransaction } from 'interface'
-import { VentToIcon } from 'components/SVG'
+import { VendToIcon } from 'components/SVG'
 
 const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
   _id,
@@ -26,7 +26,7 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
     <Box p={5}>
       <Flex align="center" justify="space-between">
         <Flex align="center">
-          <Icon as={VentToIcon} color="ojaDark" />
+          <Icon as={VendToIcon} color="ojaDark" />
           <Text ml={3} fontSize="md" letterSpacing="-0.4px">
             {debit.currencyName} to {credit.currencyName}
           </Text>

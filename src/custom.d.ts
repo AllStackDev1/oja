@@ -9,3 +9,6 @@ declare module '*.png' {
   >
   export default value
 }
+
+declare module 'react-reveal'
+declare module 'react-reveal/Fade'

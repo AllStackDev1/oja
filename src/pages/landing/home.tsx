@@ -1,17 +1,18 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Text, Fade } from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 
 import {
-  HeroSection,
   SectionOne,
+  CTASection,
+  HeroSection,
   KeyBenefitsSection,
-  SecurityFeaturesSection,
-  CTASection
+  SecurityFeaturesSection
 } from 'components/Home'
-import Splash from 'components/Loading/Splash'
+import { Splash } from 'components/Loading'
 import { convertArrayToObject } from 'utils/helpers'
+
 import useApi from 'context/Api'
 
 const Home = (): JSX.Element => {
@@ -35,7 +36,7 @@ const Home = (): JSX.Element => {
           {error ? (
             <Text>Error: {error}</Text>
           ) : (
-            <Fade in={true}>
+            <>
               <HeroSection
                 countriesData={convertArrayToObject(data?.data, 'code')}
               />
@@ -43,7 +44,7 @@ const Home = (): JSX.Element => {
               <KeyBenefitsSection />
               <SecurityFeaturesSection />
               <CTASection />
-            </Fade>
+            </>
           )}
         </>
       )}
