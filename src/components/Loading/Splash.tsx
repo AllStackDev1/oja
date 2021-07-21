@@ -11,8 +11,8 @@ const Splash: React.FC<Props> = ({ text }) => (
       thickness="5px"
       speed="0.65s"
       emptyColor="gray.200"
-      size="md"
-      color="gcu.100"
+      size="lg"
+      color="gray.500"
     />
     {text && <Text className="loading-text">{text}</Text>}
   </Flex>

@@ -4,7 +4,7 @@ import { Flex, Box, Link, Text, Icon, Heading, Button } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom'
 import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
-import Fade from 'react-reveal/Fade'
+import { Fade } from 'react-awesome-reveal'
 
 import { phoneInputData } from 'utils/helpers'
 import { CreateDealForm } from 'components/Dashboard/Deal/Create'
@@ -27,7 +27,7 @@ const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
         pr={{ md: '3.125rem', lg: 20 }}
         justify={{ base: 'space-around', xl: 'space-between' }}
       >
-        <Fade left>
+        <Fade direction="left">
           <Box w="md">
             <Heading
               mb={{ lg: 6 }}
@@ -83,7 +83,7 @@ const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
             </Flex>
           </Box>
         </Fade>
-        <Fade right>
+        <Fade direction="right">
           <CreateDealForm {...data} />
         </Fade>
       </Flex>

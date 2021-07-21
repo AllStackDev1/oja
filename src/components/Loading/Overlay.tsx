@@ -16,7 +16,7 @@ const Overlay: React.FC<Props> = ({ text }): JSX.Element => {
             speed="0.65s"
             size="md"
             emptyColor="gray.200"
-            color="gcu.100"
+            color="gray.500"
           />
           {text && (
             <Text

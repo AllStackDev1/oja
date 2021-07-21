@@ -1,4 +1,5 @@
 import React from 'react'
+import { Fade } from 'react-awesome-reveal'
 import {
   Box,
   Icon,
@@ -50,39 +51,41 @@ const SecurityFeaturesSection = (): JSX.Element => {
       </Heading>
 
       <Grid mt={{ xl: 16 }} gap={8} templateColumns={{ xl: 'repeat(2, 1fr)' }}>
-        {keys.map(k => (
-          <GridItem key={k.title} w={{ xl: 115 }}>
-            <Flex
-              h={16}
-              w={16}
-              rounded="full"
-              align="center"
-              justify="center"
-              bgColor="rgba(224, 250, 248, 0.2)"
-            >
-              <Icon as={k.icon} boxSize={10} />
-            </Flex>
-            <Box mt={{ xl: 5 }}>
-              <Heading
-                as="h6"
-                mb={{ xl: 2 }}
-                fontWeight={500}
-                letterSpacing="-0.2px"
-                fontSize={{ xl: 20 }}
+        <Fade cascade>
+          {keys.map(k => (
+            <GridItem key={k.title} w={{ xl: 115 }}>
+              <Flex
+                h={16}
+                w={16}
+                rounded="full"
+                align="center"
+                justify="center"
+                bgColor="rgba(224, 250, 248, 0.2)"
               >
-                {k.title}
-              </Heading>
-              <Text
-                fontWeight={300}
-                fontSize="sm"
-                lineHeight="160%"
-                letterSpacing="0.2px"
-              >
-                {k.text}
-              </Text>
-            </Box>
-          </GridItem>
-        ))}
+                <Icon as={k.icon} boxSize={10} />
+              </Flex>
+              <Box mt={{ xl: 5 }}>
+                <Heading
+                  as="h6"
+                  mb={{ xl: 2 }}
+                  fontWeight={500}
+                  letterSpacing="-0.2px"
+                  fontSize={{ xl: 20 }}
+                >
+                  {k.title}
+                </Heading>
+                <Text
+                  fontWeight={300}
+                  fontSize="sm"
+                  lineHeight="160%"
+                  letterSpacing="0.2px"
+                >
+                  {k.text}
+                </Text>
+              </Box>
+            </GridItem>
+          ))}
+        </Fade>
       </Grid>
     </Container>
   )

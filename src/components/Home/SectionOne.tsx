@@ -8,6 +8,7 @@ import {
   Container,
   Heading
 } from '@chakra-ui/react'
+import { Fade } from 'react-awesome-reveal'
 
 import Illustration from 'assets/images/illustration-1.png'
 import { DiamondIcon } from 'components/SVG'
@@ -24,55 +25,59 @@ const Section = (): JSX.Element => {
       flexDir={{ base: 'column', lg: 'row' }}
       justifyContent={{ lg: 'space-between' }}
     >
-      <Box>
-        <Box
-          bgImage={`url(${Illustration})`}
-          bgSize="contain"
-          bgRepeat="no-repeat"
-          w={110}
-          h={115}
-        />
-      </Box>
-      <Box w={112}>
-        <Flex
-          h={14}
-          w={14}
-          bgColor="rgba(224, 250, 248, 0.2)"
-          rounded="full"
-          align="center"
-          justify="center"
-        >
-          <Icon as={DiamondIcon} boxSize={8} />
-        </Flex>
-        <Box my={{ xl: 5 }} pr={{ xl: 6 }}>
-          <Heading
-            mb={{ xl: 3 }}
-            fontWeight={600}
-            fontSize={{ xl: '1.75rem' }}
-            letterSpacing="-0.6px"
-          >
-            Lorem ipsum dolor sit ame
-          </Heading>
-          <Text fontSize="sm" lineHeight="170%" letterSpacing="0.36px">
-            Deed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt.
-          </Text>
+      <Fade direction="left">
+        <Box>
+          <Box
+            bgImage={`url(${Illustration})`}
+            bgSize="contain"
+            bgRepeat="no-repeat"
+            w={110}
+            h={115}
+          />
         </Box>
-        <Button
-          px={10}
-          rounded="sm"
-          h={{ md: 14 }}
-          borderColor="gray.900"
-          fontWeight={600}
-          variant="outline"
-          _focus={{ outline: 'none' }}
-          fontSize={{ base: 'sm', xl: 'md' }}
-        >
-          Read More
-        </Button>
-      </Box>
+      </Fade>
+      <Fade direction="right">
+        <Box w={112}>
+          <Flex
+            h={14}
+            w={14}
+            bgColor="rgba(224, 250, 248, 0.2)"
+            rounded="full"
+            align="center"
+            justify="center"
+          >
+            <Icon as={DiamondIcon} boxSize={8} />
+          </Flex>
+          <Box my={{ xl: 5 }} pr={{ xl: 6 }}>
+            <Heading
+              mb={{ xl: 3 }}
+              fontWeight={600}
+              fontSize={{ xl: '1.75rem' }}
+              letterSpacing="-0.6px"
+            >
+              Lorem ipsum dolor sit ame
+            </Heading>
+            <Text fontSize="sm" lineHeight="170%" letterSpacing="0.36px">
+              Deed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt.
+            </Text>
+          </Box>
+          <Button
+            px={10}
+            rounded="sm"
+            h={{ md: 14 }}
+            borderColor="gray.900"
+            fontWeight={600}
+            variant="outline"
+            _focus={{ outline: 'none' }}
+            fontSize={{ base: 'sm', xl: 'md' }}
+          >
+            Read More
+          </Button>
+        </Box>
+      </Fade>
     </Container>
   )
 }

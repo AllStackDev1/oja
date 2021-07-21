@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Text } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
+import { Box } from '@chakra-ui/react'
 
 import {
   SectionOne,
@@ -10,7 +10,6 @@ import {
   KeyBenefitsSection,
   SecurityFeaturesSection
 } from 'components/Home'
-import { Splash } from 'components/Loading'
 import { convertArrayToObject } from 'utils/helpers'
 
 import useApi from 'context/Api'
@@ -18,9 +17,7 @@ import useApi from 'context/Api'
 const Home = (): JSX.Element => {
   const { getCountries } = useApi()
 
-  const { data, isLoading, error } = useQuery('countries', () =>
-    getCountries({ status: true })
-  )
+  const { data } = useQuery('countries', () => getCountries({ status: true }))
 
   return (
     <>
@@ -30,24 +27,13 @@ const Home = (): JSX.Element => {
         <title>Oj'a. | Home</title>
         <link rel="canonical" href="/home" />
       </Helmet>
-      {isLoading && <Splash />}
-      {!isLoading && (
-        <>
-          {error ? (
-            <Text>Error: {error}</Text>
-          ) : (
-            <>
-              <HeroSection
-                countriesData={convertArrayToObject(data?.data, 'code')}
-              />
-              <SectionOne />
-              <KeyBenefitsSection />
-              <SecurityFeaturesSection />
-              <CTASection />
-            </>
-          )}
-        </>
-      )}
+      <HeroSection countriesData={convertArrayToObject(data?.data, 'code')} />
+      <Box bgColor="#fff">
+        <SectionOne />
+        <KeyBenefitsSection />
+        <SecurityFeaturesSection />
+        <CTASection />
+      </Box>
     </>
   )
 }
