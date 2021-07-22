@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash'
 import moment from 'moment'
-import { ICountry, IPhoneInputData } from 'interface'
 
 export const getFormattedDate = (date: string): string => {
   return new Date(date).toLocaleDateString('en-GB', {
@@ -9,39 +8,6 @@ export const getFormattedDate = (date: string): string => {
     month: 'short',
     year: 'numeric'
   })
-}
-
-export const convertArrayToObject = (
-  array: any[] = [],
-  key: string
-): Record<string, ICountry> => {
-  return array.reduce(
-    (obj, item) => ({
-      ...obj,
-      [item[key]]: item
-    }),
-    {}
-  )
-}
-
-export const phoneInputData = (
-  data: Record<string, ICountry>,
-  key: keyof ICountry
-): IPhoneInputData => {
-  if (!data) {
-    return { countries: [], customLabels: {}, data: {} }
-  }
-
-  const countries = Object.keys(data)
-
-  const customLabels: Record<string, string> = Object.assign(
-    {},
-    ...countries.map(c =>
-      JSON.parse(JSON.stringify({ [c]: data[c][key]?.code || data[c][key] }))
-    )
-  )
-
-  return { countries, customLabels, data }
 }
 
 export const upperFirst = (str: string): string => _.upperFirst(str)

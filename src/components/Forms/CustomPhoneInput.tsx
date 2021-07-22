@@ -1,57 +1,63 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import ReactFlagsSelect from 'react-flags-select'
-import { Box, Icon, Input, InputProps } from '@chakra-ui/react'
+import { Country } from 'countries-list'
+import {
+  Box,
+  Text,
+  Icon,
+  Fade,
+  Input,
+  Button,
+  useDisclosure,
+  InputProps
+} from '@chakra-ui/react'
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
-import { phoneInputData } from 'utils/helpers'
 import { CustomInputGroup } from '.'
 import { FiSmartphone } from 'react-icons/fi'
-import { ICountry } from 'interface'
 
 interface CustomPhoneInput extends InputProps {
   error?: string
   label?: string
   touched: boolean
+  countries: Record<string, Country>
   countryId?: string
-  selectedCountry: string
-  setSelectedCountry(e: string): void
+  selectedCountry: Country
+  setSelectedCountry(e: Country): void
   setFieldValue(e: string, i: string): void
   setFieldTouched(e: string, i: boolean): void
   handleCheck(e: string, v: string): void
-  countriesData: Record<string, ICountry>
 }
 
 const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
+  countries,
   countryId,
   handleCheck,
   setFieldValue,
-  countriesData,
   setFieldTouched,
   selectedCountry,
   setSelectedCountry,
   ...rest
 }) => {
-  const { countries, customLabels, data } = phoneInputData(
-    countriesData,
-    'code'
-  )
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <CustomInputGroup
       onBlur={e => {
         setFieldTouched(e.target.id, true)
         const val = [
-          data[selectedCountry]?.phone?.code,
+          '+',
+          selectedCountry?.phone,
           e.target.value.replace(/^0+/, '').replace(/\s/g, '')
         ].join('')
         handleCheck(e.target.name, val)
       }}
       onChange={e => {
-        countryId && setFieldValue(countryId, data[selectedCountry]?.name)
+        countryId && setFieldValue(countryId, selectedCountry.name)
         setFieldValue(
           e.target.id,
           [
-            data[selectedCountry]?.phone?.code,
+            '+',
+            selectedCountry?.phone,
             e.target.value.replace(/^0+/, '').replace(/\s/g, '')
           ].join('')
         )
@@ -73,36 +79,83 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
             cursor="default"
             _focus={{ outline: 'none' }}
             _hover={{ outline: 'none' }}
-            value={data[selectedCountry]?.phone?.code}
+            value={'+' + selectedCountry.phone}
           />
         </>
       }
       rightAddon={
-        <Box color="white">
-          <ReactFlagsSelect
-            selected={selectedCountry}
-            className="menu-flags"
-            countries={countries}
-            customLabels={customLabels}
-            showSelectedLabel={false}
-            onSelect={code => setSelectedCountry(code)}
-            selectButtonClassName="menu-flags-button"
-          />
+        <Box color="white" pos="relative">
+          <Button
+            w="full"
+            rounded={0}
+            h={rest.h}
+            bgColor="transparent"
+            onClick={() => (!isOpen ? onOpen() : onClose())}
+            _focus={{ outline: 'none' }}
+            _hover={{ bgColor: 'transparent' }}
+            rightIcon={
+              <Icon
+                as={isOpen ? FaAngleUp : FaAngleDown}
+                boxSize={5}
+                color="ojaDark"
+              />
+            }
+          >
+            <Text as="span" ml={2} fontSize="4xl">
+              {selectedCountry.emoji}
+            </Text>
+          </Button>
+          <Fade in={isOpen}>
+            {isOpen && (
+              <Box
+                mt={2}
+                w={80}
+                height={44}
+                shadow="md"
+                zIndex={10}
+                rounded="md"
+                pos="absolute"
+                borderWidth={1}
+                bgColor="ojaDark"
+                overflowY="scroll"
+                overflowX="hidden"
+                borderColor="gray.100"
+                onMouseLeave={() => isOpen && onClose()}
+              >
+                <Box as="ul" onClick={() => null}>
+                  {Object.values(countries)?.map(o => (
+                    <Text
+                      px={4}
+                      py={2}
+                      as="li"
+                      d="flex"
+                      id={o.name}
+                      key={o.name}
+                      role="button"
+                      onClick={() => {
+                        setSelectedCountry(o)
+                        onClose()
+                      }}
+                      _hover={{ bgColor: 'ojaSkyBlue' }}
+                    >
+                      <Text as="span" fontSize="2xl">
+                        {o.emoji}
+                      </Text>
+                      <Text as="span" ml={2} fontSize="lg" fontWeight={700}>
+                        {o.name}
+                      </Text>
+                    </Text>
+                  ))}
+                </Box>
+              </Box>
+            )}
+          </Fade>
         </Box>
       }
-      placeholder={data[selectedCountry]?.phone?.placeholder}
+      placeholder="Enter number..."
       {...rest}
     />
   )
-}
-
-CustomPasswordInput.propTypes = {
-  label: PropTypes.string,
-  error: PropTypes.string,
-  selectedCountry: PropTypes.string.isRequired,
-  setFieldValue: PropTypes.func.isRequired,
-  setSelectedCountry: PropTypes.func.isRequired,
-  touched: PropTypes.bool.isRequired
 }
 
 export default CustomPasswordInput

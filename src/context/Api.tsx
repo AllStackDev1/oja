@@ -127,9 +127,9 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
   // #endregion
 
-  // #region COUNTRY
-  const getCountries = async (query: Record<string, any>) => {
-    return await http.get({ url: `${BASE_URL}/countries`, query })
+  // #region CURRENCIES
+  const getCurrencies = async (query: Record<string, any>) => {
+    return await http.get({ url: `${BASE_URL}/currencies`, query })
   }
   // #endregion
 
@@ -197,7 +197,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         createDeal,
         verifyEmail,
         deleteUsers,
-        getCountries,
+        getCurrencies,
         getUsersCount,
         updateProfile,
         getActiveDealsWithTheirLatestTransaction

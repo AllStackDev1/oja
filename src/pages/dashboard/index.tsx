@@ -13,8 +13,8 @@ const Dashboard: React.FC<RouteComponentProps> = (props): JSX.Element => {
   return (
     <Switch>
       <Redirect exact from={`${url}`} to={`${url}/deals`} />
-      <Route exact path={`${url}/deal`} component={Deal} />
       <Route exact path={`${url}/deals`} component={Deals} />
+      <Route exact path={`${url}/deals/:id`} component={Deal} />
       <Route exact path={`${url}/wallet`} component={Wallet} />
       <Route exact path={`${url}/create-deal`} component={CreateDeal} />
       <Redirect from="*" to="/404" />

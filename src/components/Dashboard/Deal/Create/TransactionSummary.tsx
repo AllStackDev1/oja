@@ -10,43 +10,33 @@ import {
   FormLabel,
   FormControl
 } from '@chakra-ui/react'
-import { useQuery } from 'react-query'
 
 import { formatMoney } from 'utils/helpers'
-import { ICountry, IDeal, ResponsePayload } from 'interface'
-import useApi from 'context/Api'
+import { IDeal } from 'interface'
 
 interface IProps {
+  title?: string
   values: IDeal
+  inSymbol?: string
+  outSymbol?: string
   isTermsAccepted: boolean
   setTermsAccept(e: boolean): void
 }
 
 const TransactionSummary = (props: IProps): JSX.Element => {
-  const { getCountries } = useApi()
-
   const { debit, credit, transactionFee } = props.values
-
-  const { data } = useQuery<ResponsePayload<ICountry[], string>>(
-    'countries',
-    () => getCountries({ status: true })
-  )
-
-  const getCurrencyName = (s: string) => {
-    return data?.data?.find(d => d?.currency?.symbol === s)?.currency?.name
-  }
 
   const info = [
     {
-      id: `${debit.currencySymbol}${formatMoney(Number(debit.amount))}`,
+      id: `${props.inSymbol}${formatMoney(Number(debit.amount))}`,
       title: 'Sending'
     },
     {
-      id: `${credit.currencySymbol}${formatMoney(Number(credit.amount))}`,
+      id: `${props.outSymbol}${formatMoney(Number(credit.amount))}`,
       title: 'Receiving'
     },
     {
-      id: `${debit.currencySymbol}${formatMoney(Number(transactionFee))}`,
+      id: `${props.inSymbol}${formatMoney(Number(transactionFee))}`,
       title: 'Transaction fee'
     }
   ]
@@ -64,8 +54,7 @@ const TransactionSummary = (props: IProps): JSX.Element => {
       </Box>
       <Box p={6} rounded="sm" boxShadow="main">
         <Heading fontWeight={500} fontSize="lg">
-          {getCurrencyName(debit.currencySymbol)} To{' '}
-          {getCurrencyName(credit.currencySymbol)}
+          {props.title}
         </Heading>
         <Flex
           mt={10}

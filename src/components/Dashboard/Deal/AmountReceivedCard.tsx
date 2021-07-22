@@ -5,19 +5,34 @@ import { FaEllipsisH } from 'react-icons/fa'
 import LogoIcon from 'components/SVG/LogoIcon'
 import Card from 'assets/images/card.svg'
 
-const AmountReceivedCard = (): JSX.Element => {
+interface Props {
+  bankName: string
+  accountNumber: string
+  debitTotal: string
+  currencySymbol: string
+}
+
+const AmountReceivedCard: React.FC<Props> = ({
+  bankName,
+  debitTotal,
+  accountNumber,
+  currencySymbol
+}): JSX.Element => {
+  const amountArray = debitTotal.split('.')
+
   return (
     <GridItem rounded="sm" p={6} boxShadow="main" border="2px solid #E7FAF8">
-      <Heading fontSize="md" pos="relative" fontWeight={600}>
-        Amount Received (
-        <Text as="span" color="gray.400">
-          232139422 Stanbic IBTC
-        </Text>
-        )
+      <Flex justify="space-between" pos="relative">
+        <Heading fontSize="md" fontWeight={600}>
+          Amount Received{' '}
+          <Text as="span" fontSize="xs" color="gray.400">
+            ({accountNumber} {bankName})
+          </Text>
+        </Heading>
         <Text as="span" color="gray.300" pos="absolute" right={0}>
-          <Icon as={FaEllipsisH} />
+          <Icon as={FaEllipsisH} color="gray.300" />
         </Text>
-      </Heading>
+      </Flex>
       <Box
         mt={4}
         h={44}
@@ -30,13 +45,13 @@ const AmountReceivedCard = (): JSX.Element => {
         <Flex h="full" align="center" flexDir="column" justify="center">
           <Box color="white" fontWeight={600}>
             <Text as="sup" fontWeight={400} fontSize="sm">
-              ₦
+              {currencySymbol}
             </Text>
             <Text as="span" fontSize="2.5rem">
-              129,125
+              {amountArray[0]}
             </Text>
             <Text as="span" fontSize="15px">
-              .97
+              .{amountArray[1]}
             </Text>
           </Box>
           <Icon as={LogoIcon} />

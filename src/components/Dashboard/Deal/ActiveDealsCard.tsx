@@ -1,12 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Text, Fade, Divider, Heading, GridItem } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Icon,
+  Flex,
+  Divider,
+  Heading,
+  GridItem
+} from '@chakra-ui/react'
 import { useQuery } from 'react-query'
+import { Fade } from 'react-awesome-reveal'
 
 import { Small } from 'components/Loading'
 import ActiveDeal from './ActiveDeal'
 
 import useApi from 'context/Api'
+import { EmptyTableIcon } from 'components/SVG'
 
 interface Props {
   w?: string | number
@@ -37,18 +47,34 @@ const ActiveDeals: React.FC<Props> = ({ w = 'full', r }): JSX.Element => {
             {error ? (
               <Text>Error: {error}</Text>
             ) : (
-              <Fade in={true}>
-                {data?.data
-                  ?.filter(d => d._id !== r)
-                  ?.map((r, i) => (
-                    <React.Fragment key={r._id}>
-                      <ActiveDeal {...r} />
-                      {data?.data?.length !== i + 1 && (
-                        <Divider borderColor="gray.300" />
-                      )}
-                    </React.Fragment>
-                  ))}
-              </Fade>
+              <>
+                {!data?.data?.length ? (
+                  <Flex
+                    h={120}
+                    align="center"
+                    flexDir="column"
+                    justify="center"
+                  >
+                    <Icon as={EmptyTableIcon} boxSize={10} />
+                    <Text mt={10} color="gray.400">
+                      There are no active deal(s) made yet
+                    </Text>
+                  </Flex>
+                ) : (
+                  <Fade cascade delay={1000}>
+                    {data?.data
+                      ?.filter(d => d._id !== r)
+                      ?.map((r, i) => (
+                        <React.Fragment key={r._id}>
+                          <ActiveDeal {...r} />
+                          {data?.data?.length !== i + 1 && (
+                            <Divider borderColor="gray.300" />
+                          )}
+                        </React.Fragment>
+                      ))}
+                  </Fade>
+                )}
+              </>
             )}
           </>
         )}

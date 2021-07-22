@@ -2,7 +2,15 @@ import React from 'react'
 import { Box, Text, Flex, Heading, GridItem } from '@chakra-ui/react'
 import { ProgressCycle } from 'components/SVG'
 
-const AmountSentCard = (): JSX.Element => {
+interface Props {
+  percentage: number
+  creditTotal: string
+}
+
+const AmountSentCard: React.FC<Props> = ({
+  creditTotal,
+  percentage
+}): JSX.Element => {
   return (
     <GridItem rounded="sm" p={6} boxShadow="main" border="2px solid #E7FAF8">
       <Heading fontWeight={600} fontSize="md">
@@ -18,13 +26,13 @@ const AmountSentCard = (): JSX.Element => {
             bgColor="ojaSkyBlueFade"
           />
           <Text pos="absolute" fontWeight={600} fontSize="1.625rem">
-            $50,000.00
+            {creditTotal}
           </Text>
-          <ProgressCycle value={40} />
+          <ProgressCycle value={percentage} />
         </Flex>
         <Box mt={10} p={2} bgColor="ojaSkyBlueFade">
           <Text fontSize="sm" letterSpacing="-0.4px" color="ojaSkyBlue">
-            Transaction Completion 40%
+            Transaction Completion {percentage}%
           </Text>
         </Box>
       </Flex>

@@ -1,7 +1,14 @@
 import React from 'react'
-import ReactFlagsSelect from 'react-flags-select'
 import { FormikErrors, FormikTouched } from 'formik'
-import { Box, Flex, Text, Heading, Grid, GridItem } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  Heading,
+  Grid,
+  GridItem
+} from '@chakra-ui/react'
 
 import { IAccountDetails } from 'interface'
 import { CustomInputGroup } from 'components/Forms'
@@ -14,7 +21,8 @@ interface IFormData {
 }
 
 interface IProps {
-  countryCode: string
+  inFlag?: string
+  inName?: string
   formData: IFormData[]
   values: IAccountDetails
   errors?: FormikErrors<IAccountDetails>
@@ -39,12 +47,12 @@ const DebitTo = (props: IProps): JSX.Element => {
       </Box>
       <Box p={6} rounded="sm" boxShadow="main" pos="relative">
         <Flex zIndex={10} right={6} pos="absolute">
-          <ReactFlagsSelect
-            disabled
-            onSelect={() => null}
-            className="display-flags"
-            selected={props.countryCode}
-            selectButtonClassName="menu-flags-button"
+          <Image
+            w={14}
+            h={10}
+            rounded="full"
+            src={props.inFlag}
+            alt={props.inName}
           />
         </Flex>
         <Grid rowGap={8}>

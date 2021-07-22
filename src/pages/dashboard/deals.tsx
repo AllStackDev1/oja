@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
 import {
   Box,
+  Icon,
   Grid,
   Flex,
   Text,
@@ -19,6 +20,7 @@ import { CustomButton } from 'components/Auth'
 
 import useApi from 'context/Api'
 import { CreateDealModal } from 'components/Dashboard/Deal/Create'
+import { EmptyTableIcon } from 'components/SVG'
 
 const Deals = (): JSX.Element => {
   const { onOpen, onClose, isOpen } = useDisclosure()
@@ -61,40 +63,51 @@ const Deals = (): JSX.Element => {
             />
           </Box>
         </Flex>
-        <Grid
-          gap={5}
-          w="full"
-          templateRows="repeat(2, 1fr)"
-          templateColumns={{
-            base: 'repeat(1, 1fr)',
-            md: 'repeat(2, 1fr)',
-            '2xl': 'repeat(3, 1fr)',
-            '4xl': 'repeat(4, 1fr)'
-          }}
-        >
-          {isLoading && <Small thickness="2px" />}
-          {!isLoading && (
-            <>
-              {error ? (
-                <Text>Error: {error}</Text>
-              ) : (
-                <>
-                  {data?.data?.map(r => (
-                    <GridItem
-                      key={r._id}
-                      rounded="lg"
-                      borderWidth={1}
-                      boxShadow="main"
-                      borderColor="gray.100"
-                    >
-                      <ActiveDeal {...r} />
-                    </GridItem>
-                  ))}
-                </>
-              )}
-            </>
-          )}
-        </Grid>
+        {isLoading && <Small thickness="2px" />}
+        {!isLoading && (
+          <>
+            {error ? (
+              <Text>Error: {error}</Text>
+            ) : (
+              <>
+                {!data?.data?.length ? (
+                  <Flex
+                    h={120}
+                    align="center"
+                    flexDir="column"
+                    justify="center"
+                  >
+                    <Icon as={EmptyTableIcon} boxSize={10} />
+                    <Text mt={10}>There are no deal(s) made yet</Text>
+                  </Flex>
+                ) : (
+                  <Grid
+                    gap={5}
+                    templateRows="repeat(4, 1fr)"
+                    templateColumns={{
+                      base: 'repeat(1, 1fr)',
+                      md: 'repeat(2, 1fr)',
+                      '2xl': 'repeat(3, 1fr)',
+                      '4xl': 'repeat(4, 1fr)'
+                    }}
+                  >
+                    {data?.data?.map(r => (
+                      <GridItem
+                        key={r._id}
+                        rounded="lg"
+                        borderWidth={1}
+                        boxShadow="main"
+                        borderColor="gray.100"
+                      >
+                        <ActiveDeal {...r} />
+                      </GridItem>
+                    ))}
+                  </Grid>
+                )}
+              </>
+            )}
+          </>
+        )}
       </Box>
       <CreateDealModal onClose={onClose} isOpen={isOpen} />
     </Wrapper>

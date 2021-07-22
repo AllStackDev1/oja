@@ -110,15 +110,22 @@ const AccountDetailsSchema = yup.object().shape({
       value ? validator.isBIC(value) : true
     ),
   amount: yup.number().required(),
-  currencySymbol: yup.string().required(),
   bankName: yup.string().required('This field is required*'),
   accountName: yup.string().required('This field is required*'),
-  accountNumber: yup.string().required('This field is required*')
+  accountNumber: yup
+    .string()
+    .test('valid', 'Provide a valid account number', value =>
+      value ? validator.isNumeric(value) : false
+    )
+
+    .typeError('you must specify a number')
+    .required('This field is required*')
 })
 
 export const DealValidationSchema = yup.object().shape({
   debit: AccountDetailsSchema,
   credit: AccountDetailsSchema,
+  type: yup.string().required(),
   rate: yup.number().required(),
   transactionFee: yup.number().required(),
   settlementFee: yup.number().required()

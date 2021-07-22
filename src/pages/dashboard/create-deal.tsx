@@ -13,7 +13,7 @@ import {
   CreditTo,
   TransactionSummary
 } from 'components/Dashboard/Deal/Create'
-import { IDeal } from 'interface'
+import { ICurrency, IDeal } from 'interface'
 import useApi from 'context/Api'
 import { useHistory } from 'react-router-dom'
 
@@ -22,8 +22,7 @@ const accountDetails = {
   bankName: '',
   swiftCode: '',
   accountName: '',
-  accountNumber: '',
-  currencySymbol: ''
+  accountNumber: ''
 }
 
 const CreateDeal = (): JSX.Element => {
@@ -36,7 +35,8 @@ const CreateDeal = (): JSX.Element => {
     debit: accountDetails,
     credit: accountDetails
   })
-  const [countriesCode, setCountriesCode] = React.useState(['', ''])
+  const [_out, setOut] = React.useState<ICurrency>()
+  const [_in, setIn] = React.useState<ICurrency>()
 
   const queryClient = useQueryClient()
   const { createDeal } = useApi()
@@ -47,11 +47,17 @@ const CreateDeal = (): JSX.Element => {
       push('/dashboard/deals')
     } else {
       const d = JSON.parse(sessionStorage.getItem('new-deal') || '{}')
+      setOut(d.outCurrency)
+      setIn(d.inCurrency)
+      const type = d.inCurrency?.code + '_' + d.outCurrency?.code
+      delete d.outCurrency
+      delete d.inCurrency
+      setData(p => ({
+        ...p,
+        ...d,
+        type
+      }))
       sessionStorage.removeItem('new-deal')
-      setCountriesCode([d.credit.countryCode, d.debit.countryCode])
-      delete d.debit.countryCode
-      delete d.credit.countryCode
-      setData(p => ({ ...p, ...d }))
     }
     window.addEventListener('beforeunload', beforeUnloadListener)
     return () =>
@@ -144,7 +150,8 @@ const CreateDeal = (): JSX.Element => {
                     touched={touched.credit}
                     handleBlur={handleBlur}
                     handleChange={handleChange}
-                    countryCode={countriesCode[0]}
+                    outFlag={_out?.flag}
+                    outName={_out?.name}
                   />
                   <DebitFrom
                     formData={formData}
@@ -153,14 +160,18 @@ const CreateDeal = (): JSX.Element => {
                     touched={touched.debit}
                     handleBlur={handleBlur}
                     handleChange={handleChange}
-                    countryCode={countriesCode[1]}
+                    inFlag={_in?.flag}
+                    inName={_in?.name}
                   />
                 </>
               ) : (
                 <TransactionSummary
+                  inSymbol={_in?.symbol}
+                  outSymbol={_out?.symbol}
                   values={values as IDeal}
                   setTermsAccept={setTermsAccept}
                   isTermsAccepted={isTermsAccepted}
+                  title={_in?.name + 'To' + _out?.name}
                 />
               )}
 

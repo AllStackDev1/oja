@@ -30,15 +30,15 @@ const Sidebar = (): JSX.Element => {
 
   const menus = [
     {
-      link: 'deals',
+      link: '/dashboard/deals',
       icon: HomeIcon
     },
     {
-      link: 'create-deal',
+      link: '/dashboard/create-deal',
       icon: VendToIcon
     },
     {
-      link: 'wallet',
+      link: '/dashboard/wallet',
       icon: WalletIcon
     }
   ]

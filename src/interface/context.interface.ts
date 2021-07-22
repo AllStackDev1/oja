@@ -1,4 +1,4 @@
-import { ICountry } from './country.interface'
+import { ICurrency } from './currency.interface'
 import { IDeal, IActiveDealsLatestTransaction } from './deal.interface'
 import { ResponsePayload } from './helpers.interface'
 import {
@@ -46,11 +46,13 @@ export interface IApiContext {
     id: string,
     p: Record<string, string>
   ): Promise<ResponsePayload<string, string>>
-  getCountries(
+  getCurrencies(
     e?: Record<string, string | boolean>
-  ): Promise<ResponsePayload<ICountry[], string>>
+  ): Promise<ResponsePayload<ICurrency[], string>>
   createDeal(p: IDeal): Promise<ResponsePayload<string, string>>
-  getDeal(e: string): Promise<ResponsePayload<string, string>>
+  getDeal(
+    e: string
+  ): Promise<ResponsePayload<IActiveDealsLatestTransaction, string>>
   getDeals(
     e?: Record<string, string>
   ): Promise<ResponsePayload<IActiveDealsLatestTransaction[], string>>

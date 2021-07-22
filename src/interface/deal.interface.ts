@@ -6,7 +6,6 @@ export interface IAccountDetails {
   swiftCode: string
   accountName: string
   accountNumber: string
-  currencySymbol: string
   amount: number
 }
 
@@ -39,21 +38,43 @@ export interface IDeal extends IDocument {
 }
 
 export interface IActiveDealsLatestTransaction extends IDocument {
+  rate: number
+  type: string
   debit: {
-    currencySymbol: string
-    currencyName: string
+    currency: {
+      name: string
+      code: string
+      symbol: string
+    }
     amount: number
+    accountName: string
+    accountNumber: string
+    bankName: string
   }
   credit: {
-    currencySymbol: string
-    currencyName: string
+    currency: {
+      name: string
+      code: string
+      symbol: string
+    }
     amount: number
+    accountName: string
+    accountNumber: string
+    bankName: string
   }
   progress: number
-  latestTransaction: {
+  latestTransaction?: {
     user: string
     type: string
     amount: number
     createdAt: string
   }
+  transactions?: [
+    {
+      user: string
+      type: string
+      amount: number
+      createdAt: string
+    }
+  ]
 }

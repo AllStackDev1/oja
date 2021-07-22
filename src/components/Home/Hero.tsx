@@ -6,17 +6,9 @@ import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
 import { Fade } from 'react-awesome-reveal'
 
-import { phoneInputData } from 'utils/helpers'
 import { CreateDealForm } from 'components/Dashboard/Deal/Create'
-import { ICountry } from 'interface'
 
-interface Props {
-  countriesData: Record<string, ICountry>
-}
-
-const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
-  const data = phoneInputData(countriesData, 'currency')
-
+const Hero: React.FC = (): JSX.Element => {
   return (
     <Box bg="ojaDark" color="white" pos="relative">
       <Flex
@@ -84,7 +76,7 @@ const Hero: React.FC<Props> = ({ countriesData }): JSX.Element => {
           </Box>
         </Fade>
         <Fade direction="right">
-          <CreateDealForm {...data} />
+          <CreateDealForm />
         </Fade>
       </Flex>
       <Flex
