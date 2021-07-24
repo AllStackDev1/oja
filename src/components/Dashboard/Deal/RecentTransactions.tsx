@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { Box, Icon, Text, Flex, Button, Heading } from '@chakra-ui/react'
 import Filter from 'components/Filter'
@@ -13,10 +14,16 @@ interface ITrans {
   createdAt: string
 }
 interface Props {
+  debitCurrencySymbol?: string
+  creditCurrencySymbol?: string
   transactions: ITrans[]
 }
 
-const RecentTransactions: React.FC<Props> = ({ transactions }): JSX.Element => {
+const RecentTransactions: React.FC<Props> = ({
+  debitCurrencySymbol,
+  creditCurrencySymbol,
+  transactions
+}): JSX.Element => {
   const [activePage, setActivePage] = React.useState(1)
   const [totalEntries, setTotalEntries] = React.useState(0)
   const [limit, setLimit] = React.useState(20)
@@ -26,7 +33,7 @@ const RecentTransactions: React.FC<Props> = ({ transactions }): JSX.Element => {
     {
       id: '_id',
       Header: 'No',
-      Cell: (row: Record<string, IAny<number>>) => row.row.id + 1
+      Cell: (row: Record<string, IAny<number>>) => +row.row.id + 1
     },
     {
       id: 'createdAt',
@@ -64,7 +71,13 @@ const RecentTransactions: React.FC<Props> = ({ transactions }): JSX.Element => {
     },
     {
       Header: 'Amount',
-      accessor: 'amount'
+      accessor: (row: Record<string, string>) => (
+        <Text>
+          {row.type === 'Received'
+            ? creditCurrencySymbol + '' + row.amount
+            : debitCurrencySymbol + '' + row.amount}
+        </Text>
+      )
     }
   ]
 
@@ -78,6 +91,10 @@ const RecentTransactions: React.FC<Props> = ({ transactions }): JSX.Element => {
       setTotalEntries(transactions.length)
     }
   }, [transactions, limit, activePage])
+
+  const pagination = Array(Math.ceil(totalEntries / limit))
+    .fill(null)
+    .map((_, i) => i + 1)
 
   return (
     <>
@@ -109,17 +126,17 @@ const RecentTransactions: React.FC<Props> = ({ transactions }): JSX.Element => {
         justify="space-between"
       >
         <Text fontSize="sm" lineHeight="17px" color="gray.500">
-          Showing {(activePage - 1) * (limit + 1)} to{' '}
+          Showing {(activePage - 1) * limit + 1} to{' '}
           {totalEntries > activePage * limit
             ? activePage * limit
             : totalEntries}{' '}
           of {totalEntries} entries
         </Text>
         <Flex w={40} align="center" justify="space-between">
-          <Button type="button" isDisabled={!totalEntries || activePage === 1}>
+          <Button type="button" isDisabled={activePage === 1}>
             Prev
           </Button>
-          <Button type="button" isDisabled={!totalEntries}>
+          <Button type="button" isDisabled={activePage <= pagination.length}>
             Next
           </Button>
         </Flex>

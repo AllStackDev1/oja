@@ -4,11 +4,11 @@ import { ProgressCycle } from 'components/SVG'
 
 interface Props {
   percentage: number
-  creditTotal: string
+  sentTotal: string
 }
 
 const AmountSentCard: React.FC<Props> = ({
-  creditTotal,
+  sentTotal,
   percentage
 }): JSX.Element => {
   return (
@@ -26,7 +26,7 @@ const AmountSentCard: React.FC<Props> = ({
             bgColor="ojaSkyBlueFade"
           />
           <Text pos="absolute" fontWeight={600} fontSize="1.625rem">
-            {creditTotal}
+            {sentTotal}
           </Text>
           <ProgressCycle value={percentage} />
         </Flex>

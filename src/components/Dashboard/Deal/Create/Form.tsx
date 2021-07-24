@@ -56,10 +56,7 @@ const CreateForm: FC = (): JSX.Element => {
         setRate(+rate.value.$numberDecimal)
         setOut(p => ({
           ...p,
-          amount:
-            Math.round(
-              _in.amount * +rate.value.$numberDecimal * 100 + Number.EPSILON
-            ) / 100
+          amount: _in.amount * +rate.value.$numberDecimal
         }))
       } else {
         setRate(1)
@@ -67,6 +64,10 @@ const CreateForm: FC = (): JSX.Element => {
       }
     }
   }, [data, _in.code, _out.code])
+
+  const parseNumber = (val: number) => {
+    return +parseFloat('' + Math.round(val * 100 + Number.EPSILON)).toFixed(2)
+  }
 
   const proceed = () => {
     setLoading(true)
@@ -79,18 +80,17 @@ const CreateForm: FC = (): JSX.Element => {
         swiftCode: '',
         accountName: '',
         accountNumber: '',
-        amount: Math.round(_in.amount * 100 + Number.EPSILON) / 100
+        amount: parseNumber(_in.amount)
       },
       credit: {
         bankName: '',
         swiftCode: '',
         accountName: '',
         accountNumber: '',
-        amount: Math.round(_out.amount * 100 + Number.EPSILON) / 100
+        amount: parseNumber(_out.amount)
       },
-      transactionFee:
-        Math.round(0.025 * _in.amount * 100 + Number.EPSILON) / 100,
-      settlementFee: Math.round(0.005 * _in.amount * 100 + Number.EPSILON) / 100
+      transactionFee: parseNumber(0.025 * _in.amount),
+      settlementFee: parseNumber(0.005 * _in.amount)
     })
     sessionStorage.setItem('new-deal', data)
     let link = '/dashboard/create-deal'
@@ -113,10 +113,10 @@ const CreateForm: FC = (): JSX.Element => {
             placeholder: 'Enter an amount...',
             value: _in.amount,
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-              setIn(p => ({ ...p, amount: Number(e.target.value) || 1 }))
+              setIn(p => ({ ...p, amount: +e.target.value || 1 }))
               setOut(p => ({
                 ...p,
-                amount: _rate * (Number(e.target.value) || 1)
+                amount: _rate * +e.target.value || 1
               }))
             }
           }}
@@ -139,7 +139,7 @@ const CreateForm: FC = (): JSX.Element => {
             name: 'out',
             readOnly: true,
             placeholder: '',
-            value: _out.amount,
+            value: parseFloat('' + _out.amount).toFixed(2),
             onChange: () => null
           }}
           select={{

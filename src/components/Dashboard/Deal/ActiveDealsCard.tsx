@@ -20,10 +20,13 @@ import { EmptyTableIcon } from 'components/SVG'
 
 interface Props {
   w?: string | number
-  r?: string
+  currentDeal?: string
 }
 
-const ActiveDeals: React.FC<Props> = ({ w = 'full', r }): JSX.Element => {
+const ActiveDeals: React.FC<Props> = ({
+  w = 'full',
+  currentDeal
+}): JSX.Element => {
   const { getDeals } = useApi()
   const { data, isLoading, error } = useQuery('active-deals', () =>
     getDeals({ status: 'PROCESSING' })
@@ -63,7 +66,7 @@ const ActiveDeals: React.FC<Props> = ({ w = 'full', r }): JSX.Element => {
                 ) : (
                   <Fade cascade delay={1000}>
                     {data?.data
-                      ?.filter(d => d._id !== r)
+                      ?.filter(d => d._id !== currentDeal)
                       ?.map((r, i) => (
                         <React.Fragment key={r._id}>
                           <ActiveDeal {...r} />

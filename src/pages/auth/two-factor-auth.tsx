@@ -49,10 +49,14 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
     if (!token) {
       history.push('/auth/register')
     } else {
-      const decode: IData = JSON.parse(atob(token))
-      if (decode.phoneNumber) {
-        setData(decode)
-      } else {
+      try {
+        const decode: IData = JSON.parse(atob(token))
+        if (decode.phoneNumber) {
+          setData(decode)
+        } else {
+          history.push('/auth/register')
+        }
+      } catch (err) {
         history.push('/auth/register')
       }
     }

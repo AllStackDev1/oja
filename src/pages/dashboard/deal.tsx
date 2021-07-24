@@ -15,6 +15,7 @@ import { Small } from 'components/Loading'
 
 import useApi from 'context/Api'
 import { formatMoney } from 'utils/helpers'
+import { TransactionTypeEnum } from 'interface'
 
 interface RouteParams {
   id: string
@@ -31,12 +32,19 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
   const { getDeal } = useApi()
   const { data, isLoading, error } = useQuery('deal', () => getDeal(id))
 
-  const getAmountSentPercent = () => {
-    const SumSentTrans = data?.data?.transactions?.reduce((a, b) => {
-      return (b.type === 'Sent' && a + +b.amount) || a
-    }, 0)
-    return ((SumSentTrans || 0) * 100) / (data?.data?.debit?.amount || 1)
+  const getAmountSentPercent = (total: number) => {
+    return ((total || 0) * 100) / (data?.data?.debit?.amount || 1)
   }
+
+  const getTotalAmount = (type: TransactionTypeEnum) => {
+    return data?.data?.transactions?.reduce((a, b) => {
+      return (b.type === type && a + +b.amount) || a
+    }, 0)
+  }
+
+  const sent = getTotalAmount(TransactionTypeEnum.SENT) || 0
+  const received = getTotalAmount(TransactionTypeEnum.RECEIVED) || 0
+
   return (
     <Wrapper
       title="Oj'a. | Deal Details"
@@ -77,27 +85,29 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
                   </Flex>
                 </Box>
                 <RecentTransactions
+                  debitCurrencySymbol={data?.data?.debit.currency.symbol}
+                  creditCurrencySymbol={data?.data?.credit.currency.symbol}
                   transactions={data?.data?.transactions || []}
                 />
               </GridItem>
               <GridItem colSpan={1}>
                 <Grid rowGap={8}>
                   <AmountSentCard
-                    percentage={getAmountSentPercent()}
-                    creditTotal={
+                    percentage={getAmountSentPercent(sent)}
+                    sentTotal={
                       [
                         data?.data?.debit.currency.symbol,
-                        formatMoney(data?.data?.debit.amount || 0)
+                        formatMoney(sent || 0)
                       ].join('') || ''
                     }
                   />
                   <AmountReceivedCard
-                    debitTotal={formatMoney(data?.data?.credit.amount || 0)}
+                    receivedTotal={formatMoney(received || 0)}
                     currencySymbol={data?.data?.credit.currency.symbol || ''}
                     bankName={data?.data?.credit?.bankName || ''}
                     accountNumber={data?.data?.credit?.accountNumber || ''}
                   />
-                  <ActiveDealsCard />
+                  <ActiveDealsCard currentDeal={data?.data?._id} />
                 </Grid>
               </GridItem>
             </Grid>

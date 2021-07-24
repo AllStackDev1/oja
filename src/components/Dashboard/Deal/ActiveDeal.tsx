@@ -22,6 +22,22 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
   latestTransaction
 }): JSX.Element => {
   const isTrue = latestTransaction?.type === 'Received'
+
+  const getProgressColorSchema = (key: number) => {
+    switch (true) {
+      case key <= 25:
+        return 'ojaColorSchemaError'
+      case key <= 50:
+        return 'orange'
+      case key <= 75:
+        return 'ojaColorSchemaSkyBlue'
+      case key <= 100:
+        return 'green'
+      default:
+        return 'ojaColorSchemaError'
+    }
+  }
+
   return (
     <Box p={5}>
       <Flex align="center" justify="space-between">
@@ -53,8 +69,8 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
       </Flex>
       {latestTransaction ? (
         <Text fontSize="sm" letterSpacing="-0.4px" color="gray.400">
-          {credit?.currency?.symbol}
-          {latestTransaction?.amount}
+          {isTrue ? credit?.currency?.symbol : debit?.currency?.symbol}
+          {latestTransaction.amount}
           <Icon
             boxSize={4}
             as={isTrue ? FaLongArrowAltUp : FaLongArrowAltDown}
@@ -73,16 +89,14 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
           <Progress
             value={progress}
             h={1}
-            colorScheme={
-              isTrue ? 'ojaColorSchemaSkyBlue' : 'ojaColorSchemaError'
-            }
+            colorScheme={getProgressColorSchema(progress)}
           />
         </Box>
         <Text
           as="span"
           fontWeight={800}
           fontSize="x-small"
-          color={isTrue ? 'ojaSkyBlue' : 'red.500'}
+          color={getProgressColorSchema(progress)}
         >
           {progress}%
         </Text>

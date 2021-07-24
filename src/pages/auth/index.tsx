@@ -14,13 +14,14 @@ import useAuth from 'context/Auth'
 const Auth: React.FC<RouteComponentProps> = (props): JSX.Element => {
   const {
     match: { url },
+    location: { pathname },
     history: { push }
   } = props
 
   const { isAuthenticated } = useAuth()
 
   React.useEffect(() => {
-    if (!isEmpty(isAuthenticated())) {
+    if (!isEmpty(isAuthenticated()) && pathname !== 'auth/logout') {
       push('/dashboard/deals')
     }
   }, [])
@@ -29,7 +30,7 @@ const Auth: React.FC<RouteComponentProps> = (props): JSX.Element => {
     <Box fontFamily="body" overflowX="hidden">
       <Switch>
         <Redirect exact from={`${url}`} to={`${url}/login`} />
-        <Route exact path={`${url}/login`} component={Login} />
+        <Route path={`${url}/login`} component={Login} />
         <Route exact path={`${url}/logout`} component={Logout} />
         <Route exact path={`${url}/register`} component={Register} />
         <Route exact path={`${url}/:token`} component={TwoFactorAuth} />

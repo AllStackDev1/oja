@@ -47,6 +47,7 @@ const CreateDeal = (): JSX.Element => {
       push('/dashboard/deals')
     } else {
       const d = JSON.parse(sessionStorage.getItem('new-deal') || '{}')
+      console.log(d)
       setOut(d.outCurrency)
       setIn(d.inCurrency)
       const type = d.inCurrency?.code + '_' + d.outCurrency?.code

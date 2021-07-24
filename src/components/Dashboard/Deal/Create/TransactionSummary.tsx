@@ -28,15 +28,15 @@ const TransactionSummary = (props: IProps): JSX.Element => {
 
   const info = [
     {
-      id: `${props.inSymbol}${formatMoney(Number(debit.amount))}`,
+      id: `${props.inSymbol}${formatMoney(debit.amount / 100)}`,
       title: 'Sending'
     },
     {
-      id: `${props.outSymbol}${formatMoney(Number(credit.amount))}`,
+      id: `${props.outSymbol}${formatMoney(credit.amount / 100)}`,
       title: 'Receiving'
     },
     {
-      id: `${props.inSymbol}${formatMoney(Number(transactionFee))}`,
+      id: `${props.inSymbol}${formatMoney(transactionFee / 100)}`,
       title: 'Transaction fee'
     }
   ]

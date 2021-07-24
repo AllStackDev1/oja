@@ -8,17 +8,17 @@ import Card from 'assets/images/card.svg'
 interface Props {
   bankName: string
   accountNumber: string
-  debitTotal: string
+  receivedTotal: string
   currencySymbol: string
 }
 
 const AmountReceivedCard: React.FC<Props> = ({
   bankName,
-  debitTotal,
+  receivedTotal,
   accountNumber,
   currencySymbol
 }): JSX.Element => {
-  const amountArray = debitTotal.split('.')
+  const amountArray = receivedTotal.split('.')
 
   return (
     <GridItem rounded="sm" p={6} boxShadow="main" border="2px solid #E7FAF8">
