@@ -67,13 +67,7 @@ const InputFlag: React.FC<IInputFlag> = (props): JSX.Element => {
               <Icon as={isOpen ? FaAngleUp : FaAngleDown} boxSize={5} />
             }
           >
-            <Image
-              h={8}
-              w={8}
-              rounded="full"
-              src={select?.selected?.flag}
-              alt={select?.selected?.name}
-            />
+            <Text fontSize="3xl">{select?.selected?.flag}</Text>
             <Text as="span" ml={2} fontSize="lg" fontWeight={700}>
               {select?.selected?.code}
             </Text>
@@ -103,19 +97,16 @@ const InputFlag: React.FC<IInputFlag> = (props): JSX.Element => {
                       d="flex"
                       key={o._id}
                       role="button"
+                      alignItems="center"
                       onClick={() => {
                         select?.onSelect(o.code)
                         onClose()
                       }}
                       _hover={{ bgColor: 'ojaSkyBlue' }}
                     >
-                      <Image
-                        h={8}
-                        w={8}
-                        rounded="full"
-                        src={o.flag}
-                        alt={o.name}
-                      />
+                      <Text fontSize="3xl" as="span">
+                        {o?.flag}
+                      </Text>
                       <Text as="span" ml={2} fontSize="lg" fontWeight={700}>
                         {o.code}
                       </Text>

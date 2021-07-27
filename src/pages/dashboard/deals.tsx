@@ -14,11 +14,11 @@ import {
 } from '@chakra-ui/react'
 
 import Wrapper from 'containers/Layout/Wrapper'
-import { Small } from 'components/Loading'
 import { ActiveDeal } from 'components/Dashboard/Deal'
 import { CustomButton } from 'components/Auth'
 
 import useApi from 'context/Api'
+import ReloadCard from 'components/ReloadCard'
 import { CreateDealModal } from 'components/Dashboard/Deal/Create'
 import { EmptyTableIcon } from 'components/SVG'
 
@@ -27,7 +27,9 @@ const Deals = (): JSX.Element => {
   const { push } = useHistory()
   const { getDeals } = useApi()
 
-  const { data, isLoading, error } = useQuery('deals', () => getDeals())
+  const { data, isLoading, error, refetch } = useQuery('deals', () =>
+    getDeals()
+  )
 
   React.useEffect(() => {
     if (sessionStorage.getItem('new-deal')) {
@@ -63,48 +65,45 @@ const Deals = (): JSX.Element => {
             />
           </Box>
         </Flex>
-        {isLoading && <Small thickness="2px" />}
-        {!isLoading && (
+        {isLoading || error ? (
+          <ReloadCard
+            h="50vh"
+            error={error}
+            justify="center"
+            refetch={refetch}
+            text="loading deals"
+            isLoading={isLoading}
+          />
+        ) : (
           <>
-            {error ? (
-              <Text>Error: {error}</Text>
+            {!data?.data?.length ? (
+              <Flex h={120} align="center" flexDir="column" justify="center">
+                <Icon as={EmptyTableIcon} boxSize={10} />
+                <Text mt={10}>There are no deal(s) made yet</Text>
+              </Flex>
             ) : (
-              <>
-                {!data?.data?.length ? (
-                  <Flex
-                    h={120}
-                    align="center"
-                    flexDir="column"
-                    justify="center"
+              <Grid
+                gap={5}
+                templateRows="repeat(4, 1fr)"
+                templateColumns={{
+                  base: 'repeat(1, 1fr)',
+                  md: 'repeat(2, 1fr)',
+                  '2xl': 'repeat(3, 1fr)',
+                  '4xl': 'repeat(4, 1fr)'
+                }}
+              >
+                {data?.data?.map(r => (
+                  <GridItem
+                    key={r._id}
+                    rounded="lg"
+                    borderWidth={1}
+                    boxShadow="main"
+                    borderColor="gray.100"
                   >
-                    <Icon as={EmptyTableIcon} boxSize={10} />
-                    <Text mt={10}>There are no deal(s) made yet</Text>
-                  </Flex>
-                ) : (
-                  <Grid
-                    gap={5}
-                    templateRows="repeat(4, 1fr)"
-                    templateColumns={{
-                      base: 'repeat(1, 1fr)',
-                      md: 'repeat(2, 1fr)',
-                      '2xl': 'repeat(3, 1fr)',
-                      '4xl': 'repeat(4, 1fr)'
-                    }}
-                  >
-                    {data?.data?.map(r => (
-                      <GridItem
-                        key={r._id}
-                        rounded="lg"
-                        borderWidth={1}
-                        boxShadow="main"
-                        borderColor="gray.100"
-                      >
-                        <ActiveDeal {...r} />
-                      </GridItem>
-                    ))}
-                  </Grid>
-                )}
-              </>
+                    <ActiveDeal {...r} />
+                  </GridItem>
+                ))}
+              </Grid>
             )}
           </>
         )}

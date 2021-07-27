@@ -6,7 +6,7 @@ interface Props {
   text?: string
 }
 const Splash: React.FC<Props> = ({ text }) => (
-  <Flex bg="white" h="100vh" align="center" justify="center">
+  <Flex flexDir="column" bg="white" h="100vh" align="center" justify="center">
     <Spinner
       thickness="5px"
       speed="0.65s"
@@ -14,7 +14,7 @@ const Splash: React.FC<Props> = ({ text }) => (
       size="lg"
       color="gray.500"
     />
-    {text && <Text className="loading-text">{text}</Text>}
+    {text && <Text className="loading-text loading-text-b">{text}</Text>}
   </Flex>
 )
 

@@ -118,6 +118,47 @@ input:-webkit-autofill:active {
  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+.loading-text {
+  display: inline-block;
+  top: calc(50% + 20px);
+  position: fixed;
+  z-index: 1;
+  color: #011E28;
+}
+
+.loading-text:after {
+  content: ".";
+  animation: dots 1s steps(5, end) infinite;
+}
+
+.loading-text-b {
+  display: unset;
+  top: unset;
+  position: unset;
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    color: rgba(0, 0, 0, 0);
+    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+  }
+
+  40% {
+    color: #011E28;
+    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+  }
+
+  60% {
+    text-shadow: 0.25em 0 0 #011E28, 0.5em 0 0 rgba(0, 0, 0, 0);
+  }
+
+  80%,
+  100% {
+    text-shadow: 0.25em 0 0 #011E28, 0.5em 0 0 #011E28;
+  }
+}
+
 @media screen and (min-width: 62em) {  
   .otp-input input {
     width: 5rem !important;
@@ -129,53 +170,6 @@ input:-webkit-autofill:active {
 }
 
 @media screen and (min-width: 80em) {
-  #create-deal-form .menu-flags {
-    padding-bottom: 0 !important;
-    background-color: #00d0be;
-  }
-
-  .menu-flags button svg {
-    border-radius: 50%;
-    font-size: 25px;
-  }
-
-  .menu-flags ul {
-    padding-top: 0;
-    padding-bottom: 0;
-    width: inherit;
-    font-weight: 700;
-    font-size: 18px !important;
-    background-color: #011e28 !important;
-  }
-
-  .menu-flags ul li {
-    display: flex;
-    justify-content:space-around;
-    padding: 10px 0px !important;
-  }
-
-  .menu-flags ul li svg {
-    border-radius: 50%;
-    font-size: 25px;
-  }
-
-  .menu-flags ul li:hover {
-    background-color: #00d0be !important;
-  }
-
-  .menu-flags-button {
-    font-weight: 700;
-    color: #ffffff !important;
-    border: unset !important;
-    border-radius: 0 !important;
-    font-size: 18px !important;
-    padding: 5px 20px !important;
-  }
-
-  #create-deal-form .menu-flags-button {
-    height: 4.5rem;
-  }
-
   .hero-curved-section {
     bottom: -1px;
     width: 100%;
@@ -193,29 +187,5 @@ input:-webkit-autofill:active {
     position: absolute;
     background-color: rgba(224, 250, 248, 0.2);
     border-radius: 0 0 10% 10%;
-  }
-
-  .display-flags .menu-flags-button {
-    padding: 0px !important;
-  }
-
-  .display-flags .menu-flags-button:disabled {
-    background-color: transparent !important;
-  }
-
-  .display-flags .menu-flags-button::after, 
-  .display-flags .menu-flags-button span:nth-child(2) {
-    display: none;
-  }
-
-  .display-flags .menu-flags-button span {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  .display-flags .menu-flags-button span svg {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
   }
 }

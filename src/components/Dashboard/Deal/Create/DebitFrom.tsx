@@ -47,13 +47,7 @@ const DebitTo = (props: IProps): JSX.Element => {
       </Box>
       <Box p={6} rounded="sm" boxShadow="main" pos="relative">
         <Flex zIndex={10} right={6} pos="absolute">
-          <Image
-            w={14}
-            h={10}
-            rounded="full"
-            src={props.inFlag}
-            alt={props.inName}
-          />
+          <Text fontSize="4xl">{props.inFlag}</Text>
         </Flex>
         <Grid rowGap={8}>
           {props.formData.map(d => (

@@ -47,13 +47,7 @@ const CreditTo = (props: IProps): JSX.Element => {
       </Box>
       <Box p={6} rounded="sm" boxShadow="main" pos="relative">
         <Flex zIndex={10} right={6} pos="absolute">
-          <Image
-            w={14}
-            h={14}
-            rounded="full"
-            src={props.outFlag}
-            alt={props.outName}
-          />
+          <Text fontSize="4xl">{props.outFlag}</Text>
         </Flex>
         <Grid rowGap={8}>
           {props.formData.map(d => (
