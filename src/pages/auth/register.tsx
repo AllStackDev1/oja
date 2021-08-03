@@ -1,8 +1,11 @@
+import { NavLink, RouteComponentProps } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+import { countries } from 'countries-list'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet-async'
 import { useFormik } from 'formik'
-import { countries } from 'countries-list'
+import { FaFacebookSquare } from 'react-icons/fa'
+import { IconType } from 'react-icons/lib'
 import {
   Box,
   Flex,
@@ -11,10 +14,8 @@ import {
   Text,
   Icon,
   Heading,
-  GridItem,
-  useToast
+  GridItem
 } from '@chakra-ui/react'
-import { NavLink, RouteComponentProps } from 'react-router-dom'
 import {
   FiUser,
   FiMail,
@@ -23,8 +24,6 @@ import {
   FiUserCheck,
   FiArrowRight
 } from 'react-icons/fi'
-import { FaFacebookSquare } from 'react-icons/fa'
-import { IconType } from 'react-icons/lib'
 
 import {
   CustomInputGroup,
@@ -45,7 +44,6 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
   const [selectedCountry, setSelectedCountry] = useState(countries.US)
   const [isLoading, setLoading] = useState<boolean>(false)
   const { register, getUsersCount } = useApi()
-  const toast = useToast()
 
   const initialValues = {
     email: '',
@@ -64,33 +62,17 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       try {
         setSubmitting(true)
         const res = await register(values)
-        toast({
-          title: res.message,
-          description: `An OTP has been sent to ${res.data?.phoneNumber}`,
-          status: 'success',
-          duration: 5000,
-          position: 'top-right'
-        })
-        resetForm({})
-        history.push(
-          `/auth/${btoa(
-            JSON.stringify({
-              phoneNumber: res.data?.phoneNumber || '',
-              pinId: res.otpResponse?.pinId || ''
-            })
-          )}`
-        )
-      } catch (error) {
-        toast({
-          title: 'Error occurred',
-          description:
-            error?.message ||
-            error?.data?.message ||
-            'Unexpected network error.',
-          status: 'error',
-          duration: 5000,
-          position: 'top-right'
-        })
+        if (res.success) {
+          resetForm({})
+          history.push(
+            `/auth/${btoa(
+              JSON.stringify({
+                phoneNumber: res.data?.phoneNumber || '',
+                pinId: res.otpResponse?.pinId || ''
+              })
+            )}`
+          )
+        }
       } finally {
         setSubmitting(false)
       }
@@ -130,8 +112,6 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
           setPhoneNumberPicked(true)
         }
       }
-    } catch (err) {
-      console.log(err)
     } finally {
       setLoading(false)
     }
@@ -302,7 +282,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                       ? 'Phone number already registered'
                       : errors.phoneNumber
                   }
-                  countries={countries}
+                  data={countries}
                   _focus={{ outline: 'none' }}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
@@ -313,7 +293,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                 />
               </GridItem>
               {/* password */}
-              <GridItem>
+              <GridItem colSpan={2}>
                 <CustomPasswordInput
                   h={12}
                   border={0}
@@ -328,24 +308,6 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                   _focus={{ outline: 'none' }}
                   touched={!!touched.password}
                   defaultValue={values.password}
-                />
-              </GridItem>
-              {/* confirm password */}
-              <GridItem>
-                <CustomPasswordInput
-                  h={12}
-                  border={0}
-                  rounded={0}
-                  onBlur={handleBlur}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  onChange={handleChange}
-                  _focus={{ outline: 'none' }}
-                  error={errors.confirmPassword}
-                  placeholder="Confirm Password"
-                  touched={!!touched.confirmPassword}
-                  defaultValue={values.confirmPassword}
                 />
               </GridItem>
               {/* form btn */}

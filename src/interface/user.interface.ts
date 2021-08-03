@@ -13,7 +13,6 @@ export interface RegisterUserPayloadDto {
   address: IAddress
   firstName: string
   phoneNumber: string
-  confirmPassword: string
 }
 
 export interface RegisterUserResponseDto {

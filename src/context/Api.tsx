@@ -23,17 +23,59 @@ export const ApiContextProvider: React.FC = ({ children }) => {
 
   // #region AUTH
   const register = async (payload: RegisterUserPayloadDto) => {
-    return await http.post({
-      url: `${BASE_URL}/auth/register`,
-      body: JSON.stringify(payload)
-    })
+    let res: ResponsePayload<Record<string, string>, string> = {}
+    try {
+      res = await http.post({
+        url: `${BASE_URL}/auth/register`,
+        body: JSON.stringify(payload)
+      })
+      toast({
+        title: res.message,
+        description: `An OTP has been sent to ${res.data?.phoneNumber}`,
+        status: 'success',
+        duration: 5000,
+        position: 'top-right'
+      })
+    } catch (error: any) {
+      toast({
+        title: 'Error occurred',
+        description:
+          error?.message || error?.data?.message || 'Unexpected network error.',
+        status: 'error',
+        duration: 5000,
+        position: 'top-right'
+      })
+      res.success = false
+    }
+    return res
   }
 
   const verifyOTP = async (payload: VerifyOtpPayloadDto) => {
-    return await http.post({
-      url: `${BASE_URL}/auth/verify-otp`,
-      body: JSON.stringify(payload)
-    })
+    let res: ResponsePayload<Record<string, string>, string> = {}
+    try {
+      res = await http.post({
+        url: `${BASE_URL}/auth/verify-otp`,
+        body: JSON.stringify(payload)
+      })
+      toast({
+        title: 'Access granted (200)',
+        description: res.message,
+        status: 'success',
+        duration: 5000,
+        position: 'top-right'
+      })
+    } catch (error: any) {
+      toast({
+        title: 'Error occurred',
+        description:
+          error?.message || error?.data?.message || 'Unexpected network error.',
+        status: 'error',
+        duration: 5000,
+        position: 'top-right'
+      })
+      res.success = false
+    }
+    return res
   }
 
   const resendOTP = async (payload: ResendOtpPayloadDto) => {
@@ -50,39 +92,35 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   const login = async (
     payload: LoginDto
   ): Promise<ResponsePayload<string, string>> => {
-    const result: ResponsePayload<string, string> = {
-      success: true
-    }
+    let res: ResponsePayload<any, string> = {}
     try {
-      const response = await http.post({
+      res = await http.post({
         url: `${BASE_URL}/auth/login`,
         body: JSON.stringify(payload)
       })
-      result.data = response.data
-
       toast({
         duration: 5000,
         status: 'success',
         position: 'top-right',
-        title: response.data?.to
+        title: res.data?.to
           ? 'Login successful'
-          : `Welcome back ${response.data?.user?.firstName}`,
-        description: response.data?.to
-          ? `An OTP has been sent to ${response.data?.to}`
+          : `Welcome back ${res.data?.user?.firstName}`,
+        description: res.data?.to
+          ? `An OTP has been sent to ${res.data?.to}`
           : ''
       })
-    } catch (err) {
+    } catch (error: any) {
       toast({
         title: 'Error occurred',
         description:
-          err?.message || err?.data?.message || 'Unexpected network error.',
+          error?.message || error?.data?.message || 'Unexpected network error.',
         status: 'error',
         duration: 5000,
         position: 'top-right'
       })
-      result.success = false
+      res.success = false
     }
-    return result
+    return res
   }
   // #endregion
 
@@ -151,11 +189,11 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         title: response.message,
         description: "Your part is done, sit back and let's do the work now"
       })
-    } catch (err) {
+    } catch (error: any) {
       toast({
         title: 'Error occurred',
         description:
-          err?.message || err?.data?.message || 'Unexpected network error.',
+          error?.message || error?.data?.message || 'Unexpected network error.',
         status: 'error',
         duration: 5000,
         position: 'top-right'

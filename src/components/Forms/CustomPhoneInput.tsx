@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Country } from 'countries-list'
 import {
   Box,
@@ -19,7 +19,7 @@ interface CustomPhoneInput extends InputProps {
   error?: string
   label?: string
   touched: boolean
-  countries: Record<string, Country>
+  data: Record<string, Country>
   countryId?: string
   selectedCountry: Country
   setSelectedCountry(e: Country): void
@@ -29,7 +29,7 @@ interface CustomPhoneInput extends InputProps {
 }
 
 const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
-  countries,
+  data,
   countryId,
   handleCheck,
   setFieldValue,
@@ -39,6 +39,34 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
   ...rest
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [countries, setCountries] = React.useState<Country[]>([])
+  const [value, setValue] = React.useState<string>('')
+
+  React.useEffect(() => {
+    setCountries(Object.values(data))
+  }, [data])
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const initialData = Object.values(data)
+    let _value = event.target.value ? event.target.value : ''
+    setValue(_value)
+    _value = _value.trim().toLowerCase()
+    let filtered = []
+    if (_value) {
+      filtered = initialData.filter(item => {
+        const columnData = item.name?.toLowerCase()
+        return !!columnData?.match(new RegExp(_value, 'i'))
+      })
+    } else {
+      filtered = JSON.parse(JSON.stringify(initialData))
+    }
+    setCountries(filtered)
+  }
+
+  const handleClick = () => {
+    setValue('')
+    setCountries(Object.values(data))
+  }
 
   return (
     <CustomInputGroup
@@ -90,7 +118,10 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
             rounded={0}
             h={rest.h}
             bgColor="transparent"
-            onClick={() => (!isOpen ? onOpen() : onClose())}
+            onClick={() => {
+              handleClick()
+              !isOpen ? onOpen() : onClose()
+            }}
             _focus={{ outline: 'none' }}
             _hover={{ bgColor: 'transparent' }}
             rightIcon={
@@ -122,8 +153,20 @@ const CustomPasswordInput: React.FC<CustomPhoneInput> = ({
                 borderColor="gray.100"
                 onMouseLeave={() => isOpen && onClose()}
               >
-                <Box as="ul" onClick={() => null}>
-                  {Object.values(countries)?.map(o => (
+                <Box as="ul">
+                  <Input
+                    h={14}
+                    type="text"
+                    rounded="0"
+                    value={value}
+                    color="ojaDark"
+                    bgColor="white"
+                    name="search-input"
+                    borderTopRadius="md"
+                    placeholder="Search..."
+                    onChange={handleSearch}
+                  />
+                  {countries.map(o => (
                     <Text
                       px={4}
                       py={2}

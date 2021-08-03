@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICurrency } from './currency.interface'
 import { IDeal, IActiveDealsLatestTransaction } from './deal.interface'
 import { ResponsePayload } from './helpers.interface'
 import {
-  RegisterUserPayloadDto,
-  RegisterUserResponseDto,
-  LoginDto,
   IUser,
-  VerifyOtpPayloadDto,
+  LoginDto,
   VerifyOtpStatus,
+  ResendOtpResponse,
+  VerifyOtpPayloadDto,
   ResendOtpPayloadDto,
-  ResendOtpResponse
+  RegisterUserResponseDto,
+  RegisterUserPayloadDto
 } from './user.interface'
 
 export interface IAppContext {
@@ -25,7 +26,6 @@ export interface IAppContext {
 export interface IApiContext {
   register(e: RegisterUserPayloadDto): Promise<RegisterUserResponseDto>
   verifyOTP(e: VerifyOtpPayloadDto): Promise<VerifyOtpStatus>
-  // login(e: LoginDto): Promise<ResponsePayload<Record<string, string>, string>>
   login(e: LoginDto): Promise<ResponsePayload<Record<string, any>, string>>
   resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
   verifyEmail(e: string): Promise<unknown>

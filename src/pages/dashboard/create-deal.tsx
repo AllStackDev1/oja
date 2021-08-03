@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import { useQueryClient } from 'react-query'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import { Grid, GridItem } from '@chakra-ui/react'
+import { useHistory } from 'react-router-dom'
 
 import { ActiveDealsCard } from 'components/Dashboard/Deal'
 import { DealValidationSchema } from 'utils/validator-schemas'
@@ -15,7 +16,6 @@ import {
 } from 'components/Dashboard/Deal/Create'
 import { ICurrency, IDeal } from 'interface'
 import useApi from 'context/Api'
-import { useHistory } from 'react-router-dom'
 
 const accountDetails = {
   amount: 0,
@@ -47,7 +47,6 @@ const CreateDeal = (): JSX.Element => {
       push('/dashboard/deals')
     } else {
       const d = JSON.parse(sessionStorage.getItem('new-deal') || '{}')
-      console.log(d)
       setOut(d.outCurrency)
       setIn(d.inCurrency)
       const type = d.inCurrency?.code + '_' + d.outCurrency?.code

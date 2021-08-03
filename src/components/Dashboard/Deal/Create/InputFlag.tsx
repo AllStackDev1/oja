@@ -1,13 +1,13 @@
 import React from 'react'
 import {
   Box,
-  Image,
   Icon,
   Text,
   Flex,
   Fade,
   Button,
-  useDisclosure
+  useDisclosure,
+  InputProps
 } from '@chakra-ui/react'
 
 import { CustomInput } from 'components/Forms'
@@ -15,15 +15,8 @@ import { ICurrency } from 'interface'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
 interface IInputFlag {
-  input: {
-    id: string
-    name: string
-    value?: string | number
-    cursor?: string
-    readOnly?: boolean
-    placeholder: string
-    onChange(e: React.ChangeEvent<HTMLInputElement>): void | null
-  }
+  ref?: React.LegacyRef<HTMLInputElement>
+  input: InputProps
   select: {
     selected?: ICurrency
     options?: ICurrency[]
@@ -40,10 +33,9 @@ const InputFlag: React.FC<IInputFlag> = (props): JSX.Element => {
     <Flex pos="relative" align="center" justify="space-between">
       <Box w={{ xl: '70%' }}>
         <CustomInput
-          min={1}
           rounded={0}
+          type="text"
           color="#000"
-          type="number"
           bgColor="white"
           pl={{ xl: 10 }}
           lineHeight="150%"

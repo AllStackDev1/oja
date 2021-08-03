@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Box, Link, Text, Icon, Heading, Button } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom'
 import { RiArrowRightSFill } from 'react-icons/ri'
@@ -104,10 +103,6 @@ const Hero: React.FC = (): JSX.Element => {
       <Box className="hero-curved-section" />
     </Box>
   )
-}
-
-Hero.propTypes = {
-  countriesData: PropTypes.any.isRequired
 }
 
 export default Hero

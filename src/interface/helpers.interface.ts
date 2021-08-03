@@ -1,11 +1,4 @@
-import { CountryCodes } from 'react-flags-select/build/types'
-import { ICountry } from './country.interface'
-
-export interface IPhoneInputData {
-  countries?: CountryCodes
-  customLabels?: Record<string, string>
-  data: Record<string, ICountry>
-}
+import { FormikHelpers } from 'formik'
 
 export interface ResponsePayload<T, X> {
   success?: boolean
@@ -21,4 +14,9 @@ export interface IDocument {
   _id: string
   createdAt: string
   updatedAt: string
+}
+
+export interface IFormikSubmitHandler<T> {
+  values: T
+  actions: FormikHelpers<T>
 }

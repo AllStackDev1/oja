@@ -88,7 +88,7 @@ const Sidebar = (): JSX.Element => {
             <Tooltip
               hasArrow
               label="Need Help?"
-              bgColor="ojaSkyBlue"
+              bg="ojaSkyBlue"
               placement="right-end"
             >
               <Box>
@@ -121,28 +121,27 @@ const Sidebar = (): JSX.Element => {
                 <PopoverArrow />
                 {userMenus.map((um, i) => (
                   <React.Fragment key={um.id}>
-                    <Box
-                      p={2}
-                      roundedTop={i === 0 ? 'md' : ''}
-                      roundedBottom={userMenus.length === i + 1 ? 'md' : ''}
-                      cursor="pointer"
-                      _hover={{
-                        textDecor: 'none',
-                        color: 'white',
-                        bg: 'ojaDark'
-                      }}
+                    <Link
+                      as={NavLink}
+                      to={um.link}
+                      _hover={{ textDecor: 'none' }}
                     >
-                      <Link
-                        as={NavLink}
-                        to={um.link}
-                        d="flex"
+                      <Flex
+                        p={2}
                         alignItems="center"
-                        _hover={{ textDecor: 'none' }}
+                        roundedTop={i === 0 ? 'md' : ''}
+                        roundedBottom={userMenus.length === i + 1 ? 'md' : ''}
+                        cursor="pointer"
+                        _hover={{
+                          textDecor: 'none',
+                          color: 'white',
+                          bg: 'ojaDark'
+                        }}
                       >
                         <Icon as={um.icon} mr={2} />
                         {um.title}
-                      </Link>
-                    </Box>
+                      </Flex>
+                    </Link>
                     {userMenus.length !== i + 1 && <Divider />}
                   </React.Fragment>
                 ))}

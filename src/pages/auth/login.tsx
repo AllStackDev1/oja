@@ -29,7 +29,7 @@ import useApi from 'context/Api'
 const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
   const { rememberMe, setRememberMe } = useAuth()
   const { login } = useApi()
-  const { store } = useAuth()
+  const { store, setSession } = useAuth()
 
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -41,6 +41,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       if (res.success) {
         resetForm({})
         if (res.data?.user) {
+          setSession(res.success)
           store({ user: res.data?.user, authToken: res?.data?.authToken })
           history.push('/dashboard/deals')
         } else {

@@ -1,14 +1,6 @@
 import React from 'react'
 import { FormikErrors, FormikTouched } from 'formik'
-import {
-  Box,
-  Text,
-  Image,
-  Flex,
-  Heading,
-  Grid,
-  GridItem
-} from '@chakra-ui/react'
+import { Box, Text, Flex, Grid, Heading, GridItem } from '@chakra-ui/react'
 
 import { IAccountDetails } from 'interface'
 import { CustomInputGroup } from 'components/Forms'

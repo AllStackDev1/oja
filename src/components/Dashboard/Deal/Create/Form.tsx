@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 
@@ -30,6 +30,7 @@ import { BiRefresh } from 'react-icons/bi'
 import InputFlag from './InputFlag'
 
 const CreateForm: FC = (): JSX.Element => {
+  const [displayValue, setDisplayValue] = useState<string | number>('')
   const [_in, setIn] = useState({ amount: 1000, code: 'USD' })
   const [_out, setOut] = useState({ amount: 0, code: 'NGN' })
   const [isLoading, setLoading] = useState(false)
@@ -48,7 +49,7 @@ const CreateForm: FC = (): JSX.Element => {
 
   const getOutOptions = () => _inCurrency?.rates?.map(rate => rate.currency)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const rates = _inCurrency?.rates
     if (rates) {
       const rate = rates?.find(r => r.currency.code === _out.code)
@@ -62,6 +63,7 @@ const CreateForm: FC = (): JSX.Element => {
         setRate(1)
         setOut(p => ({ ...p, amount: _in.amount }))
       }
+      formatNumber(_in.amount)
     }
   }, [data, _in.code, _out.code])
 
@@ -103,6 +105,38 @@ const CreateForm: FC = (): JSX.Element => {
     }, 200)
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reg = /^-?\d+\.?\d*$/
+    if (reg.test(e.target.value)) {
+      setDisplayValue(e.target.value)
+      setIn(p => ({ ...p, amount: +e.target.value || 1 }))
+      setOut(p => ({
+        ...p,
+        amount: _rate * +e.target.value || 1
+      }))
+    }
+  }
+
+  const localStringToNumber = (s: string | number): string | number => {
+    return Number(String(s).replace(/[^0-9.-]+/g, ''))
+  }
+
+  const formatNumber = (val: string | number): void => {
+    const options = {
+      maximumFractionDigits: 2,
+      currency: _inCurrency?.code || 'USD',
+      style: 'currency',
+      currencyDisplay: 'symbol'
+    }
+
+    const value =
+      val || val === '0'
+        ? localStringToNumber(val).toLocaleString('en-US', options)
+        : ''
+
+    setDisplayValue(value)
+  }
+
   return (
     <Box w="lg" id="create-deal-form">
       <Box mt={4}>
@@ -110,15 +144,18 @@ const CreateForm: FC = (): JSX.Element => {
           input={{
             id: 'in',
             name: 'in',
-            placeholder: 'Enter an amount...',
-            value: _in.amount,
-            onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-              setIn(p => ({ ...p, amount: +e.target.value || 1 }))
-              setOut(p => ({
-                ...p,
-                amount: _rate * +e.target.value || 1
-              }))
-            }
+            onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+              const value = e.target.value
+                ? localStringToNumber(e.target.value)
+                : ''
+              setDisplayValue(value)
+            },
+            onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
+              formatNumber(e.target.value)
+            },
+            value: displayValue,
+            onChange: handleChange,
+            placeholder: 'Enter an amount...'
           }}
           select={{
             selected: _inCurrency,
@@ -137,10 +174,10 @@ const CreateForm: FC = (): JSX.Element => {
           input={{
             id: 'out',
             name: 'out',
-            readOnly: true,
             placeholder: '',
-            value: parseFloat('' + _out.amount).toFixed(2),
-            onChange: () => null
+            isReadOnly: true,
+            onChange: () => null,
+            value: _outCurrency?.symbol + '' + formatMoney(_out.amount)
           }}
           select={{
             selected: _outCurrency,
@@ -149,7 +186,6 @@ const CreateForm: FC = (): JSX.Element => {
           }}
         />
       </Box>
-
       <Box pl={{ xl: 6 }} pr={{ xl: 10 }}>
         <Flex
           pt={{ xl: 10 }}
@@ -172,7 +208,8 @@ const CreateForm: FC = (): JSX.Element => {
               letterSpacing="0.2px"
               fontFamily="Avenir Next"
             >
-              {_in.code} {formatMoney(_in.amount)}
+              {_inCurrency?.symbol}
+              {formatMoney(_in.amount)}
             </Text>
           </Box>
           <Box
@@ -197,7 +234,8 @@ const CreateForm: FC = (): JSX.Element => {
               letterSpacing="0.2px"
               fontFamily="Avenir Next"
             >
-              {_out.code} {formatMoney(_out.amount)}
+              {_outCurrency?.symbol}
+              {formatMoney(_out.amount)}
             </Text>
           </Box>
         </Flex>

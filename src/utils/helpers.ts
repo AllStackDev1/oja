@@ -14,7 +14,6 @@ export const upperFirst = (str: string): string => _.upperFirst(str)
 
 export const getSentence = (str: string): string => {
   const x = str.replace(/([A-Z])/g, ' $1')
-  console.log(x)
   return x.replace(/^./, function (str) {
     return str.toLowerCase()
   })

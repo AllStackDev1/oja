@@ -44,11 +44,7 @@ export const RegistrationSchema = yup.object().shape({
         A character <br/> 
     `
     })
-    .required('Password is required*'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Passwords do not match*')
-    .required('Confirm your password*')
+    .required('Password is required*')
 })
 
 export const LoginSchema = yup.object().shape({

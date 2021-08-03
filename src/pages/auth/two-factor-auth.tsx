@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet-async'
 import { useFormik } from 'formik'
 import { RouteComponentProps } from 'react-router-dom'
-import { Flex, Box, Text, Heading, useToast, Button } from '@chakra-ui/react'
+import { Flex, Box, Text, Heading, Button } from '@chakra-ui/react'
 import { CustomOTPInput } from 'components/Forms'
 import { FiArrowRight } from 'react-icons/fi'
 import { CustomButton } from 'components/Auth'
@@ -43,7 +44,6 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
     setSuccessMessage
   } = useAuth()
   const { verifyOTP, resendOTP } = useApi()
-  const toast = useToast()
 
   React.useEffect(() => {
     if (!token) {
@@ -72,33 +72,16 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
     },
     validationSchema: OtpVerifySchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        setSubmitting(true)
-        const res = await verifyOTP(values)
-        toast({
-          title: 'Access granted (200)',
-          description: res.message,
-          status: 'success',
-          duration: 5000,
-          position: 'top-right'
+      setSubmitting(true)
+      verifyOTP(values)
+        .then(res => {
+          if (res.success) {
+            resetForm({})
+            store({ user: res.user, authToken: res.authToken })
+            history.push('/dashboard/deals')
+          }
         })
-        resetForm({})
-        store({ user: res.user, authToken: res.authToken })
-        history.push('/dashboard/deals')
-      } catch (error) {
-        toast({
-          title: 'Error occurred',
-          description:
-            error?.message ||
-            error?.data?.message ||
-            'Unexpected network error.',
-          status: 'error',
-          duration: 5000,
-          position: 'top-right'
-        })
-      } finally {
-        setSubmitting(false)
-      }
+        .finally(() => setSubmitting(false))
     }
   })
 
@@ -115,7 +98,7 @@ const TwoFactorAuth: React.FC<RouteComponentProps<RouteParams>> = ({
       setErrorMessage(null)
       formik.setFieldValue('pinId', res.message?.pin_id)
       setSuccessMessage(`A new OTP has been sent to ${res.message?.to}`)
-    } catch (error) {
+    } catch (error: any) {
       setSuccessMessage(null)
       setErrorMessage(
         error?.message || error?.data?.message || 'Unexpected network error.'

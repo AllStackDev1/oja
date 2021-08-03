@@ -1,6 +1,7 @@
-import React, { useState, createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
+import { useQueryClient } from 'react-query'
 import { IAuthContext, IStore, IUser } from 'interface'
+import React, { useState, createContext, useContext } from 'react'
 
 const AuthContext = createContext({})
 
@@ -12,6 +13,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   )
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const queryClient = useQueryClient()
 
   const store = ({ authToken, user }: IStore) => {
     if (authToken) {
@@ -42,7 +44,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     setUser(undefined)
     localStorage.clear()
     sessionStorage.clear()
-    sessionStorage.clear()
+    queryClient.invalidateQueries()
   }
 
   return (

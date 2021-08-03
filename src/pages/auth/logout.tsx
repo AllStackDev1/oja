@@ -6,15 +6,14 @@ import useAuth from 'context/Auth'
 import { Splash } from 'components/Loading'
 
 const Logout: React.FC = () => {
-  const { logout, setSession } = useAuth()
+  const { logout } = useAuth()
   const history = useHistory()
 
   React.useEffect(() => {
+    logout()
     setTimeout(() => {
-      logout()
-      setSession(true)
       history.push('/auth/login')
-    }, 200)
+    }, 500)
   })
 
   return <Splash text="logging off" />
