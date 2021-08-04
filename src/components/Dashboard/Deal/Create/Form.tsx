@@ -28,19 +28,22 @@ import useApi from 'context/Api'
 import { CustomButton } from 'components/Auth'
 import { BiRefresh } from 'react-icons/bi'
 import InputFlag from './InputFlag'
+import ReloadCard from 'components/ReloadCard'
 
 const CreateForm: FC = (): JSX.Element => {
   const [displayValue, setDisplayValue] = useState<string | number>('')
   const [_in, setIn] = useState({ amount: 1000, code: 'USD' })
   const [_out, setOut] = useState({ amount: 0, code: 'NGN' })
-  const [isLoading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { isOpen, onToggle } = useDisclosure()
   const { isAuthenticated } = useAuth()
   const [_rate, setRate] = useState(1)
   const { getCurrencies } = useApi()
   const history = useHistory()
 
-  const { data } = useQuery('currencies', () => getCurrencies({ status: true }))
+  const { data, error, refetch, isLoading } = useQuery('currencies', () =>
+    getCurrencies({ q: JSON.stringify({ status: true }) })
+  )
 
   const getCurrency = (code: string) => data?.data?.find(o => o.code === code)
 
@@ -63,7 +66,7 @@ const CreateForm: FC = (): JSX.Element => {
         setRate(1)
         setOut(p => ({ ...p, amount: _in.amount }))
       }
-      formatNumber(_in.amount)
+      formatDisplayValue(_in.amount)
     }
   }, [data, _in.code, _out.code])
 
@@ -117,27 +120,28 @@ const CreateForm: FC = (): JSX.Element => {
     }
   }
 
-  const localStringToNumber = (s: string | number): string | number => {
+  const localStringToNumber = (s: string | number): number => {
     return Number(String(s).replace(/[^0-9.-]+/g, ''))
   }
 
-  const formatNumber = (val: string | number): void => {
-    const options = {
-      maximumFractionDigits: 2,
-      currency: _inCurrency?.code || 'USD',
-      style: 'currency',
-      currencyDisplay: 'symbol'
-    }
-
+  const formatDisplayValue = (val: string | number): void => {
     const value =
-      val || val === '0'
-        ? localStringToNumber(val).toLocaleString('en-US', options)
-        : ''
-
+      val || val === '0' ? formatMoney(localStringToNumber(val), _in.code) : ''
     setDisplayValue(value)
   }
 
-  return (
+  return isLoading || error ? (
+    <ReloadCard
+      w="lg"
+      h="40vh"
+      bg="white"
+      error={error}
+      justify="center"
+      refetch={refetch}
+      text="fetching currencies"
+      isLoading={isLoading}
+    />
+  ) : (
     <Box w="lg" id="create-deal-form">
       <Box mt={4}>
         <InputFlag
@@ -151,7 +155,7 @@ const CreateForm: FC = (): JSX.Element => {
               setDisplayValue(value)
             },
             onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
-              formatNumber(e.target.value)
+              formatDisplayValue(e.target.value)
             },
             value: displayValue,
             onChange: handleChange,
@@ -177,7 +181,7 @@ const CreateForm: FC = (): JSX.Element => {
             placeholder: '',
             isReadOnly: true,
             onChange: () => null,
-            value: _outCurrency?.symbol + '' + formatMoney(_out.amount)
+            value: formatMoney(_out.amount, _outCurrency?.code)
           }}
           select={{
             selected: _outCurrency,
@@ -208,8 +212,7 @@ const CreateForm: FC = (): JSX.Element => {
               letterSpacing="0.2px"
               fontFamily="Avenir Next"
             >
-              {_inCurrency?.symbol}
-              {formatMoney(_in.amount)}
+              {formatMoney(_in.amount, _in.code)}
             </Text>
           </Box>
           <Box
@@ -234,8 +237,7 @@ const CreateForm: FC = (): JSX.Element => {
               letterSpacing="0.2px"
               fontFamily="Avenir Next"
             >
-              {_outCurrency?.symbol}
-              {formatMoney(_out.amount)}
+              {formatMoney(_out.amount, _out.code)}
             </Text>
           </Box>
         </Flex>
@@ -329,7 +331,7 @@ const CreateForm: FC = (): JSX.Element => {
             boxShadow="lg"
             rounded="none"
             fontWeight={600}
-            isLoading={isLoading}
+            isLoading={loading}
             onClick={proceed}
             _focus={{ outline: 'none' }}
             title="COMPLETE DEAL"

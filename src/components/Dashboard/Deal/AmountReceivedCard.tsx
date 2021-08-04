@@ -9,16 +9,14 @@ interface Props {
   bankName: string
   accountNumber: string
   receivedTotal: string
-  currencySymbol: string
 }
 
 const AmountReceivedCard: React.FC<Props> = ({
   bankName,
   receivedTotal,
-  accountNumber,
-  currencySymbol
+  accountNumber
 }): JSX.Element => {
-  const amountArray = receivedTotal.split('.')
+  const array1 = receivedTotal.split('.')
 
   return (
     <GridItem rounded="sm" p={6} boxShadow="main" border="2px solid #E7FAF8">
@@ -45,13 +43,13 @@ const AmountReceivedCard: React.FC<Props> = ({
         <Flex h="full" align="center" flexDir="column" justify="center">
           <Box color="white" fontWeight={600}>
             <Text as="sup" fontWeight={400} fontSize="sm">
-              {currencySymbol}
+              {array1[0].slice(0, 1)}
             </Text>
             <Text as="span" fontSize="2.5rem">
-              {amountArray[0]}
+              {array1[0].slice(1)}
             </Text>
             <Text as="span" fontSize="15px">
-              .{amountArray[1]}
+              .{array1[1]}
             </Text>
           </Box>
           <Icon as={LogoIcon} />

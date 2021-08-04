@@ -100,7 +100,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       setUsernamePicked(false)
       setPhoneNumberPicked(false)
       setLoading(true)
-      const res = await getUsersCount({ [name]: val })
+      const res = await getUsersCount({ q: JSON.stringify({ [name]: val }) })
       if (res.count) {
         if (name === 'username') {
           setUsernamePicked(true)

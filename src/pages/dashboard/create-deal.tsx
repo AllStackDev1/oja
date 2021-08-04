@@ -2,8 +2,9 @@ import React from 'react'
 import { useFormik } from 'formik'
 import { useQueryClient } from 'react-query'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
-import { Grid, GridItem } from '@chakra-ui/react'
-import { useHistory } from 'react-router-dom'
+import { Heading, Grid, GridItem } from '@chakra-ui/react'
+import { Prompt, useHistory } from 'react-router-dom'
+import { Beforeunload } from 'react-beforeunload'
 
 import { ActiveDealsCard } from 'components/Dashboard/Deal'
 import { DealValidationSchema } from 'utils/validator-schemas'
@@ -59,15 +60,10 @@ const CreateDeal = (): JSX.Element => {
       }))
       sessionStorage.removeItem('new-deal')
     }
-    window.addEventListener('beforeunload', beforeUnloadListener)
-    return () =>
-      window.removeEventListener('beforeunload', beforeUnloadListener)
+    // window.addEventListener('beforeunload', beforeUnloadListener)
+    // return () =>
+    //   window.removeEventListener('beforeunload', beforeUnloadListener)
   }, [])
-
-  const beforeUnloadListener = (event: Event) => {
-    event.preventDefault()
-    return (event.returnValue = true)
-  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -79,7 +75,7 @@ const CreateDeal = (): JSX.Element => {
       if (res.success) {
         resetForm({})
         push('/dashboard/deals')
-        queryClient.invalidateQueries()
+        queryClient.invalidateQueries({})
       }
       setSubmitting(false)
     }
@@ -124,12 +120,16 @@ const CreateDeal = (): JSX.Element => {
     }
   ]
 
+  const title = _in?.name + ' to ' + _out?.name
+
   return (
     <Wrapper
       title="Oj'a. | Create Deal"
       href="/dashboard/create-deal"
       content="This page"
     >
+      <Beforeunload onBeforeunload={() => 'You’ll lose unsaved your data!'} />
+      <Prompt when={true} message={'You’ll lose unsaved data!'} />
       <Grid
         mt={14}
         mr={10}
@@ -139,6 +139,9 @@ const CreateDeal = (): JSX.Element => {
         columnGap={{ base: 24, '4xl': 44 }}
       >
         <GridItem colSpan={2} rowSpan={2}>
+          <Heading mb={3} fontWeight={500} fontSize="2xl">
+            {title}
+          </Heading>
           <form onSubmit={handleSubmit}>
             <Grid rowGap={8}>
               {!viewSummary ? (
@@ -166,12 +169,12 @@ const CreateDeal = (): JSX.Element => {
                 </>
               ) : (
                 <TransactionSummary
-                  inSymbol={_in?.symbol}
-                  outSymbol={_out?.symbol}
+                  inCode={_in?.code}
+                  outCode={_out?.code}
                   values={values as IDeal}
                   setTermsAccept={setTermsAccept}
                   isTermsAccepted={isTermsAccepted}
-                  title={_in?.name + 'To' + _out?.name}
+                  title={title}
                 />
               )}
 

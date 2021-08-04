@@ -17,8 +17,8 @@ import { IDeal } from 'interface'
 interface IProps {
   title?: string
   values: IDeal
-  inSymbol?: string
-  outSymbol?: string
+  inCode?: string
+  outCode?: string
   isTermsAccepted: boolean
   setTermsAccept(e: boolean): void
 }
@@ -28,15 +28,15 @@ const TransactionSummary = (props: IProps): JSX.Element => {
 
   const info = [
     {
-      id: `${props.inSymbol}${formatMoney(debit.amount / 100)}`,
+      id: formatMoney(debit.amount / 100, props.inCode),
       title: 'Sending'
     },
     {
-      id: `${props.outSymbol}${formatMoney(credit.amount / 100)}`,
+      id: formatMoney(credit.amount / 100, props.outCode),
       title: 'Receiving'
     },
     {
-      id: `${props.inSymbol}${formatMoney(transactionFee / 100)}`,
+      id: formatMoney(transactionFee / 100, props.inCode),
       title: 'Transaction fee'
     }
   ]

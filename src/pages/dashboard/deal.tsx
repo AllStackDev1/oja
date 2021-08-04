@@ -11,7 +11,7 @@ import {
   RecentTransactions,
   AmountReceivedCard
 } from 'components/Dashboard/Deal'
-import { Small } from 'components/Loading'
+import ReloadCard from 'components/ReloadCard'
 
 import useApi from 'context/Api'
 import { formatMoney } from 'utils/helpers'
@@ -30,7 +30,9 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
   } = props
 
   const { getDeal } = useApi()
-  const { data, isLoading, error } = useQuery('deal', () => getDeal(id))
+  const { data, error, refetch, isLoading } = useQuery('deal', () =>
+    getDeal(id)
+  )
 
   const getAmountSentPercent = (total: number) => {
     return ((total || 0) * 100) / (data?.data?.debit?.amount || 1)
@@ -51,68 +53,80 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
       href="/dashboard/deal"
       content="This page shows details of a deal"
     >
-      {isLoading && <Small thickness="2px" />}
-      {!isLoading && (
-        <>
-          {error ? (
-            <Text>Error: {error}</Text>
-          ) : (
-            <Grid mx={10} columnGap={6} templateColumns="repeat(3, 1fr)">
-              <GridItem
-                colSpan={2}
-                rounded="lg"
-                boxShadow="main"
-                pos="relative"
-              >
-                <Box>
-                  <Box p={6}>
-                    <Text fontWeight={600} fontSize="md">
-                      {data?.data?.debit.currency.name} {'to '}
-                      {data?.data?.credit.currency.name}
-                    </Text>
-                    <Text fontWeight="300" fontSize="26px">
-                      {data?.data?.credit.currency.symbol}
-                      {formatMoney(data?.data?.credit?.amount || 0)}
-                    </Text>
-                  </Box>
-                  <Flex p={6} color="white" bgColor="ojaDark">
-                    <Icon as={IoMdInformationCircle} boxSize={6} />
-                    <Text ml={3} fontSize="sm" lineHeight="150%">
-                      Cas should reflect Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incid id unt ut
-                      labore et dolore magna aliqua
-                    </Text>
-                  </Flex>
-                </Box>
-                <RecentTransactions
-                  debitCurrencySymbol={data?.data?.debit.currency.symbol}
-                  creditCurrencySymbol={data?.data?.credit.currency.symbol}
-                  transactions={data?.data?.transactions || []}
-                />
-              </GridItem>
-              <GridItem colSpan={1}>
-                <Grid rowGap={8}>
-                  <AmountSentCard
-                    percentage={getAmountSentPercent(sent)}
-                    sentTotal={
-                      [
-                        data?.data?.debit.currency.symbol,
-                        formatMoney(sent || 0)
-                      ].join('') || ''
-                    }
-                  />
-                  <AmountReceivedCard
-                    receivedTotal={formatMoney(received || 0)}
-                    currencySymbol={data?.data?.credit.currency.symbol || ''}
-                    bankName={data?.data?.credit?.bankName || ''}
-                    accountNumber={data?.data?.credit?.accountNumber || ''}
-                  />
-                  <ActiveDealsCard currentDeal={data?.data?._id} />
-                </Grid>
-              </GridItem>
+      {isLoading || error ? (
+        <ReloadCard
+          // w="lg"
+          h="100vh"
+          bg="white"
+          error={error}
+          justify="center"
+          refetch={refetch}
+          text="fetching deal details"
+          isLoading={isLoading}
+        />
+      ) : (
+        <Grid mx={10} columnGap={6} templateColumns="repeat(3, 1fr)">
+          <GridItem colSpan={2} rounded="lg" boxShadow="main" pos="relative">
+            <Box>
+              <Box p={6}>
+                <Text fontWeight={600} fontSize="md">
+                  {data?.data?.debit.currency.name} {'to '}
+                  {data?.data?.credit.currency.name}
+                </Text>
+                <Flex align="center">
+                  <Text fontWeight="300" fontSize="26px">
+                    {formatMoney(
+                      data?.data?.debit?.amount || 0,
+                      data?.data?.debit.currency.code
+                    )}
+                  </Text>
+                  <Text mx={2} fontWeight="300" fontSize="26px">
+                    to
+                  </Text>
+                  <Text fontWeight="300" fontSize="26px">
+                    {formatMoney(
+                      data?.data?.credit?.amount || 0,
+                      data?.data?.credit.currency.code
+                    )}
+                  </Text>
+                </Flex>
+              </Box>
+              <Flex p={6} color="white" bgColor="ojaDark">
+                <Icon as={IoMdInformationCircle} boxSize={6} />
+                <Text ml={3} fontSize="sm" lineHeight="150%">
+                  Cas should reflect Lorem ipsum dolor sit amet, consectetur
+                  adipiscing elit, sed do eiusmod tempor incid id unt ut labore
+                  et dolore magna aliqua
+                </Text>
+              </Flex>
+            </Box>
+            <RecentTransactions
+              debitCurrencySymbol={data?.data?.debit.currency.symbol}
+              creditCurrencySymbol={data?.data?.credit.currency.symbol}
+              transactions={data?.data?.transactions || []}
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Grid rowGap={8}>
+              <AmountSentCard
+                percentage={getAmountSentPercent(sent)}
+                sentTotal={formatMoney(
+                  sent || 0,
+                  data?.data?.debit.currency.code
+                )}
+              />
+              <AmountReceivedCard
+                receivedTotal={formatMoney(
+                  received || 0,
+                  data?.data?.credit.currency.code
+                )}
+                bankName={data?.data?.credit?.bankName || ''}
+                accountNumber={data?.data?.credit?.accountNumber || ''}
+              />
+              <ActiveDealsCard currentDeal={data?.data?._id} />
             </Grid>
-          )}
-        </>
+          </GridItem>
+        </Grid>
       )}
     </Wrapper>
   )

@@ -10,21 +10,20 @@ class HttpFacade {
     })
 
     this.http.interceptors.request.use(
-      function (config) {
+      config => {
         const token = window.sessionStorage.getItem('_ojaut_')
         if (token) config.headers.Authorization = 'Bearer ' + token
         return config
       },
-      function (error) {
-        return Promise.reject(error)
-      }
+      error => Promise.reject(error)
     )
 
     this.http.interceptors.response.use(
-      function (response) {
-        return response
-      },
-      function (error) {
+      response => response,
+      error => {
+        if (error.response.status === 401) {
+          window.location.href = '/auth/logout'
+        }
         return Promise.reject(error.response)
       }
     )

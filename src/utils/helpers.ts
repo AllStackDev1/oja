@@ -22,29 +22,15 @@ export const getSentence = (str: string): string => {
 export const sec2min = (secs: number): string =>
   moment.utc(secs * 1000).format('mm:ss')
 
-export const formatMoney = (
-  amount: number | string,
-  decimalCount = 2,
-  decimal = '.',
-  thousands = ','
-): string => {
-  decimalCount = Math.abs(decimalCount)
-  decimalCount = isNaN(decimalCount) ? 2 : decimalCount
-  const negativeSign = amount < 0 ? '-' : ''
-  const i = parseInt(
-    (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
-  ).toString()
-  const j = i.length > 3 ? i.length % 3 : 0
+export const formatMoney = (amount: number, currency = 'USD'): string => {
+  const options = {
+    maximumFractionDigits: 2,
+    currency: currency,
+    style: 'currency',
+    currencyDisplay: 'symbol'
+  }
 
-  return (
-    negativeSign +
-    (j ? i.substr(0, j) + thousands : '') +
-    i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) +
-    (decimalCount
-      ? decimal +
-        Math.abs(Number(amount) - Number(i))
-          .toFixed(decimalCount)
-          .slice(2)
-      : '')
-  )
+  const type = currency === 'NGN' ? 'en-NG' : 'en-US'
+
+  return amount.toLocaleString(type, options)
 }

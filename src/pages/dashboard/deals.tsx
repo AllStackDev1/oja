@@ -71,7 +71,7 @@ const Deals = (): JSX.Element => {
             error={error}
             justify="center"
             refetch={refetch}
-            text="loading deals"
+            text="fetching deals"
             isLoading={isLoading}
           />
         ) : (

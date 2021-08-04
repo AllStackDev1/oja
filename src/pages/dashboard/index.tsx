@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-import { Switch, Redirect, Route, RouteComponentProps } from 'react-router-dom'
+import { Route, Switch, Redirect, RouteComponentProps } from 'react-router-dom'
 
 const Deal = lazy(() => import('./deal'))
 const Deals = lazy(() => import('./deals'))

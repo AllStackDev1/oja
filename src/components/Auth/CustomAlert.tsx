@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Fade from 'react-reveal/Fade'
+import { Fade } from 'react-awesome-reveal'
 import {
   Box,
   Alert,
@@ -43,7 +43,7 @@ const CustomAlert: React.FC<IProps> = ({
 
   return (
     <Box {...rest} zIndex={10}>
-      <Fade bottom when={isVisible} appear>
+      <Fade direction="up">
         <Alert
           mt={4}
           zIndex={10}
