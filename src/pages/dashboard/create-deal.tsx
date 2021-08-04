@@ -4,7 +4,6 @@ import { useQueryClient } from 'react-query'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import { Heading, Grid, GridItem } from '@chakra-ui/react'
 import { Prompt, useHistory } from 'react-router-dom'
-import { Beforeunload } from 'react-beforeunload'
 
 import { ActiveDealsCard } from 'components/Dashboard/Deal'
 import { DealValidationSchema } from 'utils/validator-schemas'
@@ -60,10 +59,15 @@ const CreateDeal = (): JSX.Element => {
       }))
       sessionStorage.removeItem('new-deal')
     }
-    // window.addEventListener('beforeunload', beforeUnloadListener)
-    // return () =>
-    //   window.removeEventListener('beforeunload', beforeUnloadListener)
+    window.addEventListener('beforeunload', beforeUnloadListener)
+    return () =>
+      window.removeEventListener('beforeunload', beforeUnloadListener)
   }, [])
+
+  const beforeUnloadListener = (event: Event) => {
+    event.preventDefault()
+    return (event.returnValue = true)
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -128,8 +132,7 @@ const CreateDeal = (): JSX.Element => {
       href="/dashboard/create-deal"
       content="This page"
     >
-      <Beforeunload onBeforeunload={() => 'You’ll lose unsaved your data!'} />
-      <Prompt when={true} message={'You’ll lose unsaved data!'} />
+      <Prompt when={true} message="You’ll lose unsaved data!" />
       <Grid
         mt={14}
         mr={10}
