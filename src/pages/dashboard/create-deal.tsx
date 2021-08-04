@@ -28,6 +28,7 @@ const accountDetails = {
 const CreateDeal = (): JSX.Element => {
   const [isTermsAccepted, setTermsAccept] = React.useState(false)
   const [viewSummary, setViewSummary] = React.useState(false)
+  const [isBlocking, setBlocking] = React.useState(false)
   const [_data, setData] = React.useState({
     rate: 0,
     transactionFee: 0,
@@ -46,6 +47,7 @@ const CreateDeal = (): JSX.Element => {
     if (!sessionStorage.getItem('new-deal')) {
       push('/dashboard/deals')
     } else {
+      setBlocking(true)
       const d = JSON.parse(sessionStorage.getItem('new-deal') || '{}')
       setOut(d.outCurrency)
       setIn(d.inCurrency)
@@ -132,7 +134,7 @@ const CreateDeal = (): JSX.Element => {
       href="/dashboard/create-deal"
       content="This page"
     >
-      <Prompt when={true} message="You’ll lose unsaved data!" />
+      <Prompt when={isBlocking} message="You’ll lose unsaved data!" />
       <Grid
         mt={14}
         mr={10}

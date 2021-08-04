@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet-async'
-import { Box, Icon, Flex } from '@chakra-ui/react'
+import { useHistory, useLocation } from 'react-router-dom'
 import { FiChevronLeft } from 'react-icons/fi'
+import { Box, Icon, Flex } from '@chakra-ui/react'
 
 import Sidebar from '../Sidebar'
 import useAuth from 'context/Auth'
@@ -22,6 +23,10 @@ const Wrapper: React.FC<IWrapper> = ({
 }): JSX.Element => {
   const { isAuthenticated } = useAuth()
   const { user } = isAuthenticated()
+  const history = useHistory()
+  const { pathname } = useLocation()
+
+  console.log(pathname)
 
   return (
     <>
@@ -59,18 +64,22 @@ const Wrapper: React.FC<IWrapper> = ({
               successMessage="Please confirm you email, check your inbox or junk a verification link was sent from OJA's team"
             />
           )}
-          <Box pos="absolute">
-            <Flex
-              w={7}
-              h={7}
-              rounded="full"
-              align="center"
-              justify="center"
-              bgColor="ojaDark"
-            >
-              <Icon as={FiChevronLeft} color="ojaSkyBlue" />
-            </Flex>
-          </Box>
+          {pathname !== '/dashboard/deals' && (
+            <Box pos="absolute">
+              <Flex
+                w={7}
+                h={7}
+                role="button"
+                rounded="full"
+                align="center"
+                justify="center"
+                bgColor="ojaDark"
+                onClick={() => history.goBack()}
+              >
+                <Icon as={FiChevronLeft} color="ojaSkyBlue" />
+              </Flex>
+            </Box>
+          )}
           {children}
         </Box>
       </Flex>
