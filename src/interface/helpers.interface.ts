@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormikHelpers } from 'formik'
 
 export interface ResponsePayload<T, X> {
@@ -19,4 +20,9 @@ export interface IDocument {
 export interface IFormikSubmitHandler<T> {
   values: T
   actions: FormikHelpers<T>
+}
+
+export interface IBank {
+  name: string
+  code: number | string
 }

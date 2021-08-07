@@ -1,11 +1,13 @@
 import axios from 'axios'
 import { IDelete, IGet, IPatch, IPost, IPut } from 'interface'
+import { BASE_URL } from 'utils/configs'
 import QueryString from 'query-string'
 
 class HttpFacade {
   private http
   constructor() {
     this.http = axios.create({
+      baseURL: BASE_URL,
       headers: { 'Content-Type': 'application/json' }
     })
 
@@ -21,7 +23,7 @@ class HttpFacade {
     this.http.interceptors.response.use(
       response => response,
       error => {
-        if (error.response.status === 401) {
+        if (error?.response?.status === 401) {
           window.location.href = '/auth/logout'
         }
         return Promise.reject(error.response)
@@ -40,8 +42,8 @@ class HttpFacade {
   }
 
   get = async ({ url, query = {} }: IGet) => {
-    const queryString = QueryString.stringify(query)
-    const response = await this.http.get(`${url}?${queryString}`)
+    const queryString = '?' + QueryString.stringify(query)
+    const response = await this.http.get(`${url + queryString}`)
     return response.data
   }
 

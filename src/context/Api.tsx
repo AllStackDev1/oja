@@ -4,16 +4,15 @@ import PropTypes from 'prop-types'
 import { useToast } from '@chakra-ui/react'
 
 import http from 'utils/httpFacade'
-import { BASE_URL } from 'utils/configs'
 import {
   IDeal,
-  IApiContext,
+  LoginDto,
   UpdateIUser,
+  IApiContext,
   ResponsePayload,
   VerifyOtpPayloadDto,
   ResendOtpPayloadDto,
-  RegisterUserPayloadDto,
-  LoginDto
+  RegisterUserPayloadDto
 } from 'interface'
 
 const ApiContext = createContext({})
@@ -26,7 +25,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     let res: ResponsePayload<Record<string, string>, string> = {}
     try {
       res = await http.post({
-        url: `${BASE_URL}/auth/register`,
+        url: '/auth/register',
         body: JSON.stringify(payload)
       })
       toast({
@@ -54,7 +53,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     let res: ResponsePayload<Record<string, string>, string> = {}
     try {
       res = await http.post({
-        url: `${BASE_URL}/auth/verify-otp`,
+        url: '/auth/verify-otp',
         body: JSON.stringify(payload)
       })
       toast({
@@ -80,13 +79,13 @@ export const ApiContextProvider: React.FC = ({ children }) => {
 
   const resendOTP = async (payload: ResendOtpPayloadDto) => {
     return await http.post({
-      url: `${BASE_URL}/auth/resend-otp`,
+      url: '/auth/resend-otp',
       body: JSON.stringify(payload)
     })
   }
 
   const verifyEmail = async (token: string) => {
-    return await http.patch({ url: `${BASE_URL}/auth/verify-email/${token}` })
+    return await http.patch({ url: `/auth/verify-email/${token}` })
   }
 
   const login = async (
@@ -95,7 +94,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     let res: ResponsePayload<any, string> = {}
     try {
       res = await http.post({
-        url: `${BASE_URL}/auth/login`,
+        url: '/auth/login',
         body: JSON.stringify(payload)
       })
       toast({
@@ -126,48 +125,28 @@ export const ApiContextProvider: React.FC = ({ children }) => {
 
   // #region USER
   const getUser = async (id: string) => {
-    return await http.get({ url: `${BASE_URL}/users/${id}` })
+    return await http.get({ url: `/users/${id}` })
   }
 
   const getUsers = async (query: Record<string, any>) => {
-    return await http.get({ url: `${BASE_URL}/users`, query })
+    return await http.get({ url: '/users', query })
+  }
+
+  const updateProfile = async (id: string, payload: UpdateIUser) => {
+    return await http.patch({
+      url: `/users/${id}`,
+      body: JSON.stringify(payload)
+    })
   }
 
   const getUsersCount = async (query: Record<string, any>) => {
-    return await http.get({ url: `${BASE_URL}/users/count`, query })
-  }
-
-  const updateProfile = async (payload: UpdateIUser) => {
-    return await http.patch({
-      url: `${BASE_URL}/admin/update-profile`,
-      body: JSON.stringify(payload)
-    })
-  }
-
-  const updateUser = async (id: string, payload: UpdateIUser) => {
-    return await http.patch({
-      url: `${BASE_URL}/users/${id}`,
-      body: JSON.stringify(payload)
-    })
-  }
-
-  const deleteUser = async (id: string) => {
-    return await http.delete({
-      url: `${BASE_URL}/users/${id}`
-    })
-  }
-
-  const deleteUsers = async (payload: [string]) => {
-    return await http.post({
-      url: `${BASE_URL}/users/bulk-delete`,
-      body: JSON.stringify(payload)
-    })
+    return await http.get({ url: '/users/count', query })
   }
   // #endregion
 
   // #region CURRENCIES
   const getCurrencies = async (query: Record<string, any>) => {
-    return await http.get({ url: `${BASE_URL}/currencies`, query })
+    return await http.get({ url: '/currencies', query })
   }
   // #endregion
 
@@ -178,7 +157,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     }
     try {
       const response = await http.post({
-        url: `${BASE_URL}/deals`,
+        url: '/deals',
         body: JSON.stringify(payload)
       })
       result.data = response.data
@@ -204,19 +183,18 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
 
   const getDeal = async (id: string) => {
-    return await http.get({ url: `${BASE_URL}/deals/${id}` })
+    return await http.get({ url: `/deals/${id}` })
   }
 
   const getDeals = async (payload: any) => {
-    return await http.get({ url: `${BASE_URL}/deals/`, query: payload })
+    return await http.get({ url: '/deals', query: payload })
   }
 
   const getActiveDealsWithTheirLatestTransaction = async () => {
     return await http.get({
-      url: `${BASE_URL}/deals/active-with-their-latest-transaction`
+      url: '/deals/active-with-their-latest-transaction'
     })
   }
-
   // #endregion
 
   return (
@@ -230,11 +208,8 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         register,
         verifyOTP,
         resendOTP,
-        updateUser,
-        deleteUser,
         createDeal,
         verifyEmail,
-        deleteUsers,
         getCurrencies,
         getUsersCount,
         updateProfile,

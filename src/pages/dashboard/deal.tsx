@@ -10,7 +10,7 @@ import {
   AmountSentCard,
   RecentTransactions,
   AmountReceivedCard
-} from 'components/Dashboard/Deal'
+} from 'components/Deal'
 import ReloadCard from 'components/ReloadCard'
 
 import useApi from 'context/Api'
@@ -35,7 +35,7 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
   )
 
   const getAmountSentPercent = (total: number) => {
-    return ((total || 0) * 100) / (data?.data?.debit?.amount || 1)
+    return +(((total || 0) * 100) / (data?.data?.debit?.amount || 1)).toFixed(2)
   }
 
   const getTotalAmount = (type: TransactionTypeEnum) => {

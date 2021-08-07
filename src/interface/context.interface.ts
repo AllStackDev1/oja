@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { UpdateIUser } from 'interface'
 import { ICurrency } from './currency.interface'
 import { IDeal, IActiveDealsLatestTransaction } from './deal.interface'
 import { ResponsePayload } from './helpers.interface'
@@ -36,15 +37,9 @@ export interface IApiContext {
   getUsersCount(
     e?: Record<string, string>
   ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>
-  updateUser(
-    id: string,
-    p: Record<string, string>
-  ): Promise<ResponsePayload<string, string>>
-  deleteUser(id: string): Promise<ResponsePayload<string, string>>
-  deleteUsers(ids: [string]): Promise<ResponsePayload<string, string>>
   updateProfile(
     id: string,
-    p: Record<string, string>
+    p: UpdateIUser
   ): Promise<ResponsePayload<string, string>>
   getCurrencies(
     e?: Record<string, string | boolean>

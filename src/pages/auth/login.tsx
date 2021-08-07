@@ -41,9 +41,11 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
       if (res.success) {
         resetForm({})
         if (res.data?.user) {
-          setSession(res.success)
+          setSession(true)
           store({ user: res.data?.user, authToken: res?.data?.authToken })
-          history.push('/dashboard/deals')
+          setTimeout(() => {
+            history.push('/dashboard/deals')
+          }, 250)
         } else {
           history.push(
             `/auth/${btoa(

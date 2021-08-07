@@ -34,3 +34,33 @@ export const formatMoney = (amount: number, currency = 'USD'): string => {
 
   return amount.toLocaleString(type, options)
 }
+
+export const fetchData = async (
+  path: string,
+  config: Record<string, any> = {}
+): Promise<any> => {
+  const response = await fetch(path, config)
+  return await response.json()
+}
+
+export const getNigerianBanks = async (): Promise<Record<string, any>> => {
+  return await fetchData('https://api.paystack.co/bank?country=nigeria', {
+    headers: {
+      Authorization: 'Bearer sk_test_d87d4e2620ae1928de81cfbe385a65838f9bcdf0'
+    }
+  })
+}
+
+export const validateNigerianAccount = async (
+  accNo: string,
+  bkCode: string | number
+): Promise<Record<string, any>> => {
+  return await fetchData(
+    `https://api.paystack.co/bank/resolve?account_number=${accNo}&bank_code=${bkCode}`,
+    {
+      headers: {
+        Authorization: 'Bearer sk_test_d87d4e2620ae1928de81cfbe385a65838f9bcdf0'
+      }
+    }
+  )
+}

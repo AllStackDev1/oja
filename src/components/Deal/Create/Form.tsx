@@ -81,17 +81,9 @@ const CreateForm: FC = (): JSX.Element => {
       inCurrency: _inCurrency,
       outCurrency: _outCurrency,
       debit: {
-        bankName: '',
-        swiftCode: '',
-        accountName: '',
-        accountNumber: '',
         amount: parseNumber(_in.amount)
       },
       credit: {
-        bankName: '',
-        swiftCode: '',
-        accountName: '',
-        accountNumber: '',
         amount: parseNumber(_out.amount)
       },
       transactionFee: parseNumber(0.025 * _in.amount),

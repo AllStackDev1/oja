@@ -14,12 +14,12 @@ import {
 } from '@chakra-ui/react'
 
 import Wrapper from 'containers/Layout/Wrapper'
-import { ActiveDeal } from 'components/Dashboard/Deal'
+import { ActiveDeal } from 'components/Deal'
 import { CustomButton } from 'components/Auth'
 
 import useApi from 'context/Api'
 import ReloadCard from 'components/ReloadCard'
-import { CreateDealModal } from 'components/Dashboard/Deal/Create'
+import { CreateDealModal } from 'components/Deal/Create'
 import { EmptyTableIcon } from 'components/SVG'
 
 const Deals = (): JSX.Element => {

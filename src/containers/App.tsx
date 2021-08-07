@@ -16,11 +16,11 @@ import { AppContextProvider } from 'context/App'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false,
-      refetchOnMount: false,
+      retry: true,
+      refetchOnMount: true,
+      staleTime: 60 * 60 * 1000,
       refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      staleTime: 24 * 60 * 60 * 1000
+      refetchOnWindowFocus: false
     }
   }
 })

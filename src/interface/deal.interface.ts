@@ -2,11 +2,15 @@ import { IDocument } from './helpers.interface'
 import { IUser } from './user.interface'
 
 export interface IAccountDetails {
-  bankName: string
-  swiftCode: string
+  bank: {
+    name: string
+    code: number | string
+    swiftCode?: string
+    routingNumber?: number | string
+  }
+  amount: number
   accountName: string
   accountNumber: string
-  amount: number
 }
 
 export enum TransactionTypeEnum {

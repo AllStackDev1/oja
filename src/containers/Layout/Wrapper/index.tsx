@@ -26,8 +26,6 @@ const Wrapper: React.FC<IWrapper> = ({
   const history = useHistory()
   const { pathname } = useLocation()
 
-  console.log(pathname)
-
   return (
     <>
       <Helmet>

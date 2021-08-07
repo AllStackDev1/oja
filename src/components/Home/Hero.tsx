@@ -5,7 +5,7 @@ import { RiArrowRightSFill } from 'react-icons/ri'
 import { FiChevronsDown } from 'react-icons/fi'
 import { Fade } from 'react-awesome-reveal'
 
-import { CreateDealForm } from 'components/Dashboard/Deal/Create'
+import { CreateDealForm } from 'components/Deal/Create'
 
 const Hero: React.FC = (): JSX.Element => {
   return (

@@ -15,7 +15,6 @@ import { ICurrency } from 'interface'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
 interface IInputFlag {
-  ref?: React.LegacyRef<HTMLInputElement>
   input: InputProps
   select: {
     selected?: ICurrency

@@ -1,26 +1,28 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { useQueryClient } from 'react-query'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import { Heading, Grid, GridItem } from '@chakra-ui/react'
 import { Prompt, useHistory } from 'react-router-dom'
 
-import { ActiveDealsCard } from 'components/Dashboard/Deal'
-import { DealValidationSchema } from 'utils/validator-schemas'
 import Wrapper from 'containers/Layout/Wrapper'
+import { AccountDetailForm, TransactionSummary } from 'components/Deal/Create'
+import { ActiveDealsCard } from 'components/Deal'
 import { CustomButton } from 'components/Auth'
-import {
-  DebitFrom,
-  CreditTo,
-  TransactionSummary
-} from 'components/Dashboard/Deal/Create'
+
+import { DealValidationSchema } from 'utils/validator-schemas'
+
 import { ICurrency, IDeal } from 'interface'
+
 import useApi from 'context/Api'
 
 const accountDetails = {
+  bank: {
+    name: '',
+    code: '',
+    swiftCode: '',
+    routingNumber: ''
+  },
   amount: 0,
-  bankName: '',
-  swiftCode: '',
   accountName: '',
   accountNumber: ''
 }
@@ -39,7 +41,6 @@ const CreateDeal = (): JSX.Element => {
   const [_out, setOut] = React.useState<ICurrency>()
   const [_in, setIn] = React.useState<ICurrency>()
 
-  const queryClient = useQueryClient()
   const { createDeal } = useApi()
   const { push } = useHistory()
 
@@ -80,8 +81,8 @@ const CreateDeal = (): JSX.Element => {
       const res = await createDeal(values as IDeal)
       if (res.success) {
         resetForm({})
+        setBlocking(false)
         push('/dashboard/deals')
-        queryClient.invalidateQueries({})
       }
       setSubmitting(false)
     }
@@ -96,35 +97,9 @@ const CreateDeal = (): JSX.Element => {
     handleBlur,
     handleChange,
     handleSubmit,
-    isSubmitting
+    isSubmitting,
+    setFieldValue
   } = formik
-
-  const formData = [
-    {
-      name: 'accountNumber',
-      placeholder: '23843001203',
-      label: 'Enter account number',
-      isRequired: true
-    },
-    {
-      name: 'bankName',
-      label: 'Bank',
-      placeholder: 'ABC Bank',
-      isRequired: true
-    },
-    {
-      name: 'accountName',
-      label: 'Account Name',
-      placeholder: 'John Doe',
-      isRequired: true
-    },
-    {
-      name: 'swiftCode',
-      label: 'Swift code',
-      placeholder: 'ACCCGHACCBS',
-      isRequired: false
-    }
-  ]
 
   const title = _in?.name + ' to ' + _out?.name
 
@@ -151,25 +126,28 @@ const CreateDeal = (): JSX.Element => {
             <Grid rowGap={8}>
               {!viewSummary ? (
                 <>
-                  <CreditTo
-                    formData={formData}
+                  <AccountDetailForm
+                    id="credit"
+                    flag={_out?.flag}
+                    name={_out?.name}
                     values={values.credit}
                     errors={errors.credit}
-                    touched={touched.credit}
                     handleBlur={handleBlur}
+                    touched={touched.credit}
                     handleChange={handleChange}
-                    outFlag={_out?.flag}
-                    outName={_out?.name}
+                    setFieldValue={setFieldValue}
                   />
-                  <DebitFrom
-                    formData={formData}
+
+                  <AccountDetailForm
+                    id="debit"
+                    flag={_in?.flag}
+                    name={_in?.name}
                     values={values.debit}
                     errors={errors.debit}
-                    touched={touched.debit}
                     handleBlur={handleBlur}
+                    touched={touched.debit}
                     handleChange={handleChange}
-                    inFlag={_in?.flag}
-                    inName={_in?.name}
+                    setFieldValue={setFieldValue}
                   />
                 </>
               ) : (
