@@ -4,40 +4,54 @@ import { Box, Button, Flex, Link, IconButton } from '@chakra-ui/react'
 import { FiMenu, FiX } from 'react-icons/fi'
 
 import useApp from 'context/App'
+import useAuth from 'context/Auth'
 import Logo from 'assets/images/logo.svg'
 import MobileDropdown from './MobileDropdown'
+import * as _ from 'lodash'
+import UserMenu from './UserMenu'
 
 const LandingNav: React.FC<RouteComponentProps> = ({
   location: { pathname }
 }): JSX.Element => {
   const { toggleMenu, isMenuOpen } = useApp()
+  const { isAuthenticated } = useAuth()
+
+  const isAuth = !_.isEmpty(isAuthenticated())
 
   const menus = [
     {
       id: 1,
+      link: '/',
       title: 'Home',
-      link: '/'
+      isDisabled: false
     },
     {
       id: 2,
+      isDisabled: false,
       title: 'Privacy Policy',
       link: '/privacy-policy'
     },
     {
       id: 3,
+      isDisabled: false,
       title: 'Terms and Conditions',
       link: '/terms-and-conditions'
     },
-
     {
       id: 4,
       title: 'Log In',
-      link: '/auth/login'
+      link: '/auth/login',
+      isDisabled: isAuth
     },
     {
       id: 5,
       title: 'Create an Account',
-      btnLink: '/auth/register'
+      btnLink: '/auth/register',
+      isDisabled: isAuth
+    },
+    {
+      id: 6,
+      Component: () => <UserMenu placement="bottom-start" w={56} />
     }
   ]
 
@@ -71,9 +85,9 @@ const LandingNav: React.FC<RouteComponentProps> = ({
           right={{ md: 10, xl: 0 }}
           d={{ base: 'none', xl: 'flex' }}
         >
-          {menus.map(({ id, link, title, btnLink }) => (
+          {menus.map(({ id, link, title, btnLink, Component, isDisabled }) => (
             <React.Fragment key={id}>
-              {link && (
+              {link && !isDisabled && (
                 <Link
                   mr={8}
                   href={link}
@@ -90,7 +104,7 @@ const LandingNav: React.FC<RouteComponentProps> = ({
                 </Link>
               )}
 
-              {btnLink && (
+              {btnLink && !isDisabled && (
                 <Link
                   href={btnLink}
                   _hover={{ hover: 'none' }}
@@ -112,6 +126,8 @@ const LandingNav: React.FC<RouteComponentProps> = ({
                   </Button>
                 </Link>
               )}
+
+              {Component && isAuth && <Component />}
             </React.Fragment>
           ))}
         </Flex>
@@ -146,11 +162,11 @@ const LandingNav: React.FC<RouteComponentProps> = ({
           d={{ base: 'block', xl: 'none' }}
         >
           {menus
-            .filter(menu => !menu.btnLink)
+            .filter(menu => !menu.btnLink || !menu.Component)
             .map(menu => (
               <MobileDropdown
-                key={menu.id}
                 item={menu}
+                key={menu.id}
                 toggleMenu={toggleMenu}
               />
             ))}

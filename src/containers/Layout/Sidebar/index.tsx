@@ -6,28 +6,15 @@ import {
   Link,
   Icon,
   Grid,
-  Avatar,
-  Popover,
   Tooltip,
-  Divider,
-  GridItem,
-  PopoverArrow,
-  useDisclosure,
-  PopoverTrigger,
-  PopoverContent
+  GridItem
 } from '@chakra-ui/react'
 
 import { HomeIcon, VendToIcon, WalletIcon } from 'components/SVG'
 import { IoMdHelpCircle } from 'react-icons/io'
-import { FaUserCog, FaSignOutAlt } from 'react-icons/fa'
-import useAuth from 'context/Auth'
+import UserMenu from '../Navbar/UserMenu'
 
 const Sidebar = (): JSX.Element => {
-  const { onOpen, onClose, isOpen } = useDisclosure()
-  const { isAuthenticated } = useAuth()
-
-  const { user } = isAuthenticated()
-
   const menus = [
     {
       link: '/dashboard/deals',
@@ -40,22 +27,6 @@ const Sidebar = (): JSX.Element => {
     {
       link: '/dashboard/wallet',
       icon: WalletIcon
-    }
-  ]
-
-  const userMenus = [
-    {
-      id: 1,
-      title: 'Profile',
-      icon: FaUserCog,
-      link: '#'
-      // link: '/auth/profile'
-    },
-    {
-      id: 2,
-      title: 'Logout',
-      icon: FaSignOutAlt,
-      link: '/auth/logout'
     }
   ]
 
@@ -96,57 +67,7 @@ const Sidebar = (): JSX.Element => {
               </Box>
             </Tooltip>
             <Box my={2} />
-            <Popover
-              isOpen={isOpen}
-              onOpen={onOpen}
-              onClose={onClose}
-              placement="right"
-              closeOnBlur={false}
-            >
-              <PopoverTrigger>
-                <Avatar
-                  size="md"
-                  cursor="pointer"
-                  borderWidth={2}
-                  borderColor="white"
-                  name={user?.firstName + ' ' + user?.lastName}
-                  src={user?.avatar}
-                />
-              </PopoverTrigger>
-              <PopoverContent
-                w={44}
-                color="ojaDark"
-                _focus={{ outline: 'none' }}
-              >
-                <PopoverArrow />
-                {userMenus.map((um, i) => (
-                  <React.Fragment key={um.id}>
-                    <Link
-                      as={NavLink}
-                      to={um.link}
-                      _hover={{ textDecor: 'none' }}
-                    >
-                      <Flex
-                        p={2}
-                        alignItems="center"
-                        roundedTop={i === 0 ? 'md' : ''}
-                        roundedBottom={userMenus.length === i + 1 ? 'md' : ''}
-                        cursor="pointer"
-                        _hover={{
-                          textDecor: 'none',
-                          color: 'white',
-                          bg: 'ojaDark'
-                        }}
-                      >
-                        <Icon as={um.icon} mr={2} />
-                        {um.title}
-                      </Flex>
-                    </Link>
-                    {userMenus.length !== i + 1 && <Divider />}
-                  </React.Fragment>
-                ))}
-              </PopoverContent>
-            </Popover>
+            <UserMenu />
           </Flex>
         </Flex>
       </Flex>

@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Flex, Link } from '@chakra-ui/react'
 
 interface IItem {
   id: number
   link?: string
-  title: string
+  title?: string
+  isDisabled?: boolean
+  Component?: any
 }
 
 interface Props {
-  item: IItem
+  item?: IItem
   toggleMenu(): void
 }
 
@@ -24,24 +26,15 @@ const MobileDropdown: React.FC<Props> = ({ item, toggleMenu }) => {
       _first={{ borderTopWidth: 1 }}
     >
       <Link
-        href={item.link}
+        href={item?.link}
         _hover={{ textDecor: 'none' }}
         d="block"
         onClick={() => toggleMenu()}
       >
-        {item.title}
+        {item?.title}
       </Link>
     </Flex>
   )
-}
-
-MobileDropdown.propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired
-  }).isRequired,
-  toggleMenu: PropTypes.func.isRequired
 }
 
 export default MobileDropdown

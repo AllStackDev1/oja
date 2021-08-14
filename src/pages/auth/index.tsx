@@ -6,6 +6,7 @@ import { Box } from '@chakra-ui/react'
 const Login = lazy(() => import('./login'))
 const Logout = lazy(() => import('./logout'))
 const Register = lazy(() => import('./register'))
+const SocialAuth = lazy(() => import('./social'))
 const VerifyEmail = lazy(() => import('./verify-email'))
 const TwoFactorAuth = lazy(() => import('./two-factor-auth'))
 
@@ -33,7 +34,13 @@ const Auth: React.FC<RouteComponentProps> = (props): JSX.Element => {
         <Route path={`${url}/login`} component={Login} />
         <Route exact path={`${url}/logout`} component={Logout} />
         <Route exact path={`${url}/register`} component={Register} />
+        <Route exact path={`${url}/register/:token`} component={Register} />
         <Route exact path={`${url}/:token`} component={TwoFactorAuth} />
+        <Route
+          exact
+          path={`${url}/social/success/:token`}
+          component={SocialAuth}
+        />
         <Route
           exact
           path={`${url}/verify-email/:token`}

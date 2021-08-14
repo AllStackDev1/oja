@@ -30,7 +30,8 @@ export interface IApiContext {
   login(e: LoginDto): Promise<ResponsePayload<Record<string, any>, string>>
   resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
   verifyEmail(e: string): Promise<unknown>
-  getUser(e: string): Promise<ResponsePayload<string, string>>
+  getUser(e: string): Promise<ResponsePayload<Record<string, IUser>, string>>
+  getProfile(): Promise<ResponsePayload<Record<string, IUser>, string>>
   getUsers(
     e?: Record<string, string>
   ): Promise<Record<string, Record<string, Array<Record<string, string>>>>>

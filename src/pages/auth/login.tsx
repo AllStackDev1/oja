@@ -17,19 +17,17 @@ import { NavLink, RouteComponentProps } from 'react-router-dom'
 import { FiUser, FiArrowRight } from 'react-icons/fi'
 
 import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
-import { FaFacebookSquare } from 'react-icons/fa'
-import { GoogleIcon } from 'components/SVG'
 import { CustomButton } from 'components/Auth'
 import { LoginSchema } from 'utils/validator-schemas'
 import { LoginDto } from 'interface'
 
 import useAuth from 'context/Auth'
 import useApi from 'context/Api'
+import SocialButtons from 'components/Auth/SocialButtons'
 
 const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
-  const { rememberMe, setRememberMe } = useAuth()
+  const { store, setSession, rememberMe, setRememberMe } = useAuth()
   const { login } = useApi()
-  const { store, setSession } = useAuth()
 
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -187,34 +185,8 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                   </Link>
                 </Text>
               </GridItem>
-              <GridItem
-                d="flex"
-                my={{ xl: 3 }}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <CustomButton
-                  mr={1}
-                  shadow="lg"
-                  fontSize="sm"
-                  bgColor="white"
-                  color="gray.700"
-                  _hover={{ bgColor: 'none' }}
-                  title="Sign up with Facebook"
-                  leftIcon={<FaFacebookSquare color="#385997" fontSize={30} />}
-                />
-                <CustomButton
-                  ml={1}
-                  shadow="lg"
-                  fontSize="sm"
-                  bgColor="white"
-                  color="gray.700"
-                  title="Sign up with Google"
-                  _hover={{ bgColor: 'none' }}
-                  leftIcon={<Icon as={GoogleIcon} />}
-                />
-              </GridItem>
             </Grid>
+            <SocialButtons type="in" />
           </form>
         </Box>
       </Flex>

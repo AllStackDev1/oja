@@ -121,6 +121,10 @@ export const ApiContextProvider: React.FC = ({ children }) => {
     }
     return res
   }
+
+  const getProfile = async () => {
+    return await http.get({ url: '/auth/profile' })
+  }
   // #endregion
 
   // #region USER
@@ -208,6 +212,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         register,
         verifyOTP,
         resendOTP,
+        getProfile,
         createDeal,
         verifyEmail,
         getCurrencies,

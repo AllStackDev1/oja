@@ -1,7 +1,7 @@
 export interface IAddress {
-  street: string
-  city: string
-  state: string
+  street?: string
+  city?: string
+  state?: string
   country: string
 }
 
@@ -10,6 +10,7 @@ export interface RegisterUserPayloadDto {
   lastName: string
   username: string
   password: string
+  avatar?: string
   address: IAddress
   firstName: string
   phoneNumber: string

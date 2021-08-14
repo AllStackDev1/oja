@@ -4,7 +4,6 @@ import { countries } from 'countries-list'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
-import { FaFacebookSquare } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 import {
   Box,
@@ -34,18 +33,20 @@ import { RegisterUserPayloadDto } from 'interface'
 import { RegistrationSchema } from 'utils/validator-schemas'
 import { Small } from 'components/Loading'
 import { CustomButton } from 'components/Auth'
-import { GoogleIcon } from 'components/SVG'
 import useApi from 'context/Api'
+import SocialButtons from 'components/Auth/SocialButtons'
 
-const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
-  const [isUsernamePicked, setUsernamePicked] = useState<boolean>()
-  const [isEmailPicked, setEmailPicked] = useState<boolean>()
-  const [isPhoneNumberPicked, setPhoneNumberPicked] = useState<boolean>()
-  const [selectedCountry, setSelectedCountry] = useState(countries.US)
-  const [isLoading, setLoading] = useState<boolean>(false)
-  const { register, getUsersCount } = useApi()
+interface RouteParams {
+  token: string
+}
 
-  const initialValues = {
+const Register: React.FC<RouteComponentProps<RouteParams>> = ({
+  history: { replace },
+  match: {
+    params: { token }
+  }
+}): JSX.Element => {
+  const [initialValues, setInitValues] = useState<RegisterUserPayloadDto>({
     email: '',
     lastName: '',
     username: '',
@@ -53,10 +54,24 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
     firstName: '',
     phoneNumber: '',
     address: { country: '' }
-  } as RegisterUserPayloadDto
+  })
+  const [isUsernamePicked, setUsernamePicked] = useState<boolean>()
+  const [isEmailPicked, setEmailPicked] = useState<boolean>()
+  const [isPhoneNumberPicked, setPhoneNumberPicked] = useState<boolean>()
+  const [selectedCountry, setSelectedCountry] = useState(countries.US)
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const { register, getUsersCount } = useApi()
+
+  React.useEffect(() => {
+    if (token) {
+      const defaultValue = JSON.parse(atob(token))
+      setInitValues(p => ({ ...p, ...defaultValue }))
+    }
+  }, [token])
 
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
     validationSchema: RegistrationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
@@ -64,7 +79,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
         const res = await register(values)
         if (res.success) {
           resetForm({})
-          history.push(
+          replace(
             `/auth/${btoa(
               JSON.stringify({
                 phoneNumber: res.data?.phoneNumber || '',
@@ -136,14 +151,16 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
           name="description"
           content="Create an account. For user to use our application they have to create and account"
         />
-        <title>Oj'a. | Create Account</title>
+        <title>
+          Oj'a. | {!token ? 'Create Account' : 'Complete Registration'}
+        </title>
         <link rel="canonical" href="/auth/login" />
       </Helmet>
       <Flex w="full" h="100vh" bgColor="white">
         <Box py={14} w={127} m="auto" rounded="sm" px={{ xl: 100 }}>
           <Box mb={10}>
             <Heading textAlign="center" fontWeight={600} fontSize="3xl">
-              Create Account
+              {!token ? 'Create Account' : 'Just a few steps...'}
             </Heading>
             <Text textAlign="center" fontSize="md" color="gray.700">
               Let's make your savings come true
@@ -340,28 +357,7 @@ const Register: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
                 </Link>
               </Text>
             </Flex>
-            <Flex justify="space-between" align="center">
-              <CustomButton
-                mr={1}
-                shadow="lg"
-                fontSize="sm"
-                bgColor="white"
-                color="gray.700"
-                _hover={{ bgColor: 'none' }}
-                title="Sign up with Facebook"
-                leftIcon={<FaFacebookSquare color="#385997" fontSize={30} />}
-              />
-              <CustomButton
-                ml={1}
-                shadow="lg"
-                fontSize="sm"
-                color="gray.700"
-                bgColor="white"
-                _hover={{ bgColor: 'none' }}
-                leftIcon={<Icon as={GoogleIcon} />}
-                title="Sign up with Google"
-              />
-            </Flex>
+            <SocialButtons />
           </form>
         </Box>
       </Flex>

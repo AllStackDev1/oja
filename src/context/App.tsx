@@ -25,9 +25,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
         onOpen,
         onClose,
         modalType,
-        handleModal,
+        isMenuOpen,
         toggleMenu,
-        isMenuOpen
+        handleModal
       }}
     >
       {children}
