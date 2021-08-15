@@ -11,11 +11,11 @@ import { CustomButton } from 'components/Auth'
 
 import { DealValidationSchema } from 'utils/validator-schemas'
 
-import { ICurrency, IDeal } from 'interface'
+import { ICurrency, IDeal, IAccountDetails } from 'interface'
 
 import useApi from 'context/Api'
 
-const accountDetails = {
+const accountDetails: IAccountDetails = {
   bank: {
     name: '',
     code: '',
@@ -152,12 +152,12 @@ const CreateDeal = (): JSX.Element => {
                 </>
               ) : (
                 <TransactionSummary
+                  title={title}
                   inCode={_in?.code}
                   outCode={_out?.code}
                   values={values as IDeal}
                   setTermsAccept={setTermsAccept}
                   isTermsAccepted={isTermsAccepted}
-                  title={title}
                 />
               )}
 

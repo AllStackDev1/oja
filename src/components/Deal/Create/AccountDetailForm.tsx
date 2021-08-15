@@ -57,6 +57,8 @@ const AccountDetailForm: React.FC<IProps> = ({
   ) => {
     handleBlur(e)
     if (values.accountNumber && bank.code) {
+      setFieldValue(`${id}.bank.name`, bank.name)
+      setFieldValue(`${id}.bank.code`, bank.code)
       if (name === 'Naira') {
         const response = await validateNigerianAccount(
           values.accountNumber,
@@ -65,6 +67,8 @@ const AccountDetailForm: React.FC<IProps> = ({
         if (response?.status) {
           setFieldValue(`${id}.accountName`, response.data?.account_name)
         }
+      } else {
+        setFieldValue(`${id}.accountName`, 'DUMMY ACCOUNT NAME')
       }
     }
   }
@@ -100,7 +104,7 @@ const AccountDetailForm: React.FC<IProps> = ({
             border={0}
             isRequired
             rounded={0}
-            type="number"
+            type="text"
             as={CustomInputGroup}
             label="Account Number"
             placeholder="23843001203"
@@ -127,7 +131,7 @@ const AccountDetailForm: React.FC<IProps> = ({
               border={0}
               isRequired
               rounded={0}
-              type="number"
+              type="text"
               onBlur={handleBlur}
               as={CustomInputGroup}
               placeholder="1234567"

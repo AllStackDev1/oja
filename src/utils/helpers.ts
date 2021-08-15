@@ -43,8 +43,10 @@ export const fetchData = async (
   return await response.json()
 }
 
+const pkBankAPI = 'https://api.paystack.co/bank'
+
 export const getNigerianBanks = async (): Promise<Record<string, any>> => {
-  return await fetchData('https://api.paystack.co/bank?country=nigeria', {
+  return await fetchData(`${pkBankAPI}?country=nigeria`, {
     headers: {
       Authorization: 'Bearer sk_test_d87d4e2620ae1928de81cfbe385a65838f9bcdf0'
     }
@@ -56,7 +58,7 @@ export const validateNigerianAccount = async (
   bkCode: string | number
 ): Promise<Record<string, any>> => {
   return await fetchData(
-    `https://api.paystack.co/bank/resolve?account_number=${accNo}&bank_code=${bkCode}`,
+    `${pkBankAPI}/resolve?account_number=${accNo}&bank_code=${bkCode}`,
     {
       headers: {
         Authorization: 'Bearer sk_test_d87d4e2620ae1928de81cfbe385a65838f9bcdf0'

@@ -4,15 +4,16 @@ import { Box, Text, Icon, Flex, Heading, GridItem } from '@chakra-ui/react'
 import { FaEllipsisH } from 'react-icons/fa'
 import LogoIcon from 'components/SVG/LogoIcon'
 import Card from 'assets/images/card.svg'
+import { IDealBank } from 'interface'
 
 interface Props {
-  bankName: string
+  bank?: IDealBank
   accountNumber: string
   receivedTotal: string
 }
 
 const AmountReceivedCard: React.FC<Props> = ({
-  bankName,
+  bank,
   receivedTotal,
   accountNumber
 }): JSX.Element => {
@@ -24,7 +25,7 @@ const AmountReceivedCard: React.FC<Props> = ({
         <Heading fontSize="md" fontWeight={600}>
           Amount Received{' '}
           <Text as="span" fontSize="xs" color="gray.400">
-            ({accountNumber} {bankName})
+            ({accountNumber} {bank?.name})
           </Text>
         </Heading>
         <Text as="span" color="gray.300" pos="absolute" right={0}>

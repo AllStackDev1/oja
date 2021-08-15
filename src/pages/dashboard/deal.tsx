@@ -55,7 +55,6 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
     >
       {isLoading || error ? (
         <ReloadCard
-          // w="lg"
           h="100vh"
           bg="white"
           error={error}
@@ -120,7 +119,7 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
                   received || 0,
                   data?.data?.credit.currency.code
                 )}
-                bankName={data?.data?.credit?.bankName || ''}
+                bank={data?.data?.credit?.bank}
                 accountNumber={data?.data?.credit?.accountNumber || ''}
               />
               <ActiveDealsCard currentDeal={data?.data?._id} />

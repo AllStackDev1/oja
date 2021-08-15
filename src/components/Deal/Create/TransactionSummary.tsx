@@ -78,16 +78,16 @@ const TransactionSummary = (props: IProps): JSX.Element => {
               Debit Account
             </Text>
             <Text>{debit.accountName}</Text>
-            <Text>{debit.bankName}</Text>
-            <Text>{debit.swiftCode}</Text>
+            <Text>{debit.bank.name}</Text>
+            <Text>{debit.bank.swiftCode}</Text>
           </Box>
           <Box>
             <Text color="gray.400" fontFamily="Futura" fontWeight="500">
               Credit Account
             </Text>
             <Text>{credit.accountName}</Text>
-            <Text>{credit.bankName}</Text>
-            <Text>{credit.swiftCode}</Text>
+            <Text>{credit.bank.name}</Text>
+            <Text>{credit.bank.swiftCode}</Text>
           </Box>
         </Flex>
 

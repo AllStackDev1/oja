@@ -1,13 +1,15 @@
 import { IDocument } from './helpers.interface'
 import { IUser } from './user.interface'
 
+export interface IDealBank {
+  name: string
+  code: number | string
+  swiftCode?: string
+  routingNumber?: number | string
+}
+
 export interface IAccountDetails {
-  bank: {
-    name: string
-    code: number | string
-    swiftCode?: string
-    routingNumber?: number | string
-  }
+  bank: IDealBank
   amount: number
   accountName: string
   accountNumber: string
@@ -41,31 +43,23 @@ export interface IDeal extends IDocument {
   transactions: ITransaction
 }
 
+interface IActiveDealAccD {
+  currency: {
+    name: string
+    code: string
+    symbol: string
+  }
+  amount: number
+  accountName: string
+  accountNumber: string
+  bank: IDealBank
+}
+
 export interface IActiveDealsLatestTransaction extends IDocument {
   rate: number
   type: string
-  debit: {
-    currency: {
-      name: string
-      code: string
-      symbol: string
-    }
-    amount: number
-    accountName: string
-    accountNumber: string
-    bankName: string
-  }
-  credit: {
-    currency: {
-      name: string
-      code: string
-      symbol: string
-    }
-    amount: number
-    accountName: string
-    accountNumber: string
-    bankName: string
-  }
+  debit: IActiveDealAccD
+  credit: IActiveDealAccD
   progress: number
   latestTransaction?: {
     user: string

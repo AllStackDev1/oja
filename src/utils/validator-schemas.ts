@@ -87,33 +87,31 @@ export const OtpVerifySchema = yup.object().shape({
   pinId: yup.string().required('This field is required*'),
   expiresIn: yup.string()
   // to: yup
-  //   .string()
-  //   .test(
-  //     'valid',
-  //     'Provide a valid phone number, exclude country code*',
-  //     value =>
-  //       value
-  //         ? validator.isMobilePhone(value, 'any', { strictMode: true })
-  //         : true
-  //   )
-  //   .required('This field is required*')
 })
 
 const AccountDetailsSchema = yup.object().shape({
-  swiftCode: yup
-    .string()
-    .test('valid', 'Invalid Swift Code', value =>
-      value ? validator.isBIC(value) : true
-    ),
+  bank: yup.object().shape({
+    name: yup.string().required('This field is required*'),
+    code: yup.string().required('This field is required*'),
+    swiftCode: yup
+      .string()
+      .test('valid', 'Invalid Swift Code', value =>
+        value ? validator.isBIC(value) : true
+      ),
+    routingNumber: yup
+      .string()
+      .test('valid', 'Provide a valid routing number', value =>
+        value ? validator.isNumeric(value) : true
+      )
+      .typeError('you must specify a number')
+  }),
   amount: yup.number().required(),
-  bankName: yup.string().required('This field is required*'),
   accountName: yup.string().required('This field is required*'),
   accountNumber: yup
     .string()
     .test('valid', 'Provide a valid account number', value =>
       value ? validator.isNumeric(value) : false
     )
-
     .typeError('you must specify a number')
     .required('This field is required*')
 })
