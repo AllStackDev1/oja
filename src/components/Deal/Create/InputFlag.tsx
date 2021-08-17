@@ -4,7 +4,6 @@ import {
   Icon,
   Text,
   Flex,
-  Fade,
   Button,
   useDisclosure,
   InputProps
@@ -63,50 +62,48 @@ const InputFlag: React.FC<IInputFlag> = (props): JSX.Element => {
               {select?.selected?.code}
             </Text>
           </Button>
-          <Fade in={isOpen}>
-            {isOpen && (
-              <Box
-                mt={2}
-                w="full"
-                height={44}
-                shadow="md"
-                zIndex={10}
-                rounded="md"
-                pos="absolute"
-                borderWidth={1}
-                bgColor="ojaDark"
-                overflowY="scroll"
-                borderColor="gray.100"
-                onMouseLeave={() => isOpen && onClose()}
-              >
-                <Box as="ul" onClick={() => null}>
-                  {select.options?.map(o => (
-                    <Text
-                      px={4}
-                      py={2}
-                      as="li"
-                      d="flex"
-                      key={o._id}
-                      role="button"
-                      alignItems="center"
-                      onClick={() => {
-                        select?.onSelect(o.code)
-                        onClose()
-                      }}
-                      _hover={{ bgColor: 'ojaSkyBlue' }}
-                    >
-                      <Text fontSize="3xl" as="span">
-                        {o?.flag}
-                      </Text>
-                      <Text as="span" ml={2} fontSize="lg" fontWeight={700}>
-                        {o.code}
-                      </Text>
+          {isOpen && (
+            <Box
+              mt={2}
+              w="full"
+              height={44}
+              shadow="md"
+              zIndex={10}
+              rounded="md"
+              pos="absolute"
+              borderWidth={1}
+              bgColor="ojaDark"
+              overflowY="scroll"
+              borderColor="gray.100"
+              onMouseLeave={() => isOpen && onClose()}
+            >
+              <Box as="ul" onClick={() => null}>
+                {select.options?.map(o => (
+                  <Text
+                    px={4}
+                    py={2}
+                    as="li"
+                    d="flex"
+                    key={o._id}
+                    role="button"
+                    alignItems="center"
+                    onClick={() => {
+                      select?.onSelect(o.code)
+                      onClose()
+                    }}
+                    _hover={{ bgColor: 'ojaSkyBlue' }}
+                  >
+                    <Text fontSize="3xl" as="span">
+                      {o?.flag}
                     </Text>
-                  ))}
-                </Box>
+                    <Text as="span" ml={2} fontSize="lg" fontWeight={700}>
+                      {o.code}
+                    </Text>
+                  </Text>
+                ))}
               </Box>
-            )}
-          </Fade>
+            </Box>
+          )}
         </Box>
       </Box>
     </Flex>

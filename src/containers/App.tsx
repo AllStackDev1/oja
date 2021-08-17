@@ -13,17 +13,7 @@ import { AuthContextProvider } from 'context/Auth'
 import { ApiContextProvider } from 'context/Api'
 import { AppContextProvider } from 'context/App'
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: true,
-      refetchOnMount: true,
-      staleTime: 60 * 60 * 1000,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false
-    }
-  }
-})
+const queryClient = new QueryClient()
 
 export const App = (): JSX.Element => (
   <ChakraProvider theme={theme}>

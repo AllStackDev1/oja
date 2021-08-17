@@ -1,5 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
+
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import { Heading, Grid, GridItem } from '@chakra-ui/react'
 import { Prompt, useHistory } from 'react-router-dom'
@@ -76,11 +77,10 @@ const CreateDeal = (): JSX.Element => {
     enableReinitialize: true,
     initialValues: _data,
     validationSchema: DealValidationSchema,
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
       const res = await createDeal(values as IDeal)
       if (res.success) {
-        resetForm({})
         setBlocking(false)
         push('/dashboard/deals')
       }

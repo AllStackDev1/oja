@@ -23,8 +23,11 @@ class HttpFacade {
     this.http.interceptors.response.use(
       response => response,
       error => {
-        if (error?.response?.status === 401) {
-          window.location.href = '/auth/logout'
+        if (
+          error?.response?.status === 401 &&
+          location.pathname !== '/auth/login'
+        ) {
+          location.href = '/auth/logout'
         }
         return Promise.reject(error.response)
       }

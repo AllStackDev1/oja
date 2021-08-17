@@ -10,7 +10,7 @@ import {
   GridItem
 } from '@chakra-ui/react'
 
-import { HomeIcon, VendToIcon, WalletIcon } from 'components/SVG'
+import { HomeIcon, VendToIcon } from 'components/SVG'
 import { IoMdHelpCircle } from 'react-icons/io'
 import UserMenu from '../Navbar/UserMenu'
 
@@ -23,11 +23,11 @@ const Sidebar = (): JSX.Element => {
     {
       link: '/dashboard/create-deal',
       icon: VendToIcon
-    },
-    {
-      link: '/dashboard/wallet',
-      icon: WalletIcon
     }
+    // {
+    //   link: '/dashboard/wallet',
+    //   icon: WalletIcon
+    // }
   ]
 
   return (

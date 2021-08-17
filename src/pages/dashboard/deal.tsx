@@ -30,7 +30,7 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
   } = props
 
   const { getDeal } = useApi()
-  const { data, error, refetch, isLoading } = useQuery('deal', () =>
+  const { data, error, refetch, isLoading } = useQuery(['deal', id], () =>
     getDeal(id)
   )
 

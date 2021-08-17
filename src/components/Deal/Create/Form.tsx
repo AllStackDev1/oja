@@ -41,8 +41,16 @@ const CreateForm: FC = (): JSX.Element => {
   const { getCurrencies } = useApi()
   const history = useHistory()
 
-  const { data, error, refetch, isLoading } = useQuery('currencies', () =>
-    getCurrencies({ q: JSON.stringify({ status: true }) })
+  const { data, error, refetch, isLoading } = useQuery(
+    'currencies',
+    () => getCurrencies({ q: JSON.stringify({ status: true }) }),
+    {
+      retry: true,
+      refetchOnMount: false,
+      staleTime: 2 * 60 * 60 * 1000,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false
+    }
   )
 
   const getCurrency = (code: string) => data?.data?.find(o => o.code === code)

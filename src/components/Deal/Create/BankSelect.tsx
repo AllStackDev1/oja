@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Icon, Text, Input, Fade, useDisclosure } from '@chakra-ui/react'
+import { Box, Icon, Text, Input, useDisclosure } from '@chakra-ui/react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 import { CustomInputGroup } from 'components/Forms'
 import { IBank } from 'interface'
@@ -62,62 +62,59 @@ const BankSelect: React.FC<IProps> = ({
         _focus={{ outline: 'none' }}
         rightAddon={<Icon as={isOpen ? FaAngleUp : FaAngleDown} boxSize={5} />}
       />
-
-      <Fade in={isOpen}>
-        {isOpen && (
-          <Box
-            mt={2}
-            h={44}
-            w="full"
-            left={0}
-            right={0}
-            shadow="md"
-            zIndex={10}
-            rounded="0"
-            pos="absolute"
-            borderWidth={1}
-            bgColor="ojaDark"
-            overflowY="scroll"
-            borderColor="gray.100"
-            onMouseLeave={() => isOpen && onClose()}
-          >
-            <Box as="ul" w="full">
-              <Input
-                h={14}
+      {isOpen && (
+        <Box
+          mt={2}
+          h={44}
+          w="full"
+          left={0}
+          right={0}
+          shadow="md"
+          zIndex={100}
+          rounded="0"
+          pos="absolute"
+          borderWidth={1}
+          bgColor="ojaDark"
+          overflowY="scroll"
+          borderColor="gray.100"
+          onMouseLeave={() => isOpen && onClose()}
+        >
+          <Box as="ul" w="full">
+            <Input
+              h={14}
+              w="full"
+              type="text"
+              rounded="0"
+              value={value}
+              color="ojaDark"
+              bgColor="white"
+              name="search-input"
+              placeholder="Search..."
+              onChange={handleSearch}
+            />
+            {data.map((o, idx) => (
+              <Text
+                px={4}
+                py={4}
+                as="li"
                 w="full"
-                type="text"
-                rounded="0"
-                value={value}
-                color="ojaDark"
-                bgColor="white"
-                name="search-input"
-                placeholder="Search..."
-                onChange={handleSearch}
-              />
-              {data.map((o, idx) => (
-                <Text
-                  px={4}
-                  py={4}
-                  as="li"
-                  w="full"
-                  key={idx}
-                  role="button"
-                  listStyleType="none"
-                  onClick={() => {
-                    onSelect(o)
-                    onClose()
-                  }}
-                  _hover={{ bgColor: 'ojaSkyBlue' }}
-                >
-                  <Text as="span" fontSize="lg" color="white" fontWeight={700}>
-                    {o.name}
-                  </Text>
+                key={idx}
+                role="button"
+                listStyleType="none"
+                onClick={() => {
+                  onSelect(o)
+                  onClose()
+                }}
+                _hover={{ bgColor: 'ojaSkyBlue' }}
+              >
+                <Text as="span" fontSize="lg" color="white" fontWeight={700}>
+                  {o.name}
                 </Text>
-              ))}
-            </Box>
+              </Text>
+            ))}
           </Box>
-        )}
-      </Fade>
+        </Box>
+      )}
     </Box>
   )
 }
