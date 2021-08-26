@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 
 import { CustomInput } from 'components/Forms'
-import { ICurrency } from 'interface'
+import { ICurrency } from 'interfaces'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
 interface IInputFlag {

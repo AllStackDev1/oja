@@ -5,7 +5,7 @@ import Filter from 'components/Filter'
 import CustomTable from 'components/CustomTable'
 import { getFormattedDate } from 'utils/helpers'
 import { FaLongArrowAltUp, FaLongArrowAltDown } from 'react-icons/fa'
-import { IAny } from 'interface'
+import { IAny } from 'interfaces'
 
 interface ITrans {
   user: string

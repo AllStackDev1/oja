@@ -29,7 +29,7 @@ import {
   CustomPasswordInput,
   CustomPhoneInput
 } from 'components/Forms'
-import { RegisterUserPayloadDto } from 'interface'
+import { RegisterUserPayloadDto } from 'interfaces'
 import { RegistrationSchema } from 'utils/validator-schemas'
 import { Small } from 'components/Loading'
 import { CustomButton } from 'components/Auth'

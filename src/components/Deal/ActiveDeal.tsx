@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { Link as ReactLink } from 'react-router-dom'
 import { FaLongArrowAltUp, FaLongArrowAltDown, FaEye } from 'react-icons/fa'
-import { IActiveDealsLatestTransaction } from 'interface'
+import { IActiveDealsLatestTransaction } from 'interfaces'
 import { VendToIcon } from 'components/SVG'
 
 const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({

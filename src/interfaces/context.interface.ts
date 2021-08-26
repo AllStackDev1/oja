@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UpdateIUser } from 'interface'
+import { UpdateIUser } from 'interfaces'
 import { ICurrency } from './currency.interface'
 import { IDeal, IActiveDealsLatestTransaction } from './deal.interface'
+import { IGatewayType, IGateway, IGatewayValidate } from './gateway.interface'
 import { ResponsePayload } from './helpers.interface'
 import {
   IUser,
@@ -52,6 +53,10 @@ export interface IApiContext {
   getDeals(
     e?: Record<string, string>
   ): Promise<ResponsePayload<IActiveDealsLatestTransaction[], string>>
+  initiateGateway(e: IGatewayType): Promise<ResponsePayload<string, string>>
+  validatedGateway(
+    e: IGatewayValidate
+  ): Promise<ResponsePayload<IGateway, string>>
 }
 
 export interface IStore {

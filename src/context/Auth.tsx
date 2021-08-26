@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useQueryClient } from 'react-query'
-import { IAuthContext, IStore, IUser } from 'interface'
+import { IAuthContext, IStore, IUser } from 'interfaces'
 import React, { useState, createContext, useContext } from 'react'
 
 const AuthContext = createContext({})

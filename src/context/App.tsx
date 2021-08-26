@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDisclosure } from '@chakra-ui/react'
-import { IAppContext } from 'interface'
+import { IAppContext } from 'interfaces'
 
 const AppContext = createContext({})
 

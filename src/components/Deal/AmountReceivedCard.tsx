@@ -4,7 +4,7 @@ import { Box, Text, Icon, Flex, Heading, GridItem } from '@chakra-ui/react'
 import { FaEllipsisH } from 'react-icons/fa'
 import LogoIcon from 'components/SVG/LogoIcon'
 import Card from 'assets/images/card.svg'
-import { IDealBank } from 'interface'
+import { IDealBank } from 'interfaces'
 
 interface Props {
   bank?: IDealBank

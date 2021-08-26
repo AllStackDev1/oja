@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IDelete, IGet, IPatch, IPost, IPut } from 'interface'
+import { IDelete, IGet, IPatch, IPost, IPut } from 'interfaces'
 import { BASE_URL } from 'utils/configs'
 import QueryString from 'query-string'
 

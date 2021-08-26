@@ -19,7 +19,7 @@ import { FiUser, FiArrowRight } from 'react-icons/fi'
 import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
 import { CustomButton } from 'components/Auth'
 import { LoginSchema } from 'utils/validator-schemas'
-import { LoginDto } from 'interface'
+import { LoginDto } from 'interfaces'
 
 import useAuth from 'context/Auth'
 import useApi from 'context/Api'

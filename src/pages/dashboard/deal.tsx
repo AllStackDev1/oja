@@ -15,7 +15,7 @@ import ReloadCard from 'components/ReloadCard'
 
 import useApi from 'context/Api'
 import { formatMoney } from 'utils/helpers'
-import { TransactionTypeEnum } from 'interface'
+import { TransactionTypeEnum } from 'interfaces'
 
 interface RouteParams {
   id: string

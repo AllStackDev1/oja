@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 
 import { formatMoney } from 'utils/helpers'
-import { IDeal } from 'interface'
+import { IDeal } from 'interfaces'
 
 interface IProps {
   title?: string

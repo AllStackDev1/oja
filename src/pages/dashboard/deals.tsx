@@ -25,6 +25,11 @@ import { CreateDealModal } from 'components/Deal/Create'
 import { EmptyTableIcon } from 'components/SVG'
 
 const Deals = (): JSX.Element => {
+  const { onOpen, onClose, isOpen } = useDisclosure()
+  const ref = React.useRef<any>()
+  const { push } = useHistory()
+  const { getDeals } = useApi()
+
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     'deals',
     () => getDeals(),
@@ -36,10 +41,6 @@ const Deals = (): JSX.Element => {
       refetchOnWindowFocus: false
     }
   )
-  const { onOpen, onClose, isOpen } = useDisclosure()
-  const ref = React.useRef<any>()
-  const { push } = useHistory()
-  const { getDeals } = useApi()
 
   React.useEffect(() => {
     if (sessionStorage.getItem('new-deal')) {

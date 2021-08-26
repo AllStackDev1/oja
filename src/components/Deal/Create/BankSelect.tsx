@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Icon, Text, Input, useDisclosure } from '@chakra-ui/react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 import { CustomInputGroup } from 'components/Forms'
-import { IBank } from 'interface'
+import { IBank } from 'interfaces'
 
 interface IProps {
   error?: string

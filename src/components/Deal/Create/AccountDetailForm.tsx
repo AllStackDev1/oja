@@ -5,7 +5,7 @@ import { Box, Text, Flex, Grid, Heading, GridItem } from '@chakra-ui/react'
 
 import BankSelect from './BankSelect'
 import { CustomInputGroup } from 'components/Forms'
-import { IAccountDetails, IBank } from 'interface'
+import { IAccountDetails, IBank } from 'interfaces'
 import { getNigerianBanks, validateNigerianAccount } from 'utils/helpers'
 import * as _ from 'lodash'
 

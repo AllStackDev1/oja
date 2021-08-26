@@ -42,7 +42,7 @@ const Landing: React.FC<RouteComponentProps> = (): JSX.Element => {
           position: 'top-right'
         })
         resetForm({})
-      } catch (error) {
+      } catch (error: any) {
         toast({
           title: 'Error occured',
           description:
