@@ -25,7 +25,7 @@ const Auth: React.FC<RouteComponentProps> = (props): JSX.Element => {
     if (!isEmpty(isAuthenticated()) && pathname !== '/auth/logout') {
       push('/dashboard/deals')
     }
-  })
+  }, [])
 
   return (
     <Box fontFamily="body" overflowX="hidden">

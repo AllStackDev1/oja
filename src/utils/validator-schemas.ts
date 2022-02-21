@@ -112,7 +112,7 @@ const AccountDetailsSchema = yup.object().shape({
     .test('valid', 'Provide a valid account number', value =>
       value ? validator.isNumeric(value) : false
     )
-    .typeError('you must specify a number')
+    .typeError('You need to specify a number')
     .required('This field is required*')
 })
 

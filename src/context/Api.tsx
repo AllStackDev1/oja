@@ -14,7 +14,6 @@ import {
   ResendOtpPayloadDto,
   RegisterUserPayloadDto
 } from 'interfaces'
-import { IGatewayType, IGatewayValidate } from 'interfaces/gateway.interface'
 
 const ApiContext = createContext({})
 
@@ -202,39 +201,6 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
   // #endregion
 
-  // #region GATEWAY
-  const initiateGateway = async (query: IGatewayType) => {
-    return await http.get({ url: '/gateway/initiate', query })
-  }
-
-  const validatedGateway = async (payload: IGatewayValidate) => {
-    let res: ResponsePayload<Record<string, string>, string> = {}
-    try {
-      res = await http.post({
-        url: '/gateway/validated',
-        body: JSON.stringify(payload)
-      })
-      toast({
-        duration: 5000,
-        status: 'success',
-        position: 'top-right',
-        description: res.message,
-        title: 'Gateway Connected!'
-      })
-    } catch (error: any) {
-      toast({
-        title: 'Error occurred',
-        description:
-          error?.message || error?.data?.message || 'Unexpected network error.',
-        status: 'error',
-        duration: 5000,
-        position: 'top-right'
-      })
-      res.success = false
-    }
-    return res
-  }
-  // #endregion
   return (
     <ApiContext.Provider
       value={{
@@ -252,8 +218,6 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         getCurrencies,
         getUsersCount,
         updateProfile,
-        initiateGateway,
-        validatedGateway,
         getActiveDealsWithTheirLatestTransaction
       }}
     >
