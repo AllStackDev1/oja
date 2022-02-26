@@ -20,7 +20,7 @@ import {
 } from 'react-icons/fi'
 
 import { EqualIcon } from 'components/SVG'
-import { formatMoney } from 'utils/helpers'
+import { formatMoney, localStringToNumber } from 'utils/helpers'
 
 import useAuth from 'context/Auth'
 import useApi from 'context/Api'
@@ -29,16 +29,20 @@ import { CustomButton } from 'components/Auth'
 import { BiRefresh } from 'react-icons/bi'
 import InputFlag from './InputFlag'
 import ReloadCard from 'components/ReloadCard'
+import { CustomInputGroup } from 'components/Forms'
+import { IDeal } from 'interfaces'
 
 const CreateForm: FC = (): JSX.Element => {
   const [displayValue, setDisplayValue] = useState<string | number>('')
-  const [_in, setIn] = useState({ amount: 1000, code: 'USD' })
+  const [_in, setIn] = useState({ amount: 1000, code: 'CAD' })
   const [_out, setOut] = useState({ amount: 0, code: 'NGN' })
-  const [loading, setLoading] = useState(false)
+  const [interacName, setInteracName] = useState('')
+  const [isSubmitting, setSubmitting] = useState(false)
   const { isOpen, onToggle } = useDisclosure()
   const { isAuthenticated } = useAuth()
   const [_rate, setRate] = useState(1)
-  const { getCurrencies } = useApi()
+  const { getCurrencies, createDeal } = useApi()
+
   const history = useHistory()
 
   const { data, error, refetch, isLoading } = useQuery(
@@ -82,9 +86,12 @@ const CreateForm: FC = (): JSX.Element => {
     return +parseFloat('' + Math.round(val * 100 + Number.EPSILON)).toFixed(2)
   }
 
-  const proceed = () => {
-    setLoading(true)
-    const data = JSON.stringify({
+  const { push } = useHistory()
+
+  const proceed = async () => {
+    setSubmitting(true)
+    const data = {
+      interacName,
       rate: _rate,
       inCurrency: _inCurrency,
       outCurrency: _outCurrency,
@@ -94,18 +101,25 @@ const CreateForm: FC = (): JSX.Element => {
       credit: {
         amount: parseNumber(_out.amount)
       },
+      settlementFee: parseNumber(0.005 * _in.amount),
       transactionFee: parseNumber(0.025 * _in.amount),
-      settlementFee: parseNumber(0.005 * _in.amount)
-    })
-    sessionStorage.setItem('new-deal', data)
-    let link = '/dashboard/create-deal'
-    if (!isAuthenticated().authToken) {
-      link = '/auth/login'
+      type: _inCurrency?.code + '_' + _outCurrency?.code
     }
-    setTimeout(() => {
-      setLoading(false)
-      history.push(link)
-    }, 200)
+    if (!isAuthenticated().authToken) {
+      sessionStorage.setItem('new-deal', JSON.stringify(data))
+      setTimeout(() => {
+        history.push('/auth/login')
+      }, 200)
+    } else {
+      delete data.inCurrency
+      delete data.outCurrency
+      const value: Partial<IDeal> = data
+      const res = await createDeal(value)
+      if (res.success) {
+        push(`/dashboard/funding/${res.data?._id}`)
+      }
+    }
+    setSubmitting(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,10 +134,6 @@ const CreateForm: FC = (): JSX.Element => {
     }
   }
 
-  const localStringToNumber = (s: string | number): number => {
-    return Number(String(s).replace(/[^0-9.-]+/g, ''))
-  }
-
   const formatDisplayValue = (val: string | number): void => {
     const value =
       val || val === '0' ? formatMoney(localStringToNumber(val), _in.code) : ''
@@ -134,12 +144,13 @@ const CreateForm: FC = (): JSX.Element => {
     <ReloadCard
       w="lg"
       h="40vh"
-      bg="white"
       error={error}
+      color="white"
       justify="center"
+      bg="transparent"
       refetch={refetch}
-      text="fetching currencies"
       isLoading={isLoading}
+      text="loading currencies"
     />
   ) : (
     <Box w="lg" id="create-deal-form">
@@ -189,6 +200,29 @@ const CreateForm: FC = (): JSX.Element => {
             onSelect: (code: string) => setOut(p => ({ ...p, code }))
           }}
         />
+
+        {_in.code === 'CAD' && (
+          <Box mt={4}>
+            <CustomInputGroup
+              h={12}
+              border={0}
+              isRequired
+              rounded={0}
+              type="text"
+              color="white"
+              id="interacName"
+              value={interacName}
+              label="Interac Name"
+              placeholder="John Doe"
+              _focus={{ outline: 'none' }}
+              onChange={e => setInteracName(e.target.value)}
+            />
+            <Text fontSize="sm" color="red.400">
+              Ensure the name provided is exactly as show in your interact
+              wallet.
+            </Text>
+          </Box>
+        )}
       </Box>
       <Box pl={{ xl: 6 }} pr={{ xl: 10 }}>
         <Flex
@@ -331,7 +365,7 @@ const CreateForm: FC = (): JSX.Element => {
             boxShadow="lg"
             rounded="none"
             fontWeight={600}
-            isLoading={loading}
+            isLoading={isSubmitting}
             onClick={proceed}
             _focus={{ outline: 'none' }}
             title="COMPLETE DEAL"
@@ -339,6 +373,11 @@ const CreateForm: FC = (): JSX.Element => {
             fontSize={{ base: 'sm', xl: 'md' }}
             rightIcon={
               <FiArrowRight fontSize={20} className="auth-btn-arrow" />
+            }
+            isDisabled={
+              isSubmitting ||
+              _in.code === _out.code ||
+              (_in.code === 'CAD' && interacName == '')
             }
           />
         </Box>

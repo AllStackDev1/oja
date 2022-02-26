@@ -91,8 +91,8 @@ const Hero: React.FC = (): JSX.Element => {
         </Text>
         <Box mt={5} pos="relative">
           <Link
-            href="#scroll-to"
             rel="noreferrer"
+            href="#scroll-to"
             _hover={{ hover: 'none' }}
             _focus={{ outline: 'none' }}
           >

@@ -16,7 +16,7 @@ import {
 interface ICustomInputGroup extends InputProps {
   error?: string
   label?: string
-  touched: boolean
+  touched?: boolean
   leftAddon?: IconProps | React.FC
   rightAddon?: IconProps | React.FC
 }
@@ -46,13 +46,15 @@ const CustomInputGroup: React.FC<ICustomInputGroup> = ({
       color={!!error && touched ? 'red.500' : 'gray.500'}
     >
       {label && (
-        <FormLabel mb={0} fontSize="sm" fontWeight="500">
+        <FormLabel color={rest.color} mb={0} fontSize="sm" fontWeight="500">
           {label}
         </FormLabel>
       )}
       <InputGroup
         borderBottom="1px"
-        borderBottomColor={!!error && touched ? 'red.500' : 'gray.500'}
+        borderBottomColor={
+          !!error && touched ? 'red.500' : rest.color || 'gray.500'
+        }
       >
         {leftAddon && <InputLeftAddon {...addonProps} children={leftAddon} />}
         <Input {...rest} />

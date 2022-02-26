@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Text, Spinner } from '@chakra-ui/react'
+import { Flex, Text, Spinner, FlexProps } from '@chakra-ui/react'
 
-interface Props {
+interface Props extends FlexProps {
   text?: string
 }
-const Splash: React.FC<Props> = ({ text }) => (
-  <Flex flexDir="column" bg="white" h="100vh" align="center" justify="center">
+const Splash: React.FC<Props> = ({ text, ...rest }) => (
+  <Flex flexDir="column" h="100vh" align="center" justify="center" {...rest}>
     <Spinner
       thickness="5px"
       speed="0.65s"
@@ -14,7 +14,11 @@ const Splash: React.FC<Props> = ({ text }) => (
       size="lg"
       color="gray.500"
     />
-    {text && <Text className="loading-text loading-text-b">{text}</Text>}
+    {text && (
+      <Text className="loading-text loading-text-b" color={rest.color || ''}>
+        {text}
+      </Text>
+    )}
   </Flex>
 )
 

@@ -9,10 +9,10 @@ export interface IDealBank {
 }
 
 export interface IAccountDetails {
-  bank: IDealBank
-  amount: number
-  accountName: string
-  accountNumber: string
+  bank?: IDealBank
+  amount: number | { $numberDecimal: string }
+  accountName?: string
+  accountNumber?: string
 }
 
 export enum TransactionTypeEnum {
@@ -38,6 +38,7 @@ export interface IDeal extends IDocument {
   debit: IAccountDetails
   credit: IAccountDetails
   rate: number
+  type: string
   transactionFee: number
   settlementFee: number
   transactions: ITransaction

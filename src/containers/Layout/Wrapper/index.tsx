@@ -12,7 +12,7 @@ import CustomAlert from 'components/Auth/CustomAlert'
 interface IWrapper {
   href: string
   title: string
-  content: string
+  content?: string
 }
 
 const Wrapper: React.FC<IWrapper> = ({
@@ -88,7 +88,7 @@ const Wrapper: React.FC<IWrapper> = ({
 Wrapper.propTypes = {
   href: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired
+  content: PropTypes.string
 }
 
 export default Wrapper

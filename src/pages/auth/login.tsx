@@ -20,7 +20,7 @@ import { CustomInputGroup, CustomPasswordInput } from 'components/Forms'
 import SocialButtons from 'components/Auth/SocialButtons'
 import { CustomButton } from 'components/Auth'
 import { LoginSchema } from 'utils/validator-schemas'
-import { LoginDto } from 'interfaces'
+import { ILogin } from 'interfaces'
 
 import useAuth from 'context/Auth'
 import useApi from 'context/Api'
@@ -32,7 +32,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }): JSX.Element => {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: LoginSchema,
-    onSubmit: async (values: LoginDto, { setSubmitting, resetForm }) => {
+    onSubmit: async (values: ILogin, { setSubmitting, resetForm }) => {
       setSubmitting(true)
       const res = await login(values)
       setSubmitting(false)

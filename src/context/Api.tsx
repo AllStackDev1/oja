@@ -6,13 +6,14 @@ import { useToast } from '@chakra-ui/react'
 import http from 'utils/httpFacade'
 import {
   IDeal,
-  LoginDto,
+  IUser,
+  ILogin,
   UpdateIUser,
   IApiContext,
   ResponsePayload,
+  IRegisterResponse,
   VerifyOtpPayloadDto,
-  ResendOtpPayloadDto,
-  RegisterUserPayloadDto
+  ResendOtpPayloadDto
 } from 'interfaces'
 
 const ApiContext = createContext({})
@@ -21,19 +22,21 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   const toast = useToast()
 
   // #region AUTH
-  const register = async (payload: RegisterUserPayloadDto) => {
-    let res: ResponsePayload<Record<string, string>, string> = {}
+  const register = async (
+    payload: Partial<IUser>
+  ): Promise<ResponsePayload<IRegisterResponse, string>> => {
+    let res: ResponsePayload<IRegisterResponse, string> = {}
     try {
       res = await http.post({
         url: '/auth/register',
         body: JSON.stringify(payload)
       })
       toast({
-        title: res.message,
-        description: `An OTP has been sent to ${res.data?.phoneNumber}`,
-        status: 'success',
         duration: 5000,
-        position: 'top-right'
+        status: 'success',
+        title: res.message,
+        position: 'top-right',
+        description: `An OTP has been sent to ${res.data?.user?.phoneNumber}`
       })
     } catch (error: any) {
       toast({
@@ -89,7 +92,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
 
   const login = async (
-    payload: LoginDto
+    payload: ILogin
   ): Promise<ResponsePayload<string, string>> => {
     let res: ResponsePayload<any, string> = {}
     try {
@@ -170,7 +173,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         status: 'success',
         position: 'top-right',
         title: response.message,
-        description: "Your part is done, sit back and let's do the work now"
+        description: 'Deal created, please fund wallet'
       })
     } catch (error: any) {
       toast({
@@ -184,6 +187,10 @@ export const ApiContextProvider: React.FC = ({ children }) => {
       result.success = false
     }
     return result
+  }
+
+  const confirmInteracFunding = async (id: string) => {
+    return await http.patch({ url: `/deals/${id}/confirm-interac-funding/` })
   }
 
   const getDeal = async (id: string) => {
@@ -218,6 +225,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         getCurrencies,
         getUsersCount,
         updateProfile,
+        confirmInteracFunding,
         getActiveDealsWithTheirLatestTransaction
       }}
     >

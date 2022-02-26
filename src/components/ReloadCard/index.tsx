@@ -22,12 +22,19 @@ const ReloadCard: React.FC<Props> = ({
       <Flex
         fontSize="md"
         align="center"
-        color="ojaDark"
         justify="center"
         textAlign="center"
         direction="column"
+        bg={rest.bg || 'white'}
+        color={rest.color || 'ojaDark'}
       >
-        {isLoading && <Splash text={text} />}
+        {isLoading && (
+          <Splash
+            text={text}
+            bg={rest.bg || 'white'}
+            color={rest.color || 'ojaDark'}
+          />
+        )}
         {!isLoading && error && (
           <>
             <Text ml={2}>Something went wrong</Text>

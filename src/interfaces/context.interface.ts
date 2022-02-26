@@ -5,13 +5,12 @@ import { IDeal, IActiveDealsLatestTransaction } from './deal.interface'
 import { ResponsePayload } from './helpers.interface'
 import {
   IUser,
-  LoginDto,
+  ILogin,
   VerifyOtpStatus,
   ResendOtpResponse,
+  IRegisterResponse,
   VerifyOtpPayloadDto,
-  ResendOtpPayloadDto,
-  RegisterUserResponseDto,
-  RegisterUserPayloadDto
+  ResendOtpPayloadDto
 } from './user.interface'
 
 export interface IAppContext {
@@ -25,9 +24,11 @@ export interface IAppContext {
 }
 
 export interface IApiContext {
-  register(e: RegisterUserPayloadDto): Promise<RegisterUserResponseDto>
+  register(
+    e: Partial<IUser>
+  ): Promise<ResponsePayload<IRegisterResponse, string>>
   verifyOTP(e: VerifyOtpPayloadDto): Promise<VerifyOtpStatus>
-  login(e: LoginDto): Promise<ResponsePayload<Record<string, any>, string>>
+  login(e: ILogin): Promise<ResponsePayload<Record<string, any>, string>>
   resendOTP(e: ResendOtpPayloadDto): Promise<ResendOtpResponse>
   verifyEmail(e: string): Promise<unknown>
   getUser(e: string): Promise<ResponsePayload<Record<string, IUser>, string>>
@@ -45,13 +46,14 @@ export interface IApiContext {
   getCurrencies(
     e?: Record<string, string | boolean>
   ): Promise<ResponsePayload<ICurrency[], string>>
-  createDeal(p: IDeal): Promise<ResponsePayload<string, string>>
+  createDeal(p: Partial<IDeal>): Promise<ResponsePayload<IDeal, string>>
   getDeal(
     e: string
   ): Promise<ResponsePayload<IActiveDealsLatestTransaction, string>>
   getDeals(
     e?: Record<string, string>
   ): Promise<ResponsePayload<IActiveDealsLatestTransaction[], string>>
+  confirmInteracFunding(e: string): Promise<ResponsePayload<null, string>>
 }
 
 export interface IStore {

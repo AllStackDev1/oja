@@ -35,6 +35,10 @@ export const formatMoney = (amount: number, currency = 'USD'): string => {
   return amount.toLocaleString(type, options)
 }
 
+export const localStringToNumber = (s: string | number): number => {
+  return Number(String(s).replace(/[^0-9.-]+/g, ''))
+}
+
 export const fetchData = async (
   path: string,
   config: Record<string, any> = {}

@@ -21,7 +21,7 @@ const Sidebar = (): JSX.Element => {
       icon: HomeIcon
     },
     {
-      link: '/dashboard/create-deal',
+      link: '/dashboard/funding',
       icon: VendToIcon
     }
     // {

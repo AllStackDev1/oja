@@ -43,8 +43,9 @@ const Deals = (): JSX.Element => {
   )
 
   React.useEffect(() => {
-    if (sessionStorage.getItem('new-deal')) {
-      push('/dashboard/create-deal')
+    const data = JSON.parse(sessionStorage.getItem('new-deal') || 'null')
+    if (data) {
+      push(`/dashboard/funding/${data._id}`)
     }
   }, [])
 

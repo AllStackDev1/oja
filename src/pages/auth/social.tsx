@@ -52,7 +52,6 @@ const Social: React.FC<RouteComponentProps<RouteParams>> = ({
         )
       }
     } catch (err: any) {
-      console.log(err)
       setError(err.message)
     }
   }, [token])

@@ -29,7 +29,7 @@ import {
   CustomPasswordInput,
   CustomPhoneInput
 } from 'components/Forms'
-import { RegisterUserPayloadDto } from 'interfaces'
+import { IUser } from 'interfaces'
 import { RegistrationSchema } from 'utils/validator-schemas'
 import { Small } from 'components/Loading'
 import { CustomButton } from 'components/Auth'
@@ -46,7 +46,7 @@ const Register: React.FC<RouteComponentProps<RouteParams>> = ({
     params: { token }
   }
 }): JSX.Element => {
-  const [initialValues, setInitValues] = useState<RegisterUserPayloadDto>({
+  const [initialValues, setInitValues] = useState<Partial<IUser>>({
     email: '',
     lastName: '',
     username: '',
@@ -82,8 +82,8 @@ const Register: React.FC<RouteComponentProps<RouteParams>> = ({
           replace(
             `/auth/${btoa(
               JSON.stringify({
-                phoneNumber: res.data?.phoneNumber || '',
-                pinId: res.otpResponse?.pinId || ''
+                phoneNumber: res.data?.user?.phoneNumber,
+                pinId: res.data?.otpResponse?.pinId
               })
             )}`
           )

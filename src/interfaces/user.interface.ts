@@ -1,3 +1,5 @@
+import { IDocument } from './helpers.interface'
+
 export interface IAddress {
   street?: string
   city?: string
@@ -5,21 +7,8 @@ export interface IAddress {
   country: string
 }
 
-export interface RegisterUserPayloadDto {
-  email: string
-  lastName: string
-  username: string
-  password: string
-  avatar?: string
-  address: IAddress
-  firstName: string
-  phoneNumber: string
-}
-
-export interface RegisterUserResponseDto {
-  success: boolean
-  message: string
-  data?: IUser
+export interface IRegisterResponse {
+  user: IUser
   otpResponse?: Record<string, string>
 }
 
@@ -47,14 +36,21 @@ export interface ResendOtpResponse {
 
 export type UpdateIUser = IUser
 
-export interface LoginDto {
+export interface ILogin {
   email: string
   password: string
 }
 
-export interface IUser extends RegisterUserPayloadDto {
-  avatar: string
-  dateOfBirth: Date
-  isEmailVerified: boolean
+export interface IUser extends IDocument {
+  email: string
   status: string
+  avatar?: string
+  lastName: string
+  username: string
+  password: string
+  address: IAddress
+  firstName: string
+  dateOfBirth: Date
+  phoneNumber: string
+  isEmailVerified: boolean
 }
