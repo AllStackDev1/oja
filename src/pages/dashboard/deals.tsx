@@ -16,7 +16,7 @@ import {
 import LoadingBar from 'react-top-loading-bar'
 
 import Wrapper from 'containers/Layout/Wrapper'
-import { ActiveDeal } from 'components/Deal'
+import { DealCard } from 'components/Deal'
 import { CustomButton } from 'components/Auth'
 
 import useApi from 'context/Api'
@@ -120,7 +120,7 @@ const Deals = (): JSX.Element => {
                       boxShadow="main"
                       borderColor="gray.100"
                     >
-                      <ActiveDeal {...r} />
+                      <DealCard {...r} />
                     </GridItem>
                   ))}
                 </Grid>

@@ -22,7 +22,7 @@ import VerifyFundOverlay from './OverlayModal'
 import SuccessModal from './SuccessModal'
 import useCounter from 'hooks/useCounter'
 
-const InteracFundWalletCard: FC<{ deal?: IActiveDealsLatestTransaction }> = ({
+const InteracFundWalletCard: FC<{ deal: IActiveDealsLatestTransaction }> = ({
   deal
 }): JSX.Element => {
   const [isEmailCopied, setEmailCopied] = useState(false)
@@ -33,12 +33,7 @@ const InteracFundWalletCard: FC<{ deal?: IActiveDealsLatestTransaction }> = ({
   const { confirmInteracFunding } = useApi()
 
   const formatDisplayValue = () => {
-    if (deal?.debit?.amount) {
-      return formatMoney(deal?.debit.amount, deal?.type?.split('_')[0]).split(
-        'CA$'
-      )[1]
-    }
-    return 0
+    return formatMoney(deal.debit.amount, deal.type.split('_')[0])
   }
 
   const handleConfirm = async () => {
@@ -91,7 +86,7 @@ const InteracFundWalletCard: FC<{ deal?: IActiveDealsLatestTransaction }> = ({
             <Text fontSize="40px" mr={4} color="#808080">
               CA$
             </Text>
-            <Text fontSize="5xl">{formatDisplayValue()}</Text>
+            <Text fontSize="5xl">{formatDisplayValue().split('CA$')[1]}</Text>
           </Flex>
         </Box>
         <Box w="75%" textAlign="center">
@@ -183,9 +178,7 @@ const InteracFundWalletCard: FC<{ deal?: IActiveDealsLatestTransaction }> = ({
           </Box>
         )}
       </VStack>
-      {success && (
-        <SuccessModal code="CAD" amount={'CA$' + formatDisplayValue()} />
-      )}
+      {success && <SuccessModal code="CAD" amount={formatDisplayValue()} />}
       {isSubmitting && <VerifyFundOverlay />}
     </>
   )

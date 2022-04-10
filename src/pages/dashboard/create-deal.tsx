@@ -7,7 +7,7 @@ import { Prompt, useHistory } from 'react-router-dom'
 
 import Wrapper from 'containers/Layout/Wrapper'
 import { AccountDetailForm, TransactionSummary } from 'components/Deal/Create'
-import { ActiveDealsCard } from 'components/Deal'
+import { ActiveDeals } from 'components/Deal'
 import { CustomButton } from 'components/Auth'
 
 import { DealValidationSchema } from 'utils/validator-schemas'
@@ -211,7 +211,7 @@ const CreateDeal = (): JSX.Element => {
             </Grid>
           </form>
         </GridItem>
-        <ActiveDealsCard w={110} />
+        <ActiveDeals w={110} />
       </Grid>
     </Wrapper>
   )

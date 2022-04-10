@@ -1,12 +1,20 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import { RouteComponentProps } from 'react-router-dom'
-import { Box, Text, Icon, Flex, Grid, GridItem } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Icon,
+  Flex,
+  Grid,
+  GridItem,
+  useDisclosure
+} from '@chakra-ui/react'
 import { IoMdInformationCircle } from 'react-icons/io'
 
 import Wrapper from 'containers/Layout/Wrapper'
 import {
-  ActiveDealsCard,
+  ActiveDeals,
   AmountSentCard,
   RecentTransactions,
   AmountReceivedCard
@@ -16,6 +24,9 @@ import ReloadCard from 'components/ReloadCard'
 import useApi from 'context/Api'
 import { formatMoney } from 'utils/helpers'
 import { TransactionTypeEnum } from 'interfaces'
+import { CustomButton } from 'components/Auth'
+import { VendToIcon } from 'components/SVG'
+import WithdrawModal from 'components/WithdrawModal'
 
 interface RouteParams {
   id: string
@@ -28,6 +39,7 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
       params: { id }
     }
   } = props
+  const { onOpen, onClose, isOpen } = useDisclosure()
 
   const { getDeal } = useApi()
   const { data, error, refetch, isLoading } = useQuery(['deal', id], () =>
@@ -72,22 +84,36 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
                   {data?.data?.debit.currency.name} {'to '}
                   {data?.data?.credit.currency.name}
                 </Text>
-                <Flex align="center">
-                  <Text fontWeight="300" fontSize="26px">
-                    {formatMoney(
-                      data?.data?.debit?.amount || 0,
-                      data?.data?.debit.currency.code
-                    )}
-                  </Text>
-                  <Text mx={2} fontWeight="300" fontSize="26px">
-                    to
-                  </Text>
-                  <Text fontWeight="300" fontSize="26px">
-                    {formatMoney(
-                      data?.data?.credit?.amount || 0,
-                      data?.data?.credit.currency.code
-                    )}
-                  </Text>
+                <Flex align="center" justify="space-between">
+                  <Flex align="center">
+                    <Text fontWeight="300" fontSize="26px">
+                      {formatMoney(
+                        data?.data?.debit?.amount || 0,
+                        data?.data?.debit.currency.code
+                      )}
+                    </Text>
+                    <Text mx={2} fontWeight="300" fontSize="26px">
+                      to
+                    </Text>
+                    <Text fontWeight="300" fontSize="26px">
+                      {formatMoney(
+                        data?.data?.credit?.amount || 0,
+                        data?.data?.credit.currency.code
+                      )}
+                    </Text>
+                  </Flex>
+                  <CustomButton
+                    px={10}
+                    d="flex"
+                    color="white"
+                    title="Withdraw"
+                    bgColor="ojaDark"
+                    onClick={() => onOpen()}
+                    rightIcon={<VendToIcon />}
+                    _hover={{ bgColor: 'ojaDark' }}
+                    fontSize={{ base: 'sm', xl: 'md' }}
+                    isDisabled={data?.data?.progress !== 100}
+                  />
                 </Flex>
               </Box>
               <Flex p={6} color="white" bgColor="ojaDark">
@@ -122,11 +148,12 @@ const DealTransactionsDetail: React.FC<RouteComponentProps<RouteParams>> = (
                 bank={data?.data?.credit?.bank}
                 accountNumber={data?.data?.credit?.accountNumber || ''}
               />
-              <ActiveDealsCard currentDeal={data?.data?._id} />
+              <ActiveDeals currentDeal={data?.data?._id} />
             </Grid>
           </GridItem>
         </Grid>
       )}
+      <WithdrawModal onClose={onClose} isOpen={isOpen} />
     </Wrapper>
   )
 }

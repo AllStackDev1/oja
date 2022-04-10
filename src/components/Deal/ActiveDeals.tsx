@@ -7,12 +7,13 @@ import {
   Flex,
   Divider,
   Heading,
-  GridItem
+  GridItem,
+  VStack
 } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 import { Fade } from 'react-awesome-reveal'
 
-import ActiveDeal from './ActiveDeal'
+import DealCard from './DealCard'
 import ReloadCard from 'components/ReloadCard'
 import { EmptyTableIcon } from 'components/SVG'
 
@@ -39,7 +40,7 @@ const ActiveDeals: React.FC<Props> = ({
           Active Deals
         </Heading>
         <Text mt={1} fontSize="sm" lineHeight={4} color="gray.600">
-          Below shows your active deals latest transaction
+          Your active deals latest transaction
         </Text>
       </Box>
       <Divider borderColor="gray.300" />
@@ -66,16 +67,17 @@ const ActiveDeals: React.FC<Props> = ({
               </Flex>
             ) : (
               <Fade cascade delay={1000}>
-                {data?.data
-                  ?.filter(d => d._id !== currentDeal)
-                  ?.map((r, i) => (
-                    <React.Fragment key={r._id}>
-                      <ActiveDeal {...r} />
-                      {data?.data?.length !== i + 1 && (
-                        <Divider borderColor="gray.300" />
-                      )}
-                    </React.Fragment>
-                  ))}
+                <VStack
+                  w="full"
+                  spacing={2}
+                  divider={<Divider borderColor="gray.300" />}
+                >
+                  {data?.data
+                    ?.filter(d => d._id !== currentDeal)
+                    ?.map(r => (
+                      <DealCard key={r._id} {...r} />
+                    ))}
+                </VStack>
               </Fade>
             )}
           </>

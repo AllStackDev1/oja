@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, Flex, Heading, GridItem } from '@chakra-ui/react'
+import { Box, Text, Flex, Heading, GridItem, HStack } from '@chakra-ui/react'
 import { ProgressCycle } from 'components/SVG'
 
 interface Props {

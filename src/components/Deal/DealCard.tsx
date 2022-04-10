@@ -10,14 +10,20 @@ import {
   Progress
 } from '@chakra-ui/react'
 import { Link as ReactLink } from 'react-router-dom'
-import { FaLongArrowAltUp, FaLongArrowAltDown, FaEye } from 'react-icons/fa'
-import { IActiveDealsLatestTransaction } from 'interfaces'
+import {
+  FaEye,
+  FaMoneyBill,
+  FaLongArrowAltUp,
+  FaLongArrowAltDown
+} from 'react-icons/fa'
+import { DealStatusEnum, IActiveDealsLatestTransaction } from 'interfaces'
 import { VendToIcon } from 'components/SVG'
 
-const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
+const DealCard: React.FC<IActiveDealsLatestTransaction> = ({
   _id,
   debit,
   credit,
+  status,
   progress,
   latestTransaction
 }): JSX.Element => {
@@ -38,8 +44,20 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
     }
   }
 
+  const getBtnLinkData = () => {
+    switch (status) {
+      case DealStatusEnum.PENDING:
+        return { to: 'funding', icon: FaMoneyBill, title: 'Fund' }
+      case DealStatusEnum.PROCESSING:
+      default:
+        return { to: 'deals', icon: FaEye, title: 'Details' }
+    }
+  }
+
+  const { to, icon, title } = getBtnLinkData()
+
   return (
-    <Box p={5}>
+    <Box p={5} w="full">
       <Flex align="center" justify="space-between">
         <Flex align="center">
           <Icon as={VendToIcon} color="ojaDark" />
@@ -51,6 +69,7 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
           px={3}
           py={1}
           d="flex"
+          to={`/dashboard/${to}/${_id}`}
           rounded="5px"
           as={ReactLink}
           borderWidth={1}
@@ -59,11 +78,10 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
           borderColor="ojaSkyBlue"
           bgColor="ojaSkyBlueFade"
           _hover={{ textDecor: 'none' }}
-          to={`/dashboard/deals/${_id}`}
         >
-          <Icon as={FaEye} />
+          <Icon as={icon} />
           <Text as="span" ml={2}>
-            Details
+            {title}
           </Text>
         </Link>
       </Flex>
@@ -118,4 +136,4 @@ const ActiveDeal: React.FC<IActiveDealsLatestTransaction> = ({
   )
 }
 
-export default ActiveDeal
+export default DealCard

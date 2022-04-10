@@ -190,7 +190,11 @@ export const ApiContextProvider: React.FC = ({ children }) => {
   }
 
   const confirmInteracFunding = async (id: string) => {
-    return await http.patch({ url: `/deals/${id}/confirm-interac-funding/` })
+    return await http.patch({ url: `/deals/${id}/confirm-interac-funding` })
+  }
+
+  const processSendCash = async (id: string) => {
+    return await http.patch({ url: `/deals/${id}/send-cash-pay` })
   }
 
   const getDeal = async (id: string) => {
@@ -225,6 +229,7 @@ export const ApiContextProvider: React.FC = ({ children }) => {
         getCurrencies,
         getUsersCount,
         updateProfile,
+        processSendCash,
         confirmInteracFunding,
         getActiveDealsWithTheirLatestTransaction
       }}

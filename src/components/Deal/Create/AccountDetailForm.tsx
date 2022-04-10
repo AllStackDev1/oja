@@ -76,7 +76,7 @@ const AccountDetailForm: React.FC<IProps> = ({
   return (
     <GridItem>
       <Box mb={3} pos="relative">
-        <Heading fontWeight={400} fontSize="xl">
+        <Heading fontWeight={400} fontSize="xl" color="gray.600">
           Account to {_.upperFirst(id)}
         </Heading>
         <Text mt={1} fontSize="sm" lineHeight={4} color="gray.600">

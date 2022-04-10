@@ -59,6 +59,7 @@ interface IActiveDealAccD {
 export interface IActiveDealsLatestTransaction extends IDocument {
   rate: number
   type: string
+  status: DealStatusEnum
   debit: IActiveDealAccD
   credit: IActiveDealAccD
   progress: number

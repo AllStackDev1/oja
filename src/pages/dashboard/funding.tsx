@@ -6,9 +6,10 @@ import { RouteComponentProps } from 'react-router-dom'
 import useApi from 'context/Api'
 
 import Wrapper from 'containers/Layout/Wrapper'
-import { ActiveDealsCard } from 'components/Deal'
+import { ActiveDeals } from 'components/Deal'
 import InteracFundWalletCard from 'components/Interact/InteracFundWalletCard'
 import ReloadCard from 'components/ReloadCard'
+import SendCashPay from 'components/SendCashPay'
 
 interface RouteParams {
   id: string
@@ -35,6 +36,17 @@ const Funding: React.FC<RouteComponentProps<RouteParams>> = (
     }
   }, [id])
 
+  const getFundingModule = () => {
+    switch (data?.data?.type) {
+      case 'NGN_CAD':
+        return <SendCashPay deal={data.data} />
+      case 'CAD_NGN':
+        return <InteracFundWalletCard deal={data.data} />
+      default:
+        return
+    }
+  }
+
   return (
     <Wrapper title="Oj'a. | Funding Wallet" href="/dashboard/funding">
       <Grid
@@ -56,11 +68,11 @@ const Funding: React.FC<RouteComponentProps<RouteParams>> = (
               isLoading={isLoading}
             />
           ) : (
-            <InteracFundWalletCard deal={data?.data} />
+            getFundingModule()
           )}
         </GridItem>
 
-        <ActiveDealsCard w={110} />
+        <ActiveDeals w={110} />
       </Grid>
     </Wrapper>
   )

@@ -1,5 +1,5 @@
 export { default as AmountSentCard } from './AmountSentCard'
 export { default as AmountReceivedCard } from './AmountReceivedCard'
 export { default as RecentTransactions } from './RecentTransactions'
-export { default as ActiveDeal } from './ActiveDeal'
-export { default as ActiveDealsCard } from './ActiveDealsCard'
+export { default as DealCard } from './DealCard'
+export { default as ActiveDeals } from './ActiveDeals'

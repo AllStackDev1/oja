@@ -13,20 +13,31 @@ interface Props {
 }
 
 const AmountReceivedCard: React.FC<Props> = ({
-  bank,
-  receivedTotal,
-  accountNumber
+  // bank,
+  receivedTotal
+  // accountNumber
 }): JSX.Element => {
   const array1 = receivedTotal.split('.')
+
+  let sys = ''
+  let amount = ''
+
+  if (array1[0].startsWith('CA$')) {
+    sys = 'CA$'
+    amount = array1[0].slice(3)
+  } else {
+    sys = array1[0].slice(0, 1)
+    amount = array1[0].slice(1)
+  }
 
   return (
     <GridItem rounded="sm" p={6} boxShadow="main" border="2px solid #E7FAF8">
       <Flex justify="space-between" pos="relative">
         <Heading fontSize="md" fontWeight={600}>
           Amount Received{' '}
-          <Text as="span" fontSize="xs" color="gray.400">
+          {/* <Text as="span" fontSize="xs" color="gray.400">
             ({accountNumber} {bank?.name})
-          </Text>
+          </Text> */}
         </Heading>
         <Text as="span" color="gray.300" pos="absolute" right={0}>
           <Icon as={FaEllipsisH} color="gray.300" />
@@ -44,10 +55,10 @@ const AmountReceivedCard: React.FC<Props> = ({
         <Flex h="full" align="center" flexDir="column" justify="center">
           <Box color="white" fontWeight={600}>
             <Text as="sup" fontWeight={400} fontSize="sm">
-              {array1[0].slice(0, 1)}
+              {sys}
             </Text>
             <Text as="span" fontSize="2.5rem">
-              {array1[0].slice(1)}
+              {amount}
             </Text>
             <Text as="span" fontSize="15px">
               .{array1[1]}

@@ -53,6 +53,7 @@ export interface IApiContext {
   getDeals(
     e?: Record<string, string>
   ): Promise<ResponsePayload<IActiveDealsLatestTransaction[], string>>
+  processSendCash(e: string): Promise<ResponsePayload<null, string>>
   confirmInteracFunding(e: string): Promise<ResponsePayload<null, string>>
 }
 

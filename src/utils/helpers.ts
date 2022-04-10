@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash'
 import moment from 'moment'
+import crypto from 'crypto-js'
 
 export const getFormattedDate = (date: string): string => {
   return new Date(date).toLocaleDateString('en-GB', {
@@ -69,4 +70,19 @@ export const validateNigerianAccount = async (
       }
     }
   )
+}
+
+export const buildSignature = (
+  userId: string,
+  reference: string,
+  amountKobo: number,
+  accountNumber: number | string,
+  bankCode: string
+): string => {
+  return crypto
+    .HmacSHA256(
+      `${userId}:${reference}:${amountKobo}:${accountNumber}:${bankCode}`,
+      'iTXVSdQdrODEQrGaAPFMKnwd'
+    )
+    .toString()
 }

@@ -1,0 +1,233 @@
+import React from 'react'
+import {
+  Box,
+  Flex,
+  Text,
+  Grid,
+  VStack,
+  Heading,
+  GridItem
+} from '@chakra-ui/react'
+import useScript from 'react-script-hook'
+import { FiArrowRight } from 'react-icons/fi'
+
+import { CustomButton } from 'components/Auth'
+import { CustomInputGroup } from 'components/Forms'
+
+import useAuth from 'context/Auth'
+import ReloadCard from 'components/ReloadCard'
+import { IBank, IActiveDealsLatestTransaction } from 'interfaces'
+import {
+  buildSignature,
+  formatMoney,
+  validateNigerianAccount
+} from 'utils/helpers'
+import BankSelect from 'components/Deal/Create/BankSelect'
+
+import banks from 'data/sendcashpay-bank.json'
+
+const SendCashPay: React.FC<{ deal: IActiveDealsLatestTransaction }> = ({
+  deal
+}) => {
+  const [form, setForm] = React.useState<{
+    bank: IBank
+    accountName: string
+    accountNumber: string
+  }>({ accountName: '', accountNumber: '', bank: { name: '', code: '' } })
+
+  const [formValidation, setFormValidation] = React.useState<{
+    bank: boolean
+    accountNumber: boolean
+  }>({ accountNumber: false, bank: false })
+
+  const [isLoading, setLoading] = React.useState<boolean>(false)
+
+  const { isAuthenticated } = useAuth()
+
+  const user = isAuthenticated().user
+
+  const [loading, error] = useScript({
+    src: 'https://checkout.sendcashpay.com/lib/lib.bundle.js'
+  })
+
+  React.useEffect(() => {
+    if (!loading && !error) {
+      window.SendcashPay.init({
+        siteName: 'Oja',
+        siteUrl: 'https://oja.surge.sh',
+        siteLogo: 'https://avatars.githubusercontent.com/u/58121563?v=4',
+        publicKey: 'pk_live_YoudeJjsFbXdCogcwvqpqGCmWfYwKUkq'
+      })
+    }
+  }, [loading, error])
+
+  const handleSendCashPayCall = async () => {
+    const data = {
+      name: form.accountName,
+      userId: user?._id || '',
+      amount: deal.debit.amount,
+      destinationBankCode: '<recipient bank code>',
+      destinationAccountNumber: '<recipient account number>',
+      transactionReference: btoa(user?._id + '_' + new Date().getTime())
+    }
+
+    const signature = buildSignature(
+      data.userId,
+      data.transactionReference,
+      +parseFloat('' + Math.round(data.amount * 100 + Number.EPSILON)).toFixed(
+        2
+      ),
+      data.destinationAccountNumber,
+      data.destinationBankCode
+    )
+    setLoading(true)
+    const result = await window.SendcashPay.charge({
+      ...data,
+      signature
+    })
+    setLoading(false)
+  }
+
+  const handleAccountNumberInput = async () => {
+    setFormValidation(e => ({
+      ...e,
+      accountNumber: true
+    }))
+    if (form.accountNumber && form.bank.code) {
+      setLoading(true)
+      const response = await validateNigerianAccount(
+        form.accountNumber,
+        form.bank.code
+      )
+      if (response?.status) {
+        setForm(e => ({ ...e, accountName: response.data?.account_name }))
+        setLoading(false)
+      }
+    }
+  }
+
+  return loading || error ? (
+    <ReloadCard
+      h="50vh"
+      error={`Failed to load sendcashpay API: ${error?.message}`}
+      refetch={() => window.location.reload()}
+      text="Loading SendCashPay API"
+      isLoading={loading}
+      justify="center"
+    />
+  ) : (
+    <VStack
+      p={16}
+      w={120}
+      spacing={8}
+      rounded="sm"
+      align="center"
+      flexDir="column"
+      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
+    >
+      <Box w="70%" textAlign="center">
+        <Heading fontSize="4xl" fontWeight={600}>
+          Fund Wallet
+        </Heading>
+      </Box>
+      <Box w="75%">
+        <Flex align="baseline" justify="center">
+          <Text fontSize="40px" mr={4} color="#808080">
+            ₦
+          </Text>
+          <Text fontSize="5xl">
+            {
+              formatMoney(deal.debit.amount, deal.type.split('_')[0]).split(
+                '₦'
+              )[1]
+            }
+          </Text>
+        </Flex>
+      </Box>
+      <Box w="full" p={6} rounded="sm" boxShadow="main">
+        <Grid rowGap={8}>
+          <GridItem>
+            <BankSelect
+              options={banks}
+              selected={form.bank}
+              touched={formValidation.bank}
+              error={!form.bank.name ? 'Select bank' : undefined}
+              onSelect={(b: IBank) => {
+                setForm(e => ({ ...e, bank: { name: b.name, code: b.code } }))
+                setFormValidation(e => ({
+                  ...e,
+                  bank: true
+                }))
+              }}
+            />
+          </GridItem>
+
+          <GridItem
+            h={12}
+            border={0}
+            isRequired
+            rounded={0}
+            type="text"
+            id={'accountNumber'}
+            as={CustomInputGroup}
+            label="Account Number"
+            placeholder="23843001203"
+            _focus={{ outline: 'none' }}
+            value={form.accountNumber}
+            onBlur={handleAccountNumberInput}
+            touched={formValidation.accountNumber}
+            error={!form.accountNumber ? 'Enter account number' : undefined}
+            onChange={e =>
+              setForm(f => ({
+                ...f,
+                accountNumber: (e.target as any).value,
+                accountName: ''
+              }))
+            }
+            rightAddon={
+              form.accountName ? (
+                <Text as="span" fontSize="sm" fontWeight={600}>
+                  ({form.accountName})
+                </Text>
+              ) : isLoading ? (
+                <Text
+                  mr={2}
+                  as="span"
+                  fontSize={'xl'}
+                  fontWeight={600}
+                  className="loading-text loading-text-b"
+                />
+              ) : undefined
+            }
+          />
+        </Grid>
+        <Box mt={3}>
+          <CustomButton
+            px={6}
+            w="full"
+            d="flex"
+            color="white"
+            type="submit"
+            title="Confirm"
+            bgColor="ojaDark"
+            onClick={() => handleSendCashPayCall()}
+            _hover={{ bgColor: 'ojaDark' }}
+            fontSize={{ base: 'sm', xl: 'md' }}
+            isDisabled={
+              !form.bank.name ||
+              !form.accountName ||
+              (formValidation.bank && !form.bank.name) ||
+              (formValidation.accountNumber && !form.accountName)
+            }
+            rightIcon={
+              <FiArrowRight fontSize={20} className="auth-btn-arrow" />
+            }
+          />
+        </Box>
+      </Box>
+    </VStack>
+  )
+}
+
+export default SendCashPay
+// !()
